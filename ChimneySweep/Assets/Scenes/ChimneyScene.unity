@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51b7e605d9adc084191dd941c10ff9e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swipeControls: {fileID: 1046055380}
 --- !u!1 &296130610
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,6 +338,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1046055379}
+  - component: {fileID: 1046055380}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -357,6 +359,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1046055380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1046055378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b343d1b0cdd194cbdd33988586ee91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deadZone: 70
 --- !u!1001 &1375563805
 Prefab:
   m_ObjectHideFlags: 0
@@ -531,7 +545,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2103026615}
   - component: {fileID: 2103026614}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
