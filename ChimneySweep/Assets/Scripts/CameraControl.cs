@@ -4,17 +4,31 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour {
 
-	public Swipe swipeControls;
-	private Vector3 desiredPosition;
+	Vector2 mousePosOrigin;
+	Vector2 mouseCurrentPos;
+	Vector2 dragDisplacement;
 
-	private void Update()
+	void Update()
 	{
-		if (swipeControls.SwipeDown)
-			desiredPosition += Vector3.up;
+		if (Input.GetMouseButtonDown(0))
+		{
+			mousePosOrigin = Input.mousePosition;
+			Debug.Log("Origin point for mouse set");
+		}
 
-		if (swipeControls.SwipeUp)
-			desiredPosition += Vector3.down;
+		if (Input.GetMouseButton(0))
+		{
+			mouseCurrentPos = Input.mousePosition;
 
-		transform.position = Vector3.MoveTowards(transform.position, desiredPosition, 100f * Time.deltaTime);
+			dragDisplacement = mouseCurrentPos - mousePosOrigin;
+			Debug.Log(dragDisplacement.y);
+
+			if (dragDisplacement.y > 0)
+			{
+				transform.position = new Vector3(transform.position.x, transform.position.y - dragDisplacement.y * Time.deltaTime, transform.position.z);
+			}
+			if (dragDisplacement.y < 0)
+				transform.position = new Vector3(transform.position.x, transform.position.y - dragDisplacement.y * Time.deltaTime, transform.position.z);
+		}
 	}
 }
