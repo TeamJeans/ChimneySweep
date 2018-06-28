@@ -3,7 +3,6 @@ using UnityEngine;
 public class TileManager : MonoBehaviour {
 
 	public float spaceBetweenTiles = 100f;
-	public Transform chimneyTrans;
 
 	Vector3 firstTilePos;
 	Vector3 tileSize;
