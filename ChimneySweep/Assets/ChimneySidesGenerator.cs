@@ -14,17 +14,16 @@ public class ChimneySidesGenerator : MonoBehaviour {
 
 	bool tilesGenerated = false;
 
-	public GameObject[] sidePrefabs; //size gets set in inspector! drag prefabs in there!
+	//public GameObject[] sidePrefabs; //size gets set in inspector! drag prefabs in there!
 	public GameObject[] sides;
 
 	// Use this for initialization
 	void Start()
 	{
-		sidePrefabs = new GameObject[(tileManager.tilePrefabs.Length - 2) / 2];
-		sides = new GameObject[(sidePrefabs.Length-2)/2]; //makes sure they match length
-		for (int i = 0; i < (sidePrefabs.Length - 2) / 2; i++)
+		sides = new GameObject[(tileManager.tilePrefabs.Length - 2) / 2]; //makes sure they match length
+		for (int i = 0; i < sides.Length; i++)
 		{
-			sides[i] = Instantiate(sidePrefabs[i]) as GameObject;
+			sides[i] = Instantiate(Resources.Load("Prefabs/Chimney_Sides", typeof(GameObject)), transform) as GameObject;
 			sides[i].transform.parent = gameObject.transform;
 		}
 
@@ -38,9 +37,9 @@ public class ChimneySidesGenerator : MonoBehaviour {
 
 		if (!tilesGenerated)
 		{
-			for (int i = 0; i < sides.Length; i++)
+			for (int i = 1; i < sides.Length -1; i++)
 			{
-				sides[i].transform.position = new Vector3(sides[i].transform.position.x, sides[i].transform.position.y - sides[i].transform.localScale.y - spaceBetweenChimneySides * i, sides[i].transform.position.z);
+				sides[i].transform.position = new Vector3(sides[i].transform.position.x, (sides[i].transform.position.y - sides[i].transform.localScale.y) * i, sides[i].transform.position.z);
 			}
 			tilesGenerated = true;
 		}
