@@ -7,10 +7,13 @@ public class ChimneySidesGenerator : MonoBehaviour {
 	public float spaceBetweenChimneySides = 100f;
 
 	[SerializeField]
-	private TileManager tileManager;
-
+	RectTransform panelTransform;
+	[SerializeField]
+	TileManager tileManager;
+	[SerializeField]
+	float lengthOfSide = 100f;
+	[SerializeField]
 	Vector3 firstSidePos;
-	Vector3 sideSize;
 
 	bool tilesGenerated = false;
 
@@ -25,22 +28,22 @@ public class ChimneySidesGenerator : MonoBehaviour {
 		{
 			sides[i] = Instantiate(Resources.Load("Prefabs/Chimney_Sides", typeof(GameObject)), transform) as GameObject;
 			sides[i].transform.parent = gameObject.transform;
+			sides[i].transform.position = firstSidePos;
 		}
-
-		firstSidePos = sides[0].transform.position;
-		sideSize = sides[0].transform.localScale;
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-
+		// Generate the sides
 		if (!tilesGenerated)
 		{
-			for (int i = 1; i < sides.Length -1; i++)
+			for (int i = 1; i < sides.Length; i++)
 			{
-				sides[i].transform.position = new Vector3(sides[i].transform.position.x, (sides[i].transform.position.y - sides[i].transform.localScale.y) * i, sides[i].transform.position.z);
+				sides[i].transform.position = new Vector3(sides[i].transform.position.x, sides[i].transform.position.y - lengthOfSide * i , sides[i].transform.position.z);
 			}
+			panelTransform.offsetMin = new Vector2(panelTransform.offsetMin.x, -35f * sides.Length);
+			//panelTransform.offsetMax = new Vector2(panelTransform.offsetMax.x, 17.5f * sides.Length/3);
 			tilesGenerated = true;
 		}
 

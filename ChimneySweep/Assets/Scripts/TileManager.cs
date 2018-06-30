@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class TileManager : MonoBehaviour {
 
-	public float spaceBetweenTiles = 100f;
+	[SerializeField]
+	float spaceBetweenTiles = 100f;
 
 	Vector3 firstTilePos;
 	Vector3 tileSize;
