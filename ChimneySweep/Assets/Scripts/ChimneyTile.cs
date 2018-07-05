@@ -7,6 +7,8 @@ public class ChimneyTile : MonoBehaviour
 {
 	[SerializeField]
 	bool selected = false;
+	public bool Selected { get { return selected; } }
+
 	bool mouseOver = false;
 
 	void Start()

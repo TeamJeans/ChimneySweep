@@ -504,6 +504,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1046055379}
   - component: {fileID: 1046055380}
+  - component: {fileID: 1046055381}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -536,6 +537,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deadZone: 70
+--- !u!114 &1046055381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1046055378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 167ef4a3e1ac99044974111900192f89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swipeControls: {fileID: 1046055380}
+  scrollRect: {fileID: 120268701}
+  tileManager: {fileID: 1661293670}
 --- !u!1001 &1375563805
 Prefab:
   m_ObjectHideFlags: 0
@@ -713,7 +728,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1661293669}
   - component: {fileID: 1661293670}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TileManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -727,7 +742,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1661293668}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.99474823, y: -33148.258, z: -92}
+  m_LocalPosition: {x: -0.99474823, y: -33148.258, z: -94}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 1966306232}
@@ -745,6 +760,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spaceBetweenTiles: 6.35
+  swipeControls: {fileID: 1046055380}
+  currentlySelectedTile: {fileID: 0}
+  tileSwipeSpeed: 0.125
+  tileDragMode: 0
   tilePrefabs:
   - {fileID: 1835462580897350, guid: b38afb3fffa74e841b40da6427b517e5, type: 2}
   - {fileID: 1835462580897350, guid: b38afb3fffa74e841b40da6427b517e5, type: 2}

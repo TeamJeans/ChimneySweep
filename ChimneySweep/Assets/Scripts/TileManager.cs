@@ -4,22 +4,31 @@ public class TileManager : MonoBehaviour {
 
 	[SerializeField]
 	float spaceBetweenTiles = 100f;
-
+	[SerializeField]
+	Swipe swipeControls;
+	[SerializeField]
 	GameObject currentlySelectedTile;
 	public GameObject CurrentlySelectedTile { get { return currentlySelectedTile; } }
+
+	[SerializeField]
+	float tileSwipeSpeed = 0.125f;
+	Vector2 mousePosition;
 
 	Vector3 firstTilePos;
 	Vector3 tileSize;
 
+	[SerializeField]
+	bool tileDragMode = false;
+	public bool TileDragMode{get{ return tileDragMode; }}
 	bool tilesGenerated = false;
 
-	public GameObject[] tilePrefabs; //size gets set in inspector! drag prefabs in there!
+	public GameObject[] tilePrefabs;
 	public GameObject[] tiles;
 
 	// Use this for initialization
 	void Start () {
 
-		tiles = new GameObject[tilePrefabs.Length]; //makes sure they match length
+		tiles = new GameObject[tilePrefabs.Length];
 		for (int i = 0; i < tilePrefabs.Length; i++)
 		{
 			tiles[i] = Instantiate(tilePrefabs[i]) as GameObject;
@@ -34,6 +43,7 @@ public class TileManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		// Generate tiles
 		if (!tilesGenerated)
 		{
 			for (int i = 0; i < tiles.Length; i++)
@@ -43,5 +53,33 @@ public class TileManager : MonoBehaviour {
 			tilesGenerated = true;
 		}
 
+		// Find the selected tile
+		for (int i = 0; i < tiles.Length; i++)
+		{
+			ChimneyTile tempTile = tiles[i].GetComponent(typeof(ChimneyTile)) as ChimneyTile;
+			if (tempTile.Selected)
+			{
+				currentlySelectedTile = tiles[i];
+			}
+		}
+
+		// If the user has dragged left or right, drag the tile in that direction
+		if (swipeControls.SwipeLeft || swipeControls.SwipeRight)
+		{
+			tileDragMode = true;
+		}
+
+		if (!Input.GetMouseButton(0))
+		{
+			currentlySelectedTile.transform.position = new Vector3(0, currentlySelectedTile.transform.position.y, currentlySelectedTile.transform.position.z);
+			tileDragMode = false;
+		}
+
+		if (tileDragMode)
+		{
+			mousePosition = Input.mousePosition;
+			mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+			currentlySelectedTile.transform.position = new Vector3(mousePosition.x, currentlySelectedTile.transform.position.y, currentlySelectedTile.transform.position.z);
+		}
 	}
 }
