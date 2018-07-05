@@ -4,31 +4,19 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour {
 
-	//Vector2 mousePosOrigin;
-	//Vector2 mouseCurrentPos;
-	//Vector2 dragDisplacement;
+	[SerializeField]
+	TileManager tileManager;
 
-	//void Update()
-	//{
-	//	if (Input.GetMouseButtonDown(0))
-	//	{
-	//		mousePosOrigin = Input.mousePosition;
-	//		Debug.Log("Origin point for mouse set");
-	//	}
+	[SerializeField]
+	float smoothSpeed = 0.125f;
 
-	//	if (Input.GetMouseButton(0))
-	//	{
-	//		mouseCurrentPos = Input.mousePosition;
+	//public float SmoothSpeed { get { return smoothSpeed; } }
 
-	//		dragDisplacement = mouseCurrentPos - mousePosOrigin;
-	//		Debug.Log(dragDisplacement.y);
-
-	//		if (dragDisplacement.y > 0)
-	//		{
-	//			transform.position = new Vector3(transform.position.x, transform.position.y - dragDisplacement.y * Time.deltaTime, transform.position.z);
-	//		}
-	//		if (dragDisplacement.y < 0)
-	//			transform.position = new Vector3(transform.position.x, transform.position.y - dragDisplacement.y * Time.deltaTime, transform.position.z);
-	//	}
-	//}
+	// Update is called once per frame
+	void LateUpdate()
+	{
+		Vector2 desiredPos = tileManager.CurrentlySelectedTile.transform.position;
+		Vector2 smoothedPos = Vector2.Lerp(transform.position, desiredPos, smoothSpeed);
+		transform.position = new Vector3(transform.position.x, smoothedPos.y, transform.position.z);
+	}
 }

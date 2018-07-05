@@ -5,6 +5,9 @@ public class TileManager : MonoBehaviour {
 	[SerializeField]
 	float spaceBetweenTiles = 100f;
 
+	GameObject currentlySelectedTile;
+	public GameObject CurrentlySelectedTile { get { return currentlySelectedTile; } }
+
 	Vector3 firstTilePos;
 	Vector3 tileSize;
 
@@ -25,6 +28,7 @@ public class TileManager : MonoBehaviour {
 
 		firstTilePos = tiles[0].transform.position;
 		tileSize = tiles[0].transform.localScale;
+		currentlySelectedTile = tiles[0];
 	}
 	
 	// Update is called once per frame

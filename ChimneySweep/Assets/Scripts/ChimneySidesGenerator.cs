@@ -42,7 +42,7 @@ public class ChimneySidesGenerator : MonoBehaviour {
 			{
 				sides[i].transform.position = new Vector3(sides[i].transform.position.x, sides[i].transform.position.y - lengthOfSide * i , sides[i].transform.position.z);
 			}
-			panelTransform.offsetMin = new Vector2(panelTransform.offsetMin.x, -sides.Length * 12);
+			panelTransform.offsetMin = new Vector2(panelTransform.offsetMin.x, -sides.Length * 12.5f);
 			tilesGenerated = true;
 		}
 
