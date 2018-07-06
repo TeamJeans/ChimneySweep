@@ -10,17 +10,14 @@ public class TileManager : MonoBehaviour {
 	GameObject currentlySelectedTile;
 	public GameObject CurrentlySelectedTile { get { return currentlySelectedTile; } }
 
-	[SerializeField]
-	float tileSwipeSpeed = 0.125f;
-	Vector2 mousePosition;
 
-	Vector3 firstTilePos;
-	Vector3 tileSize;
+	Vector2 mousePosition;
 
 	[SerializeField]
 	bool tileDragMode = false;
 	public bool TileDragMode{get{ return tileDragMode; }}
 	bool tilesGenerated = false;
+	bool endDayMenuEnabled = false;
 
 	public GameObject[] tilePrefabs;
 	public GameObject[] tiles;
@@ -28,18 +25,22 @@ public class TileManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+		GameMaster.gm.onToggleEndDayMenu += OnEndDayMenuToggle;
+
 		tiles = new GameObject[tilePrefabs.Length];
 		for (int i = 0; i < tilePrefabs.Length; i++)
 		{
 			tiles[i] = Instantiate(tilePrefabs[i]) as GameObject;
 			tiles[i].transform.parent = gameObject.transform;
 		}
-
-		firstTilePos = tiles[0].transform.position;
-		tileSize = tiles[0].transform.localScale;
 		currentlySelectedTile = tiles[0];
 	}
 	
+	void OnEndDayMenuToggle(bool active)
+	{
+		endDayMenuEnabled = active;
+	}
+
 	// Update is called once per frame
 	void Update () {
 
@@ -48,7 +49,7 @@ public class TileManager : MonoBehaviour {
 		{
 			for (int i = 0; i < tiles.Length; i++)
 			{
-				tiles[i].transform.position = new Vector3(tiles[i].transform.position.x, tiles[i].transform.position.y - tiles[i].transform.localScale.y - spaceBetweenTiles * i, tiles[i].transform.position.z);
+				tiles[i].transform.position = new Vector3(tiles[i].transform.position.x, tiles[i].transform.position.y - tiles[i].transform.localScale.y * i - spaceBetweenTiles * i, tiles[i].transform.position.z);
 			}
 			tilesGenerated = true;
 		}
@@ -64,18 +65,24 @@ public class TileManager : MonoBehaviour {
 		}
 
 		// If the user has dragged left or right, drag the tile in that direction
-		if (swipeControls.SwipeLeft || swipeControls.SwipeRight)
+		if (swipeControls.SwipeLeft || swipeControls.SwipeRight && !endDayMenuEnabled)
 		{
-			tileDragMode = true;
+			ChimneyTile tileScript = currentlySelectedTile.GetComponent(typeof(ChimneyTile)) as ChimneyTile;
+			if (tileScript.MouseOver)
+			{
+				tileDragMode = true;
+			}
 		}
 
+		// If the player lets go of the tile it will go back to it's original position
 		if (!Input.GetMouseButton(0))
 		{
 			currentlySelectedTile.transform.position = new Vector3(0, currentlySelectedTile.transform.position.y, currentlySelectedTile.transform.position.z);
 			tileDragMode = false;
 		}
 
-		if (tileDragMode)
+		// Makes the tile follow the cursor when in drag mode
+		if (tileDragMode && !endDayMenuEnabled)
 		{
 			mousePosition = Input.mousePosition;
 			mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);

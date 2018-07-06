@@ -10,6 +10,7 @@ public class ChimneyTile : MonoBehaviour
 	public bool Selected { get { return selected; } }
 
 	bool mouseOver = false;
+	public bool MouseOver { get { return mouseOver; } }
 
 	void Start()
 	{

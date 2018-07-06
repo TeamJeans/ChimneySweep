@@ -11,8 +11,6 @@ public class ChimneySidesGenerator : MonoBehaviour {
 	[SerializeField]
 	TileManager tileManager;
 	[SerializeField]
-	float lengthOfSide = 100f;
-	[SerializeField]
 	Vector3 firstSidePos;
 
 	bool tilesGenerated = false;
@@ -40,9 +38,9 @@ public class ChimneySidesGenerator : MonoBehaviour {
 		{
 			for (int i = 1; i < sides.Length; i++)
 			{
-				sides[i].transform.position = new Vector3(sides[i].transform.position.x, sides[i].transform.position.y - lengthOfSide * i , sides[i].transform.position.z);
+				sides[i].transform.position = new Vector3(sides[i].transform.position.x, sides[i].transform.position.y - sides[i].transform.localScale.y * i - spaceBetweenChimneySides*i , sides[i].transform.position.z);
 			}
-			panelTransform.offsetMin = new Vector2(panelTransform.offsetMin.x, -sides.Length * 12.5f);
+			panelTransform.offsetMin = new Vector2(panelTransform.offsetMin.x, -sides.Length * sides[0].transform.localScale.y - 20f);
 			tilesGenerated = true;
 		}
 
