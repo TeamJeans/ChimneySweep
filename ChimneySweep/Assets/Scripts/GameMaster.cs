@@ -10,7 +10,16 @@ public class GameMaster : MonoBehaviour {
 	TileSwipeLeft tileSwipeLeft;
 
 	[SerializeField]
+	TileSwipeRight tileSwipeRight;
+
+	[SerializeField]
+	TileManager tileManager;
+
+	[SerializeField]
 	GameObject endDayMenu;
+
+	[SerializeField]
+	CameraControl cameraControl;
 
 
 	void Awake()
@@ -37,6 +46,19 @@ public class GameMaster : MonoBehaviour {
 		{
 			ToggleEndDayMenu();
 			tileSwipeLeft.CollisionWithTile = false;
+		}
+
+		if (tileSwipeRight.CollisionWithTile)
+		{
+			if (tileManager.tileObjects[tileManager.CurrentTileNumber + 1] != null)
+			{
+				tileManager.CurrentlySelectedTile.transform.position = new Vector3(0, tileManager.CurrentlySelectedTile.transform.position.y, tileManager.CurrentlySelectedTile.transform.position.z);
+				tileManager.TileDragMode = false;
+				ChimneyTile newTile = tileManager.tileObjects[tileManager.CurrentTileNumber + 1].GetComponent(typeof(ChimneyTile)) as ChimneyTile;
+				newTile.Selected = true;
+				cameraControl.SetDesiredCamPos();
+			}
+			tileSwipeRight.CollisionWithTile = false;
 		}
 	}
 

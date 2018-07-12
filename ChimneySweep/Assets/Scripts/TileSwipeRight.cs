@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class TileSwipeRight : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	bool collisionWithTile = false;
+	public bool CollisionWithTile { get { return collisionWithTile; } set { collisionWithTile = value; } }
+
+	void OnTriggerEnter2D(Collider2D col)
+	{
+		Debug.Log("Triggered");
+		collisionWithTile = true;
 	}
 }
