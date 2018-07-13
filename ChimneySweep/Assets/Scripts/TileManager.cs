@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class TileManager : MonoBehaviour {
 
-	public ChimneyTileTemplate[] chimneyTileTemplate;
-	int randomTileNumber;
-
 	[SerializeField]
 	float spaceBetweenTiles = 100f;
 	[SerializeField]
@@ -21,6 +18,7 @@ public class TileManager : MonoBehaviour {
 
 	public GameObject[] tilePrefabs;
 	public GameObject[] tileObjects;
+	public ChimneyTileTemplate[] chimneyTileTemplate;
 
 	[SerializeField]
 	GameObject currentlySelectedTile;
@@ -46,10 +44,7 @@ public class TileManager : MonoBehaviour {
 			tileObjects[i].transform.parent = gameObject.transform;
 
 			// Randomly changes the type of each tile generated
-			randomTileNumber = Random.Range(0, chimneyTileTemplate.Length);
-			SpriteRenderer tileSprite = tileObjects[i].GetComponent(typeof(SpriteRenderer)) as SpriteRenderer;
-			tileSprite.sprite = chimneyTileTemplate[randomTileNumber].artwork;
-
+			tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = Random.Range(2, chimneyTileTemplate.Length);
 		}
 		// Sets the selected tile to be the first tile generated
 		currentlySelectedTile = tileObjects[0];
@@ -78,8 +73,7 @@ public class TileManager : MonoBehaviour {
 		// Find the selected tile
 			for (int i = 0; i < tileObjects.Length; i++)
 			{
-				ChimneyTile tempTile = tileObjects[i].GetComponent(typeof(ChimneyTile)) as ChimneyTile;
-				if (tempTile.Selected)
+				if (tileObjects[i].GetComponent<ChimneyTile>().Selected)
 				{
 					tileSelected = true;
 					currentlySelectedTile = tileObjects[i];
@@ -93,17 +87,14 @@ public class TileManager : MonoBehaviour {
 		// Make the tile glow render only when a tile is selected
 			if (tileSelected)
 			{
-				SpriteRenderer tileGlowSpriteRenderer = tileGlow.GetComponent(typeof(SpriteRenderer)) as SpriteRenderer;
-				tileGlowSpriteRenderer.enabled = true;
+				tileGlow.GetComponent<SpriteRenderer>().enabled = true;
 			}
 			else
 			{
-				SpriteRenderer tileGlowSpriteRenderer = tileGlow.GetComponent(typeof(SpriteRenderer)) as SpriteRenderer;
-				tileGlowSpriteRenderer.enabled = false;
+				tileGlow.GetComponent<SpriteRenderer>().enabled = false;
 			}
 
-			ChimneyTile tileScript = currentlySelectedTile.GetComponent(typeof(ChimneyTile)) as ChimneyTile;
-			if (!tileScript.Selected)
+			if (!currentlySelectedTile.GetComponent<ChimneyTile>().Selected)
 			{
 				tileSelected = false;
 			}
@@ -112,8 +103,7 @@ public class TileManager : MonoBehaviour {
 		// If the user has dragged left or right, drag the tile in that direction
 		if (swipeControls.SwipeLeft || swipeControls.SwipeRight && !endDayMenuEnabled)
 			{
-				ChimneyTile currentlySelectedTileScript = currentlySelectedTile.GetComponent(typeof(ChimneyTile)) as ChimneyTile;
-				if (tileScript.MouseOver)
+				if (currentlySelectedTile.GetComponent<ChimneyTile>().MouseOver)
 				{
 					tileDragMode = true;
 				}

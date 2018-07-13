@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameMaster : MonoBehaviour {
 
@@ -54,8 +55,9 @@ public class GameMaster : MonoBehaviour {
 			{
 				tileManager.CurrentlySelectedTile.transform.position = new Vector3(0, tileManager.CurrentlySelectedTile.transform.position.y, tileManager.CurrentlySelectedTile.transform.position.z);
 				tileManager.TileDragMode = false;
-				ChimneyTile newTile = tileManager.tileObjects[tileManager.CurrentTileNumber + 1].GetComponent(typeof(ChimneyTile)) as ChimneyTile;
-				newTile.Selected = true;
+				tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().Selected = false;
+				tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileUsed = true;
+				tileManager.tileObjects[tileManager.CurrentTileNumber + 1].GetComponent<ChimneyTile>().Selected = true;
 				cameraControl.SetDesiredCamPos();
 			}
 			tileSwipeRight.CollisionWithTile = false;
@@ -66,5 +68,10 @@ public class GameMaster : MonoBehaviour {
 	{
 		endDayMenu.SetActive(!endDayMenu.activeSelf);
 		onToggleEndDayMenu.Invoke(endDayMenu.activeSelf);
+	}
+
+	public void ChangeSceneToDayOverStats()
+	{
+		SceneManager.LoadScene("DayOverStatsScene");
 	}
 }

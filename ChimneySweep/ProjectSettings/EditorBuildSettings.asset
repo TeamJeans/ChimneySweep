@@ -14,4 +14,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ChimneyScene.unity
     guid: 7c03df22003684d4199be19e6f403709
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/Scenes/DayOverStatsScene.unity
+    guid: ecdb66ddeb9fedb48943a2b958b931ad
