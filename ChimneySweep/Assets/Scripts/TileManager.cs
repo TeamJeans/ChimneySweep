@@ -31,7 +31,8 @@ public class TileManager : MonoBehaviour {
 	GameObject tileGlow;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 
 		// Toggles control of the tiles when the end day menu is open
 		GameMaster.gm.onToggleEndDayMenu += OnEndDayMenuToggle;
@@ -48,6 +49,15 @@ public class TileManager : MonoBehaviour {
 		}
 		// Sets the selected tile to be the first tile generated
 		currentlySelectedTile = tileObjects[0];
+
+		for (int i = 0; i < chimneyTileTemplate.Length; i++)
+		{
+			// Make it so that you can't put enemies or money items in the inventory
+			if (chimneyTileTemplate[i].catagory == ChimneyTileTemplate.Catagory.ENEMY || chimneyTileTemplate[i].catagory == ChimneyTileTemplate.Catagory.MONEY)
+			{
+				chimneyTileTemplate[i].Storable = false;
+			}
+		}
 	}
 	
 	void OnEndDayMenuToggle(bool active)
@@ -123,5 +133,17 @@ public class TileManager : MonoBehaviour {
 				mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 				currentlySelectedTile.transform.position = new Vector3(mousePosition.x, currentlySelectedTile.transform.position.y, currentlySelectedTile.transform.position.z);
 			}
+	}
+
+	public void MoveToNextTile()
+	{
+		// Puts the tile back where it is supposed to be
+		currentlySelectedTile.transform.position = new Vector3(0, currentlySelectedTile.transform.position.y, currentlySelectedTile.transform.position.z);
+		// Drag mode is disabled so the next tile doesn't automatically get dragged
+		tileDragMode = false;
+		// Change the selected tile to be the next in the queue
+		tileObjects[currentTileNumber].GetComponent<ChimneyTile>().Selected = false;
+		tileObjects[currentTileNumber].GetComponent<ChimneyTile>().TileUsed = true;
+		tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().Selected = true;
 	}
 }

@@ -8,15 +8,20 @@ public class ChimneyTileTemplate : ScriptableObject
 	public string tileName;
 	public string description;
 	public Sprite artwork;
+	public enum Catagory
+	{
+		ARMOUR,
+		WEAPON,
+		POTION,
+		SKIPTOOL,
+		ENEMY,
+		BOMB,
+		SPELL,
+		MONEY,
+		EMPTY
+	};
+	public Catagory catagory;
 
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	bool storable = true;
+	public bool Storable { get { return storable; } set { storable = value; } }
 }

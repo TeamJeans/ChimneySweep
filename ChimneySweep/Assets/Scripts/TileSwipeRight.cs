@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +9,10 @@ public class TileSwipeRight : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
-		Debug.Log("Triggered");
-		collisionWithTile = true;
+		if (col.gameObject.tag != "InventoryItem")
+		{
+			Debug.Log("Triggered");
+			collisionWithTile = true;
+		}
 	}
 }

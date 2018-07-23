@@ -14,3 +14,4 @@ MonoBehaviour:
   tileName: Test_Tile
   description: This is a test
   artwork: {fileID: 21300000, guid: 96bc72a77576eb9469dfafa0ef987e1f, type: 3}
+  catagory: 4

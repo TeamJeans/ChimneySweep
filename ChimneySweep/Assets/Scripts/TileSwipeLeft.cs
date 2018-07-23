@@ -9,7 +9,10 @@ public class TileSwipeLeft : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
-		Debug.Log("Triggered");
-		collisionWithTile = true;
+		if (col.gameObject.tag != "InventoryItem")
+		{
+			Debug.Log("Triggered");
+			collisionWithTile = true;
+		}
 	}
 }

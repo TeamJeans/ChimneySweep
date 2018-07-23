@@ -13,4 +13,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileName: 
   description: 
-  artwork: {fileID: 0}
+  artwork: {fileID: 21300000, guid: c191275e885aca744a946ccf44deffcf, type: 3}
+  catagory: 2

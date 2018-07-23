@@ -22,6 +22,9 @@ public class GameMaster : MonoBehaviour {
 	[SerializeField]
 	CameraControl cameraControl;
 
+	[SerializeField]
+	Inventory inventory;
+
 
 	void Awake()
 	{
@@ -51,16 +54,24 @@ public class GameMaster : MonoBehaviour {
 
 		if (tileSwipeRight.CollisionWithTile)
 		{
-			if (tileManager.tileObjects[tileManager.CurrentTileNumber + 1] != null)
+			if (Input.GetMouseButtonUp(0))
 			{
-				tileManager.CurrentlySelectedTile.transform.position = new Vector3(0, tileManager.CurrentlySelectedTile.transform.position.y, tileManager.CurrentlySelectedTile.transform.position.z);
-				tileManager.TileDragMode = false;
-				tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().Selected = false;
-				tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileUsed = true;
-				tileManager.tileObjects[tileManager.CurrentTileNumber + 1].GetComponent<ChimneyTile>().Selected = true;
-				cameraControl.SetDesiredCamPos();
+				if (tileManager.tileObjects[tileManager.CurrentTileNumber + 1] != null)
+				{
+					// If the inventory is not full and this item is storable, add it to the next empty slot in the inventory
+					if (inventory.IsThereSpace() && tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].Storable)
+					{
+						inventory.AddItem(tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum]);
+					}
+
+					// Move to the next tile in the queue
+					tileManager.MoveToNextTile();
+
+					// Change where the camera goes to when the next tile is selected
+					cameraControl.SetDesiredCamPos();
+				}
+				tileSwipeRight.CollisionWithTile = false;
 			}
-			tileSwipeRight.CollisionWithTile = false;
 		}
 	}
 

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GM
   - TileManager
+  - InventoryItem
   layers:
   - Default
   - TransparentFX
