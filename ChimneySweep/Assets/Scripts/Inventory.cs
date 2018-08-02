@@ -8,14 +8,19 @@ public class Inventory : MonoBehaviour {
 	[SerializeField]
 	GameObject[] slots;
 	[SerializeField]
+	GameObject[] tileBackgrounds;
+	[SerializeField]
 	GameObject slotGlow;
 	GameObject selectedSlot;
+
+	[SerializeField]
+	Text[] itemValues;
 
 	[SerializeField]
 	ChimneyTileTemplate[] tileStored;
 	public ChimneyTileTemplate[] TileStored { get { return tileStored; } }
 
-	bool noEmptySlots = false;
+	bool noEmptySlots = true;
 	bool slotSelected = false;
 	int freeSpace;
 	Vector2 mousePosition;
@@ -25,7 +30,7 @@ public class Inventory : MonoBehaviour {
 		for (int i = 0; i < tileStored.Length; i++)
 		{
 			slots[i].GetComponent<InventorySlot>().SlotNum = i;
-			slots[i].GetComponent<SpriteRenderer>().sprite = tileStored[i].artwork;
+			//slots[i].GetComponent<SpriteRenderer>().sprite = tileStored[i].artwork;
 		}
 	}
 	
@@ -40,6 +45,17 @@ public class Inventory : MonoBehaviour {
 				slotSelected = true;
 				selectedSlot = slots[i];
 				slotGlow.transform.position = new Vector3(slots[i].transform.position.x, slots[i].transform.position.y, slotGlow.transform.position.z);
+				tileBackgrounds[i].transform.position = new Vector3(slots[i].transform.position.x, slots[i].transform.position.y, slots[i].transform.position.z);
+			}
+
+			// Check which slots have items in them
+			if (tileStored[i].catagory != ChimneyTileTemplate.Catagory.EMPTY)
+			{
+				tileBackgrounds[i].SetActive(true);
+			}
+			else
+			{
+				tileBackgrounds[i].SetActive(false);
 			}
 		}
 
@@ -71,8 +87,11 @@ public class Inventory : MonoBehaviour {
 	{
 		// Check all the stored tiles, if one of them is empty store the index and return a true value
 		noEmptySlots = true;
-		for (int i = tileStored.Length -1; i >= 0; i--)
+
+		int i = -1;
+		while(noEmptySlots && i < tileStored.Length - 1)
 		{
+			i++;
 			Debug.Log(i);
 			if (tileStored[i].catagory == ChimneyTileTemplate.Catagory.EMPTY)
 			{
@@ -83,9 +102,11 @@ public class Inventory : MonoBehaviour {
 		return !noEmptySlots;
 	}
 
-	public void AddItem(ChimneyTileTemplate newItem)
+	public void AddItem(ChimneyTileTemplate newItem, int itemValue, Color color)
 	{
 		tileStored[freeSpace] = newItem;
 		slots[freeSpace].GetComponent<SpriteRenderer>().sprite = newItem.artwork;
+		itemValues[freeSpace].text = itemValue.ToString();
+		itemValues[freeSpace].color = color;
 	}
 }

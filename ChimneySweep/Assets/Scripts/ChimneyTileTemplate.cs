@@ -8,6 +8,8 @@ public class ChimneyTileTemplate : ScriptableObject
 	public string tileName;
 	public string description;
 	public Sprite artwork;
+	public int minTileValue;
+	public int maxTileValue;
 	public enum Catagory
 	{
 		ARMOUR,
@@ -16,7 +18,6 @@ public class ChimneyTileTemplate : ScriptableObject
 		SKIPTOOL,
 		ENEMY,
 		BOMB,
-		SPELL,
 		MONEY,
 		EMPTY
 	};

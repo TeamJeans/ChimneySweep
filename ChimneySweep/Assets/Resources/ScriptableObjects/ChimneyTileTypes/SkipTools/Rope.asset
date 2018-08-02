@@ -11,6 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 768850a5410266d4ea2297cd388c470d, type: 3}
   m_Name: Rope
   m_EditorClassIdentifier: 
-  tileName: 
+  tileName: Rope
   description: 
   artwork: {fileID: 0}
+  minTileValue: 5
+  maxTileValue: 8
+  catagory: 3

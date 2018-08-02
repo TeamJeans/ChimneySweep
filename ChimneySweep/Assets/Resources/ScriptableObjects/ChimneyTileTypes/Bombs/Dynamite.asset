@@ -11,6 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 768850a5410266d4ea2297cd388c470d, type: 3}
   m_Name: Dynamite
   m_EditorClassIdentifier: 
-  tileName: 
+  tileName: Dynamite
   description: 
-  artwork: {fileID: 0}
+  artwork: {fileID: 21300000, guid: 2a032c93cb066b648a908586da8a52aa, type: 3}
+  minTileValue: 5
+  maxTileValue: 8
+  catagory: 5

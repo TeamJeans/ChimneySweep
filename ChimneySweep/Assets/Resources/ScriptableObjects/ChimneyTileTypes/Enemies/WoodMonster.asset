@@ -14,3 +14,6 @@ MonoBehaviour:
   tileName: 
   description: 
   artwork: {fileID: 0}
+  minTileValue: 5
+  maxTileValue: 8
+  catagory: 4

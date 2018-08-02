@@ -48,12 +48,17 @@ public class GameMaster : MonoBehaviour {
 	{
 		if (tileSwipeLeft.CollisionWithTile && !endDayMenu.activeSelf)
 		{
-			ToggleEndDayMenu();
-			tileSwipeLeft.CollisionWithTile = false;
+			tileSwipeRight.CollisionWithTile = false;
+			if (Input.GetMouseButtonUp(0))
+			{
+				ToggleEndDayMenu();
+				tileSwipeLeft.CollisionWithTile = false;
+			}
 		}
 
 		if (tileSwipeRight.CollisionWithTile)
 		{
+			tileSwipeLeft.CollisionWithTile = false;
 			if (Input.GetMouseButtonUp(0))
 			{
 				if (tileManager.tileObjects[tileManager.CurrentTileNumber + 1] != null)
@@ -61,7 +66,7 @@ public class GameMaster : MonoBehaviour {
 					// If the inventory is not full and this item is storable, add it to the next empty slot in the inventory
 					if (inventory.IsThereSpace() && tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].Storable)
 					{
-						inventory.AddItem(tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum]);
+						inventory.AddItem(tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum], tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue, tileManager.tileValueText.color);
 					}
 
 					// Move to the next tile in the queue

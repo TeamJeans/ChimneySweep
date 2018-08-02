@@ -44,3 +44,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: TileBackGround
+    uniqueID: 2256011195
+    locked: 0
+  - name: Tile
+    uniqueID: 1069276279
+    locked: 0
+  - name: InventoryBackground
+    uniqueID: 3023207027
+    locked: 0
+  - name: InventorySlotBackground
+    uniqueID: 690851691
+    locked: 0
+  - name: InventorySlot
+    uniqueID: 3097342055
+    locked: 0

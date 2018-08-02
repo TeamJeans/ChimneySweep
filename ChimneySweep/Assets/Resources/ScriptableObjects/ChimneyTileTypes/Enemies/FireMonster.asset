@@ -11,6 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 768850a5410266d4ea2297cd388c470d, type: 3}
   m_Name: FireMonster
   m_EditorClassIdentifier: 
-  tileName: 
+  tileName: FireMonster
   description: 
-  artwork: {fileID: 0}
+  artwork: {fileID: 21300000, guid: d4e28452f124d61418354218d4a6a856, type: 3}
+  minTileValue: 5
+  maxTileValue: 8
+  catagory: 4

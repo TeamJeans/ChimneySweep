@@ -20,6 +20,9 @@ public class ChimneyTile : MonoBehaviour
 	bool tileUsed = false;
 	public bool TileUsed { get { return tileUsed; } set { tileUsed = value; } }
 
+	int tileValue;
+	public int TileValue { get { return tileValue; } set { tileValue = value; } }
+
 	void Start()
 	{
 		// Find the tile manager
