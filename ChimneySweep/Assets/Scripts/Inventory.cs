@@ -14,6 +14,12 @@ public class Inventory : MonoBehaviour {
 	GameObject selectedSlot;
 
 	[SerializeField]
+	ChimneyTileTemplate emptyTileTemplate;
+
+	[SerializeField]
+	RemoveInventoryItem itemRemover;
+
+	[SerializeField]
 	Text[] itemValues;
 
 	[SerializeField]
@@ -81,6 +87,31 @@ public class Inventory : MonoBehaviour {
 				selectedSlot.transform.position = new Vector3(selectedSlot.GetComponent<InventorySlot>().OriginalPosition.x, selectedSlot.GetComponent<InventorySlot>().OriginalPosition.y, selectedSlot.GetComponent<InventorySlot>().OriginalPosition.z);
 			}
 		}
+
+		// If the item has made contact with the bin icon and the player has took there finger off the screen the item in that slot will be deleted
+		if (itemRemover.RemoveItem)
+		{
+			if (Input.GetMouseButtonUp(0))
+			{
+				itemRemover.RemoveItem = false;
+				for (int i = 0; i < slots.Length; i++)
+				{
+					selectedSlot.GetComponent<SpriteRenderer>().sprite = emptyTileTemplate.artwork;
+					tileStored[selectedSlot.GetComponent<InventorySlot>().SlotNum] = emptyTileTemplate;
+				}
+				selectedSlot.GetComponent<InventorySlot>().Selected = false;
+			}
+		}
+
+		// If an item in the inventory is selected then show the inventory options
+		if (slotSelected)
+		{
+			itemRemover.gameObject.SetActive(true);
+		}
+		else
+		{
+			itemRemover.gameObject.SetActive(false);
+		}
 	}
 
 	public bool IsThereSpace()
@@ -108,5 +139,6 @@ public class Inventory : MonoBehaviour {
 		slots[freeSpace].GetComponent<SpriteRenderer>().sprite = newItem.artwork;
 		itemValues[freeSpace].text = itemValue.ToString();
 		itemValues[freeSpace].color = color;
+		tileBackgrounds[freeSpace].transform.position = new Vector3(slots[freeSpace].transform.position.x, slots[freeSpace].transform.position.y, slots[freeSpace].transform.position.z);
 	}
 }

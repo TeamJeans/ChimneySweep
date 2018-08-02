@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class TileSwipeLeft : MonoBehaviour {
 
-	bool collisionWithTile = false;
-	public bool CollisionWithTile { get { return collisionWithTile; } set { collisionWithTile = value; } }
+	bool collisionWithEnemyTile = false;
+	public bool CollisionWithEnemyTile { get { return collisionWithEnemyTile; } set { collisionWithEnemyTile = value; } }
+
+	bool collisionWithStorableTile = false;
+	public bool CollisionWithStorableTile { get { return collisionWithStorableTile; } set { collisionWithStorableTile = value; } }
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
-		if (col.gameObject.tag != "InventoryItem")
+		if (col.gameObject.tag == "EnemyTile")
 		{
 			Debug.Log("Triggered");
-			collisionWithTile = true;
+			collisionWithEnemyTile = true;
+		}
+
+		if (col.gameObject.tag == "StorableTile")
+		{
+			Debug.Log("Triggered");
+			collisionWithStorableTile = true;
 		}
 	}
 }

@@ -6,7 +6,7 @@ public class InventorySlot : MonoBehaviour {
 
 	[SerializeField]
 	bool selected;
-	public bool Selected { get { return selected; } }
+	public bool Selected { get { return selected; } set { selected = value; } }
 
 	int slotNum;
 	public int SlotNum { get { return slotNum; } set { slotNum = value; } }

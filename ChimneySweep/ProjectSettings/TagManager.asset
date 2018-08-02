@@ -7,6 +7,8 @@ TagManager:
   - GM
   - TileManager
   - InventoryItem
+  - EnemyTile
+  - StorableTile
   layers:
   - Default
   - TransparentFX
@@ -58,4 +60,10 @@ TagManager:
     locked: 0
   - name: InventorySlot
     uniqueID: 3097342055
+    locked: 0
+  - name: InventoryOptions
+    uniqueID: 2304157059
+    locked: 0
+  - name: InventorySelectedItem
+    uniqueID: 1536178693
     locked: 0

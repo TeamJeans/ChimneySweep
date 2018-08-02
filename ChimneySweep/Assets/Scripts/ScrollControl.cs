@@ -9,6 +9,7 @@ public class ScrollControl : MonoBehaviour {
 	Swipe swipeControls;
 	[SerializeField]
 	ScrollRect scrollRect;
+	public ScrollRect ScrollRect { get { return scrollRect; } set { scrollRect = value; } }
 	[SerializeField]
 	TileManager tileManager;
 

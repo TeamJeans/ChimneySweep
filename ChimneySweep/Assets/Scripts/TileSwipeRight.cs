@@ -9,7 +9,7 @@ public class TileSwipeRight : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
-		if (col.gameObject.tag != "InventoryItem")
+		if (col.gameObject.tag == "StorableTile" || col.gameObject.tag == "EnemyTile")
 		{
 			Debug.Log("Triggered");
 			collisionWithTile = true;

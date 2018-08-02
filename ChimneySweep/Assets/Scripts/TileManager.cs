@@ -7,6 +7,8 @@ public class TileManager : MonoBehaviour {
 	float spaceBetweenTiles = 100f;
 	[SerializeField]
 	Swipe swipeControls;
+	[SerializeField]
+	ScrollControl scrollControl;
 
 	// Colours for tile values
 	[SerializeField]
@@ -86,6 +88,19 @@ public class TileManager : MonoBehaviour {
 				chimneyTileTemplate[i].Storable = false;
 			}
 		}
+
+		// Give the tiles tags
+		for (int i = 0; i < tileObjects.Length; i++)
+		{
+			if (chimneyTileTemplate[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ENEMY)
+			{
+				tileObjects[i].gameObject.tag = "EnemyTile";
+			}
+			else
+			{
+				tileObjects[i].gameObject.tag = "StorableTile";
+			}
+		}
 	}
 	
 	void OnEndDayMenuToggle(bool active)
@@ -158,18 +173,20 @@ public class TileManager : MonoBehaviour {
 
 		// Make the tile glow render only when a tile is selected
 		if (tileSelected)
-			{
-				tileGlow.GetComponent<SpriteRenderer>().enabled = true;
-			}
-			else
-			{
-				tileGlow.GetComponent<SpriteRenderer>().enabled = false;
-			}
+		{
+			tileGlow.GetComponent<SpriteRenderer>().enabled = true;
+			scrollControl.ScrollRect.enabled = false;
+		}
+		else
+		{
+			tileGlow.GetComponent<SpriteRenderer>().enabled = false;
+			scrollControl.ScrollRect.enabled = true;
+		}
 
-			if (!currentlySelectedTile.GetComponent<ChimneyTile>().Selected)
-			{
-				tileSelected = false;
-			}
+		if (!currentlySelectedTile.GetComponent<ChimneyTile>().Selected)
+		{
+			tileSelected = false;
+		}
 
 
 		// If the user has dragged left or right, drag the tile in that direction
