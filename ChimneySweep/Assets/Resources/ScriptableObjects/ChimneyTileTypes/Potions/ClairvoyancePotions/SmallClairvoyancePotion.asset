@@ -17,3 +17,4 @@ MonoBehaviour:
   minTileValue: 5
   maxTileValue: 8
   catagory: 2
+  potionSubCatagory: 2

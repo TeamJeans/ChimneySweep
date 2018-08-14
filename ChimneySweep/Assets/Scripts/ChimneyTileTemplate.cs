@@ -21,7 +21,15 @@ public class ChimneyTileTemplate : ScriptableObject
 		MONEY,
 		EMPTY
 	};
+	public enum PotionsSubCatagory
+	{
+		HEALTH,
+		POISON,
+		CLAIRVOYANCE
+	}
+
 	public Catagory catagory;
+	public PotionsSubCatagory potionSubCatagory;
 
 	bool storable = true;
 	public bool Storable { get { return storable; } set { storable = value; } }

@@ -21,6 +21,9 @@ public class InventorySlot : MonoBehaviour {
 	[SerializeField]
 	Inventory inventory;
 
+	int itemValue;
+	public int ItemValue{ get{ return itemValue; } set { itemValue = value; } }
+
 	void Start()
 	{
 		originalPosition = transform.position;

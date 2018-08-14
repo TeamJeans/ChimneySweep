@@ -9,6 +9,9 @@ public class GameMaster : MonoBehaviour {
 	public static GameMaster gm;
 
 	[SerializeField]
+	InventoryItemTrigger inventoryItemTrigger;
+
+	[SerializeField]
 	TileSwipeLeft tileSwipeLeft;
 
 	[SerializeField]
@@ -26,13 +29,20 @@ public class GameMaster : MonoBehaviour {
 	[SerializeField]
 	Inventory inventory;
 
+	[SerializeField]
+	RemoveInventoryItem removeInventoryItem;
+
 	// UI related variables
 	[SerializeField]
 	int maxHitPoints = 10;
 	[SerializeField]
 	int currentHitPoints = 10;
+	public int CurrentHitPoints { get { return currentHitPoints; } set { currentHitPoints = value; } }
 	[SerializeField]
 	int currentMoney = 0;
+
+	bool hasArmour = false;
+	int armourRating;
 
 	[SerializeField]
 	Text moneyText;
@@ -50,12 +60,6 @@ public class GameMaster : MonoBehaviour {
 
 	public delegate void EndDayMenuCallBack(bool active);
 	public EndDayMenuCallBack onToggleEndDayMenu;
-
-	// Use this for initialization
-	void Start ()
-	{
-		
-	}
 	
 	// Update is called once per frame
 	void Update ()
@@ -74,6 +78,29 @@ public class GameMaster : MonoBehaviour {
 			}
 		}
 
+		// Handles swiping tiles to the left
+		LeftSwipingHandler();
+
+		// Handles swiping tiles to the right
+		RightSwipingHandler();
+
+		// Check if an item is being used
+		CheckIfUsingItem();
+	}
+
+	public void ToggleEndDayMenu()
+	{
+		endDayMenu.SetActive(!endDayMenu.activeSelf);
+		onToggleEndDayMenu.Invoke(endDayMenu.activeSelf);
+	}
+
+	public void ChangeSceneToDayOverStats()
+	{
+		SceneManager.LoadScene("DayOverStatsScene");
+	}
+
+	void LeftSwipingHandler()
+	{
 		if (tileSwipeLeft.CollisionWithStorableTile && !endDayMenu.activeSelf)
 		{
 			tileSwipeRight.CollisionWithTile = false;
@@ -91,7 +118,10 @@ public class GameMaster : MonoBehaviour {
 				tileSwipeLeft.CollisionWithStorableTile = false;
 			}
 		}
+	}
 
+	void RightSwipingHandler()
+	{
 		if (tileSwipeRight.CollisionWithTile)
 		{
 			tileSwipeLeft.CollisionWithEnemyTile = false;
@@ -127,14 +157,12 @@ public class GameMaster : MonoBehaviour {
 		}
 	}
 
-	public void ToggleEndDayMenu()
+	void CheckIfUsingItem()
 	{
-		endDayMenu.SetActive(!endDayMenu.activeSelf);
-		onToggleEndDayMenu.Invoke(endDayMenu.activeSelf);
-	}
-
-	public void ChangeSceneToDayOverStats()
-	{
-		SceneManager.LoadScene("DayOverStatsScene");
+		if (inventoryItemTrigger.UseItem && !removeInventoryItem.RemoveItem && Input.GetMouseButtonUp(0))
+		{
+			inventoryItemTrigger.UseItem = false;
+			inventory.UseItem();
+		}
 	}
 }

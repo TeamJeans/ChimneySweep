@@ -16,7 +16,7 @@ public class RemoveInventoryItem : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerExit2d()
+	void OnTriggerExit2D()
 	{
 		removeItem = false;
 	}

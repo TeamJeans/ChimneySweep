@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class Inventory : MonoBehaviour {
 
 	[SerializeField]
+	GameMaster gm;
+
+	[SerializeField]
 	GameObject[] slots;
 	[SerializeField]
 	GameObject[] tileBackgrounds;
@@ -94,11 +97,8 @@ public class Inventory : MonoBehaviour {
 			if (Input.GetMouseButtonUp(0))
 			{
 				itemRemover.RemoveItem = false;
-				for (int i = 0; i < slots.Length; i++)
-				{
-					selectedSlot.GetComponent<SpriteRenderer>().sprite = emptyTileTemplate.artwork;
-					tileStored[selectedSlot.GetComponent<InventorySlot>().SlotNum] = emptyTileTemplate;
-				}
+				selectedSlot.GetComponent<SpriteRenderer>().sprite = emptyTileTemplate.artwork;
+				tileStored[selectedSlot.GetComponent<InventorySlot>().SlotNum] = emptyTileTemplate;
 				selectedSlot.GetComponent<InventorySlot>().Selected = false;
 			}
 		}
@@ -137,8 +137,100 @@ public class Inventory : MonoBehaviour {
 	{
 		tileStored[freeSpace] = newItem;
 		slots[freeSpace].GetComponent<SpriteRenderer>().sprite = newItem.artwork;
+		slots[freeSpace].GetComponent<InventorySlot>().ItemValue = itemValue;
 		itemValues[freeSpace].text = itemValue.ToString();
 		itemValues[freeSpace].color = color;
 		tileBackgrounds[freeSpace].transform.position = new Vector3(slots[freeSpace].transform.position.x, slots[freeSpace].transform.position.y, slots[freeSpace].transform.position.z);
+	}
+
+	public void UseItem()
+	{
+		// Change what the item does depending on it's catagory.
+		switch (tileStored[selectedSlot.GetComponent<InventorySlot>().SlotNum].catagory)
+		{
+			case ChimneyTileTemplate.Catagory.ARMOUR:
+				UsingArmourItem();
+				break;
+			case ChimneyTileTemplate.Catagory.WEAPON:
+				UsingWeaponItem();
+				break;
+			case ChimneyTileTemplate.Catagory.POTION:
+				UsingPotionItem();
+				break;
+			case ChimneyTileTemplate.Catagory.SKIPTOOL:
+				UsingSkipToolItem();
+				break;
+			case ChimneyTileTemplate.Catagory.ENEMY:
+				break;
+			case ChimneyTileTemplate.Catagory.BOMB:
+				UsingBombItem();
+				break;
+			case ChimneyTileTemplate.Catagory.MONEY:
+				break;
+			case ChimneyTileTemplate.Catagory.EMPTY:
+				break;
+			default:
+				break;
+		}
+
+		// Get rid of the item
+		selectedSlot.GetComponent<SpriteRenderer>().sprite = emptyTileTemplate.artwork;
+		tileStored[selectedSlot.GetComponent<InventorySlot>().SlotNum] = emptyTileTemplate;
+		selectedSlot.GetComponent<InventorySlot>().Selected = false;
+		selectedSlot.transform.position = new Vector3(selectedSlot.GetComponent<InventorySlot>().OriginalPosition.x, selectedSlot.GetComponent<InventorySlot>().OriginalPosition.y, selectedSlot.GetComponent<InventorySlot>().OriginalPosition.z);
+	}
+
+	void UsingArmourItem()
+	{
+		Debug.Log("Armour used");
+	}
+
+	void UsingWeaponItem()
+	{
+		Debug.Log("Weapon used");
+	}
+
+	void UsingPotionItem()
+	{
+		switch (tileStored[selectedSlot.GetComponent<InventorySlot>().SlotNum].potionSubCatagory)
+		{
+			case ChimneyTileTemplate.PotionsSubCatagory.HEALTH:
+				UsingHealthPotionItem();
+				break;
+			case ChimneyTileTemplate.PotionsSubCatagory.POISON:
+				UsingPoisonPotionItem();
+				break;
+			case ChimneyTileTemplate.PotionsSubCatagory.CLAIRVOYANCE:
+				UsingClairvoyancePotionItem();
+				break;
+			default:
+				break;
+		}
+	}
+
+	void UsingSkipToolItem()
+	{
+		Debug.Log("SkipTool used");
+	}
+
+	void UsingBombItem()
+	{
+		Debug.Log("Bomb used");
+	}
+
+	void UsingHealthPotionItem()
+	{
+		Debug.Log("HealthPotion used");
+		gm.CurrentHitPoints += slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
+	}
+
+	void UsingPoisonPotionItem()
+	{
+		Debug.Log("PoisonPotion used");
+	}
+
+	void UsingClairvoyancePotionItem()
+	{
+		Debug.Log("ClairvoyancePotion used");
 	}
 }

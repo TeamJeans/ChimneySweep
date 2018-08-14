@@ -13,11 +13,6 @@ public class ScrollControl : MonoBehaviour {
 	[SerializeField]
 	TileManager tileManager;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
 	// Update is called once per frame
 	void Update () {
 		if(tileManager.TileDragMode)

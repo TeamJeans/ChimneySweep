@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class TileSwipeLeft : MonoBehaviour {
 
+	[SerializeField]
 	bool collisionWithEnemyTile = false;
 	public bool CollisionWithEnemyTile { get { return collisionWithEnemyTile; } set { collisionWithEnemyTile = value; } }
 
+	[SerializeField]
 	bool collisionWithStorableTile = false;
 	public bool CollisionWithStorableTile { get { return collisionWithStorableTile; } set { collisionWithStorableTile = value; } }
 
@@ -23,5 +25,11 @@ public class TileSwipeLeft : MonoBehaviour {
 			Debug.Log("Triggered");
 			collisionWithStorableTile = true;
 		}
+	}
+
+	void OnTriggerExit2D()
+	{
+		collisionWithEnemyTile = false;
+		collisionWithStorableTile = false;
 	}
 }

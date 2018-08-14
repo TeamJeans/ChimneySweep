@@ -15,4 +15,9 @@ public class TileSwipeRight : MonoBehaviour {
 			collisionWithTile = true;
 		}
 	}
+
+	void OnTriggerExit2D()
+	{
+		collisionWithTile = false;
+	}
 }
