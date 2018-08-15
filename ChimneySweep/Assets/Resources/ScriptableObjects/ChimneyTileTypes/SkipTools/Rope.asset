@@ -13,7 +13,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileName: Rope
   description: 
-  artwork: {fileID: 0}
+  artwork: {fileID: 21300000, guid: 7985b94132c431b4f8ee5ed9443335a1, type: 3}
   minTileValue: 5
   maxTileValue: 8
   catagory: 3
+  potionSubCatagory: 0

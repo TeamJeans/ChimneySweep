@@ -62,7 +62,7 @@ public class ChimneyTile : MonoBehaviour
 		else if (tileUsed)
 		{
 			// Make a transparent black square appear over the used tile
-			GetComponent<SpriteRenderer>().sprite = tileManager.chimneyTileTemplate[1].artwork;
+			
 		}
 		else if (!tileManager.CurrentlySelectedTile == gameObject)
 		{

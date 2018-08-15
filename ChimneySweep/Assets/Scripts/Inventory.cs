@@ -145,64 +145,124 @@ public class Inventory : MonoBehaviour {
 		tileBackgrounds[freeSpace].transform.position = new Vector3(slots[freeSpace].transform.position.x, slots[freeSpace].transform.position.y, slots[freeSpace].transform.position.z);
 	}
 
-	public void UseItem()
+	public void UseItem(bool chimneyTile)
 	{
-		// Change what the item does depending on it's catagory.
-		switch (tileStored[selectedSlot.GetComponent<InventorySlot>().SlotNum].catagory)
+		if (!chimneyTile)
 		{
-			case ChimneyTileTemplate.Catagory.ARMOUR:
-				UsingArmourItem();
-				break;
-			case ChimneyTileTemplate.Catagory.WEAPON:
-				UsingWeaponItem();
-				break;
-			case ChimneyTileTemplate.Catagory.POTION:
-				UsingPotionItem();
-				break;
-			case ChimneyTileTemplate.Catagory.SKIPTOOL:
-				UsingSkipToolItem();
-				break;
-			case ChimneyTileTemplate.Catagory.ENEMY:
-				break;
-			case ChimneyTileTemplate.Catagory.BOMB:
-				UsingBombItem();
-				break;
-			case ChimneyTileTemplate.Catagory.MONEY:
-				break;
-			case ChimneyTileTemplate.Catagory.EMPTY:
-				break;
-			default:
-				break;
-		}
 
-		// Get rid of the item
-		selectedSlot.GetComponent<SpriteRenderer>().sprite = emptyTileTemplate.artwork;
-		tileStored[selectedSlot.GetComponent<InventorySlot>().SlotNum] = emptyTileTemplate;
-		selectedSlot.GetComponent<InventorySlot>().Selected = false;
-		selectedSlot.transform.position = new Vector3(selectedSlot.GetComponent<InventorySlot>().OriginalPosition.x, selectedSlot.GetComponent<InventorySlot>().OriginalPosition.y, selectedSlot.GetComponent<InventorySlot>().OriginalPosition.z);
+			// Change what the item does depending on it's catagory.
+			switch (tileStored[selectedSlot.GetComponent<InventorySlot>().SlotNum].catagory)
+			{
+				case ChimneyTileTemplate.Catagory.ARMOUR:
+					UsingArmourItem(chimneyTile);
+					break;
+				case ChimneyTileTemplate.Catagory.WEAPON:
+					UsingWeaponItem();
+					break;
+				case ChimneyTileTemplate.Catagory.POTION:
+					UsingPotionItem(chimneyTile);
+					break;
+				case ChimneyTileTemplate.Catagory.SKIPTOOL:
+					UsingSkipToolItem();
+					break;
+				case ChimneyTileTemplate.Catagory.ENEMY:
+					break;
+				case ChimneyTileTemplate.Catagory.BOMB:
+					UsingBombItem();
+					break;
+				case ChimneyTileTemplate.Catagory.MONEY:
+					break;
+				case ChimneyTileTemplate.Catagory.EMPTY:
+					break;
+				default:
+					break;
+			}
+
+			// Get rid of the item
+			selectedSlot.GetComponent<SpriteRenderer>().sprite = emptyTileTemplate.artwork;
+			tileStored[selectedSlot.GetComponent<InventorySlot>().SlotNum] = emptyTileTemplate;
+			selectedSlot.GetComponent<InventorySlot>().Selected = false;
+			selectedSlot.transform.position = new Vector3(selectedSlot.GetComponent<InventorySlot>().OriginalPosition.x, selectedSlot.GetComponent<InventorySlot>().OriginalPosition.y, selectedSlot.GetComponent<InventorySlot>().OriginalPosition.z);
+		}
+		else
+		{
+			// Change what the item does depending on it's catagory.
+			switch (tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory)
+			{
+				case ChimneyTileTemplate.Catagory.ARMOUR:
+					UsingArmourItem(chimneyTile);
+					break;
+				case ChimneyTileTemplate.Catagory.WEAPON:
+					UsingWeaponItem();
+					break;
+				case ChimneyTileTemplate.Catagory.POTION:
+					UsingPotionItem(chimneyTile);
+					break;
+				case ChimneyTileTemplate.Catagory.SKIPTOOL:
+					UsingSkipToolItem();
+					break;
+				case ChimneyTileTemplate.Catagory.ENEMY:
+					break;
+				case ChimneyTileTemplate.Catagory.BOMB:
+					UsingBombItem();
+					break;
+				case ChimneyTileTemplate.Catagory.MONEY:
+					break;
+				case ChimneyTileTemplate.Catagory.EMPTY:
+					break;
+				default:
+					break;
+			}
+		}
 	}
 
-	void UsingArmourItem()
+	void UsingArmourItem(bool chimneyTile)
 	{
 		Debug.Log("Armour used");
-		if (gm.HasArmour)
+
+		if (!chimneyTile)
 		{
-			if (gm.MaxArmourHitPoints < slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue)
+			if (gm.HasArmour)
+			{
+				if (gm.MaxArmourHitPoints < slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue)
+				{
+					gm.HasArmour = true;
+					gm.CurrentArmourHitPoints = slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
+					gm.MaxArmourHitPoints = slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
+				}
+				else
+				{
+					gm.CurrentArmourHitPoints += slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
+				}
+			}
+			else
 			{
 				gm.HasArmour = true;
 				gm.CurrentArmourHitPoints = slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
 				gm.MaxArmourHitPoints = slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
 			}
-			else
-			{
-				gm.CurrentArmourHitPoints += slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
-			}
 		}
 		else
 		{
-			gm.HasArmour = true;
-			gm.CurrentArmourHitPoints = slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
-			gm.MaxArmourHitPoints = slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
+			if (gm.HasArmour)
+			{
+				if (gm.MaxArmourHitPoints < tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue)
+				{
+					gm.HasArmour = true;
+					gm.CurrentArmourHitPoints = tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+					gm.MaxArmourHitPoints = tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+				}
+				else
+				{
+					gm.CurrentArmourHitPoints += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+				}
+			}
+			else
+			{
+				gm.HasArmour = true;
+				gm.CurrentArmourHitPoints = tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+				gm.MaxArmourHitPoints = tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+			}
 		}
 	}
 
@@ -219,21 +279,41 @@ public class Inventory : MonoBehaviour {
 		}
 	}
 
-	void UsingPotionItem()
+	void UsingPotionItem(bool chimneyTile)
 	{
-		switch (tileStored[selectedSlot.GetComponent<InventorySlot>().SlotNum].potionSubCatagory)
+		if (!chimneyTile)
 		{
-			case ChimneyTileTemplate.PotionsSubCatagory.HEALTH:
-				UsingHealthPotionItem();
-				break;
-			case ChimneyTileTemplate.PotionsSubCatagory.POISON:
-				UsingPoisonPotionItem();
-				break;
-			case ChimneyTileTemplate.PotionsSubCatagory.CLAIRVOYANCE:
-				UsingClairvoyancePotionItem();
-				break;
-			default:
-				break;
+			switch (tileStored[selectedSlot.GetComponent<InventorySlot>().SlotNum].potionSubCatagory)
+			{
+				case ChimneyTileTemplate.PotionsSubCatagory.HEALTH:
+					UsingHealthPotionItem(chimneyTile);
+					break;
+				case ChimneyTileTemplate.PotionsSubCatagory.POISON:
+					UsingPoisonPotionItem();
+					break;
+				case ChimneyTileTemplate.PotionsSubCatagory.CLAIRVOYANCE:
+					UsingClairvoyancePotionItem(chimneyTile);
+					break;
+				default:
+					break;
+			}
+		}
+		else
+		{
+			switch (tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].potionSubCatagory)
+			{
+				case ChimneyTileTemplate.PotionsSubCatagory.HEALTH:
+					UsingHealthPotionItem(chimneyTile);
+					break;
+				case ChimneyTileTemplate.PotionsSubCatagory.POISON:
+					UsingPoisonPotionItem();
+					break;
+				case ChimneyTileTemplate.PotionsSubCatagory.CLAIRVOYANCE:
+					UsingClairvoyancePotionItem(chimneyTile);
+					break;
+				default:
+					break;
+			}
 		}
 	}
 
@@ -253,10 +333,17 @@ public class Inventory : MonoBehaviour {
 		tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue /= 2;
 	}
 
-	void UsingHealthPotionItem()
+	void UsingHealthPotionItem(bool chimneyTile)
 	{
 		Debug.Log("HealthPotion used");
-		gm.CurrentHitPoints += slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
+		if (!chimneyTile)
+		{
+			gm.CurrentHitPoints += slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
+		}
+		else
+		{
+			gm.CurrentHitPoints += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+		}
 	}
 
 	void UsingPoisonPotionItem()
@@ -267,9 +354,19 @@ public class Inventory : MonoBehaviour {
 		tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue = 0;
 	}
 
-	void UsingClairvoyancePotionItem()
+	void UsingClairvoyancePotionItem(bool chimneyTile)
 	{
 		Debug.Log("ClairvoyancePotion used");
+
+		// Shows what the next tiles are (the number of tiles it shows depends on the item's value)
+		if (!chimneyTile)
+		{
+			tileManager.ShowTiles(slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue);
+		}
+		else
+		{
+			tileManager.ShowTiles(tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue);
+		}
 	}
 
 	public ChimneyTileTemplate.Catagory GetCurrentlySelectedItemCatagory()
