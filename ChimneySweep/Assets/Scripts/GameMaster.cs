@@ -154,7 +154,7 @@ public class GameMaster : MonoBehaviour {
 					// If the inventory is not full and this item is storable, add it to the next empty slot in the inventory
 					if (inventory.IsThereSpace() && tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].Storable)
 					{
-						inventory.AddItem(tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum], tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue, tileManager.tileValueText.color);
+						inventory.AddItem(tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum], tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue, tileManager.currentTileValueText.color);
 					}
 
 					// If the tile was an enemy find out it's value and take it away from the player's hit points

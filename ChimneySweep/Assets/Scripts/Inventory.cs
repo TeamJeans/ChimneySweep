@@ -7,6 +7,8 @@ public class Inventory : MonoBehaviour {
 
 	[SerializeField]
 	GameMaster gm;
+	[SerializeField]
+	TileManager tileManager;
 
 	[SerializeField]
 	GameObject[] slots;
@@ -207,6 +209,14 @@ public class Inventory : MonoBehaviour {
 	void UsingWeaponItem()
 	{
 		Debug.Log("Weapon used");
+
+		// Take the items value away from the current tiles value
+		tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue -= slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
+
+		if (tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue < 0)
+		{
+			tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue = 0;
+		}
 	}
 
 	void UsingPotionItem()
@@ -230,11 +240,17 @@ public class Inventory : MonoBehaviour {
 	void UsingSkipToolItem()
 	{
 		Debug.Log("SkipTool used");
+
+		// Skip ahead the number of tiles equal to that of the value on the item
+		tileManager.SkipTiles(slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue);
 	}
 
 	void UsingBombItem()
 	{
 		Debug.Log("Bomb used");
+
+		// Half the value of the current tile
+		tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue /= 2;
 	}
 
 	void UsingHealthPotionItem()
@@ -246,6 +262,9 @@ public class Inventory : MonoBehaviour {
 	void UsingPoisonPotionItem()
 	{
 		Debug.Log("PoisonPotion used");
+
+		// Instantly kills an enemy
+		tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue = 0;
 	}
 
 	void UsingClairvoyancePotionItem()

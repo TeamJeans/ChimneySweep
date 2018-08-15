@@ -46,6 +46,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: ChimneyBackground
+    uniqueID: 3779717193
+    locked: 0
+  - name: ChimneySides
+    uniqueID: 709878519
+    locked: 0
   - name: TileBackGround
     uniqueID: 2256011195
     locked: 0
