@@ -38,17 +38,30 @@ public class GameMaster : MonoBehaviour {
 	[SerializeField]
 	int currentHitPoints = 10;
 	public int CurrentHitPoints { get { return currentHitPoints; } set { currentHitPoints = value; } }
+
+	[SerializeField]
+	int maxArmourHitPoints = 0;
+	public int MaxArmourHitPoints { get { return maxArmourHitPoints; } set { maxArmourHitPoints = value; } }
+	[SerializeField]
+	int currentArmourHitPoints = 0;
+	public int CurrentArmourHitPoints { get { return currentArmourHitPoints; } set { currentArmourHitPoints = value; } }
+
 	[SerializeField]
 	int currentMoney = 0;
 
+	[SerializeField]
 	bool hasArmour = false;
-	int armourRating;
+	public bool HasArmour { get { return hasArmour; } set { hasArmour = value; } }
 
 	[SerializeField]
 	Text moneyText;
 	[SerializeField]
 	Text hitPointsText;
+	[SerializeField]
+	Text armourHitPointsText;
 
+	[SerializeField]
+	GameObject armourIconObject;
 
 	void Awake()
 	{
@@ -65,8 +78,14 @@ public class GameMaster : MonoBehaviour {
 	void Update ()
 	{
 		//Update the UI
-		moneyText.text = "Money: \u00A3" + currentMoney;
-		hitPointsText.text = "HP: " + currentHitPoints + "/" + maxHitPoints;
+		moneyText.text = "\u00A3" + currentMoney;
+		hitPointsText.text = currentHitPoints + "/" + maxHitPoints;
+		armourHitPointsText.text = currentArmourHitPoints + "/" + maxArmourHitPoints;
+
+		if (currentHitPoints > maxHitPoints)
+		{
+			currentHitPoints = maxHitPoints;
+		}
 
 		if (tileSwipeLeft.CollisionWithEnemyTile && !endDayMenu.activeSelf)
 		{
@@ -86,6 +105,9 @@ public class GameMaster : MonoBehaviour {
 
 		// Check if an item is being used
 		CheckIfUsingItem();
+
+		// Deal with armour ui
+		UpdateArmourUI();
 	}
 
 	public void ToggleEndDayMenu()
@@ -138,12 +160,28 @@ public class GameMaster : MonoBehaviour {
 					// If the tile was an enemy find out it's value and take it away from the player's hit points
 					if (tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ENEMY)
 					{
-						currentHitPoints -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+						if (currentArmourHitPoints <= 0)
+						{
+							currentHitPoints -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+						}
+						else if (currentArmourHitPoints >= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue)
+						{
+							currentArmourHitPoints -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+						}
+						else if (currentArmourHitPoints < tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue)
+						{
+							int remainder = tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue - currentArmourHitPoints;
+							currentArmourHitPoints -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+							currentHitPoints -= remainder;
+						}
+
 						if (currentHitPoints < 0)
 						{
 							currentHitPoints = 0;
 						}
+
 						currentMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+
 					}
 
 					// Move to the next tile in the queue
@@ -161,8 +199,40 @@ public class GameMaster : MonoBehaviour {
 	{
 		if (inventoryItemTrigger.UseItem && !removeInventoryItem.RemoveItem && Input.GetMouseButtonUp(0))
 		{
-			inventoryItemTrigger.UseItem = false;
-			inventory.UseItem();
+			if ((inventory.GetCurrentlySelectedItemCatagory() == ChimneyTileTemplate.Catagory.BOMB || inventory.GetCurrentlySelectedItemCatagory() == ChimneyTileTemplate.Catagory.WEAPON || inventory.GetCurrentlySelectedItemPotionCatagory() == ChimneyTileTemplate.PotionsSubCatagory.POISON) && tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory != ChimneyTileTemplate.Catagory.ENEMY)
+			{
+				// Don't use the item
+			}
+			else
+			{
+				inventoryItemTrigger.UseItem = false;
+				inventory.UseItem();
+			}
+		}
+	}
+
+	void UpdateArmourUI()
+	{
+		if (hasArmour)
+		{
+			armourIconObject.SetActive(true);
+			armourHitPointsText.gameObject.SetActive(true);
+		}
+		else
+		{
+			armourIconObject.SetActive(false);
+			armourHitPointsText.gameObject.SetActive(false);
+		}
+
+		if (currentArmourHitPoints <= 0)
+		{
+			hasArmour = false;
+			currentArmourHitPoints = 0;
+		}
+
+		if (currentArmourHitPoints > maxArmourHitPoints)
+		{
+			currentArmourHitPoints = maxArmourHitPoints;
 		}
 	}
 }

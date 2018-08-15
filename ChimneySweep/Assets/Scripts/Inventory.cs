@@ -183,6 +183,25 @@ public class Inventory : MonoBehaviour {
 	void UsingArmourItem()
 	{
 		Debug.Log("Armour used");
+		if (gm.HasArmour)
+		{
+			if (gm.MaxArmourHitPoints < slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue)
+			{
+				gm.HasArmour = true;
+				gm.CurrentArmourHitPoints = slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
+				gm.MaxArmourHitPoints = slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
+			}
+			else
+			{
+				gm.CurrentArmourHitPoints += slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
+			}
+		}
+		else
+		{
+			gm.HasArmour = true;
+			gm.CurrentArmourHitPoints = slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
+			gm.MaxArmourHitPoints = slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
+		}
 	}
 
 	void UsingWeaponItem()
@@ -232,5 +251,15 @@ public class Inventory : MonoBehaviour {
 	void UsingClairvoyancePotionItem()
 	{
 		Debug.Log("ClairvoyancePotion used");
+	}
+
+	public ChimneyTileTemplate.Catagory GetCurrentlySelectedItemCatagory()
+	{
+		return tileStored[selectedSlot.GetComponent<InventorySlot>().SlotNum].catagory;
+	}
+
+	public ChimneyTileTemplate.PotionsSubCatagory GetCurrentlySelectedItemPotionCatagory()
+	{
+		return tileStored[selectedSlot.GetComponent<InventorySlot>().SlotNum].potionSubCatagory;
 	}
 }
