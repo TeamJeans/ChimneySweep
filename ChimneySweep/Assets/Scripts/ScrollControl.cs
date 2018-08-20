@@ -15,12 +15,11 @@ public class ScrollControl : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if(tileManager.TileDragMode)
+		if(tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().MouseOver || tileManager.TileDragMode)
 		{
 			scrollRect.enabled = false;
 		}
-
-		if (swipeControls.SwipeDown || swipeControls.SwipeUp)
+		else
 		{
 			scrollRect.enabled = true;
 		}

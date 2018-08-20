@@ -8,6 +8,8 @@ public class GameMaster : MonoBehaviour {
 
 	public static GameMaster gm;
 
+	public CanvasScaler chimneyCanvasScaler;
+
 	[SerializeField]
 	InventoryItemTrigger inventoryItemTrigger;
 

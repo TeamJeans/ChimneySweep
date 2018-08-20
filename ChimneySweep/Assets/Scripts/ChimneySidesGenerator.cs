@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChimneySidesGenerator : MonoBehaviour {
 
-	public float spaceBetweenChimneySides = 100f;
+	public float spaceBetweenChimneySides;
 
 	[SerializeField]
 	RectTransform panelTransform;
@@ -12,9 +12,13 @@ public class ChimneySidesGenerator : MonoBehaviour {
 	TileManager tileManager;
 	[SerializeField]
 	Vector3 firstSidePos;
+	Vector3 sidesScale = new Vector3(12.5f, 12.5f, 0);
 
 	[SerializeField]
 	GameObject chimneyHearth;
+	public GameObject ChimneyHearth { get { return chimneyHearth; } }
+	[SerializeField]
+	GameObject chimneyHearthBackground;
 
 	bool tilesGenerated = false;
 	public GameObject[] sides;
@@ -28,11 +32,12 @@ public class ChimneySidesGenerator : MonoBehaviour {
 		for (int i = 0; i < sides.Length; i++)
 		{
 			sides[i] = Instantiate(Resources.Load("Prefabs/Chimney_Sides", typeof(GameObject)), transform) as GameObject;
-			sides[i].transform.parent = gameObject.transform;
-			sides[i].transform.position = firstSidePos;
+			sides[i].transform.SetParent(gameObject.transform);
+			sides[i].transform.position = firstSidePos + new Vector3(0, - i * sides[i].transform.localScale.y, 0);
+
 			chimneyBackgroundTiles[i] = Instantiate(Resources.Load("Prefabs/Chimney_Background", typeof(GameObject)), transform) as GameObject;
 			chimneyBackgroundTiles[i].transform.parent = gameObject.transform;
-			chimneyBackgroundTiles[i].transform.position = firstSidePos;
+			chimneyBackgroundTiles[i].transform.position = firstSidePos + new Vector3(0, -i * sides[i].transform.localScale.y, 0);
 		}
 	}
 
@@ -42,16 +47,12 @@ public class ChimneySidesGenerator : MonoBehaviour {
 		// Generate the sides
 		if (!tilesGenerated)
 		{
-			for (int i = 1; i < sides.Length; i++)
-			{
-				sides[i].transform.position = new Vector3(sides[i].transform.position.x, sides[i].transform.position.y - sides[i].transform.localScale.y * i - spaceBetweenChimneySides*i , sides[i].transform.position.z);
-				chimneyBackgroundTiles[i].transform.position = new Vector3(chimneyBackgroundTiles[i].transform.position.x, chimneyBackgroundTiles[i].transform.position.y - chimneyBackgroundTiles[i].transform.localScale.y * i - spaceBetweenChimneySides * i, chimneyBackgroundTiles[i].transform.position.z);
-			}
-			panelTransform.offsetMin = new Vector2(panelTransform.offsetMin.x, -sides.Length * sides[0].transform.localScale.y - 20f);
+			// Changes how far you can scroll down the chimney
+			panelTransform.offsetMin = new Vector2(panelTransform.offsetMin.x, -sides.Length * sides[0].transform.localScale.y - 25f);
 			tilesGenerated = true;
 
 			chimneyHearth.transform.position = new Vector3(chimneyHearth.transform.position.x, sides[sides.Length -1].transform.position.y - sides[sides.Length - 1].transform.localScale.y - spaceBetweenChimneySides, chimneyHearth.transform.position.z);
+			chimneyHearthBackground.transform.position = new Vector3(chimneyHearth.transform.position.x, chimneyHearth.transform.position.y, chimneyHearth.transform.position.z);
 		}
-
 	}
 }

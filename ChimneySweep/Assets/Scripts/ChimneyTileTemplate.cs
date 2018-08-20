@@ -19,7 +19,8 @@ public class ChimneyTileTemplate : ScriptableObject
 		ENEMY,
 		BOMB,
 		MONEY,
-		EMPTY
+		EMPTY,
+		BOSS
 	};
 	public enum PotionsSubCatagory
 	{
@@ -27,9 +28,15 @@ public class ChimneyTileTemplate : ScriptableObject
 		POISON,
 		CLAIRVOYANCE
 	}
+	public enum EnemySubCatagory
+	{
+		NORMAL,
+		BOSS
+	}
 
 	public Catagory catagory;
 	public PotionsSubCatagory potionSubCatagory;
+	public EnemySubCatagory enemySubCatagory;
 
 	bool storable = true;
 	public bool Storable { get { return storable; } set { storable = value; } }

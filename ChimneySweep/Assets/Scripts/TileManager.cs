@@ -32,13 +32,14 @@ public class TileManager : MonoBehaviour {
 	[SerializeField]
 	bool tileDragMode = false;
 	public bool TileDragMode{get{ return tileDragMode; } set { tileDragMode = value; } }
-	bool tilesGenerated = false;
 	bool endDayMenuEnabled = false;
 	bool tileSelected = false;
+	bool hasHearthTileBeenGenerated = false;
 
 	public GameObject[] tilePrefabs;
 	public GameObject[] tileObjects;
 	public ChimneyTileTemplate[] chimneyTileTemplate;
+	public ChimneyTileTemplate[] bossTypesArray;
 
 	[SerializeField]
 	GameObject tileValuesCanvas;
@@ -64,6 +65,8 @@ public class TileManager : MonoBehaviour {
 	GameObject[] tileValuesObject;
 	[SerializeField]
 	Sprite tileBackSprite;
+	[SerializeField]
+	ChimneySidesGenerator chimneySidesGenerator;
 
 	// Use this for initialization
 	void Start ()
@@ -80,10 +83,13 @@ public class TileManager : MonoBehaviour {
 		{
 			// Creates the array of blank tiles
 			tileObjects[i] = Instantiate(tilePrefabs[i]) as GameObject;
-			tileObjects[i].transform.parent = gameObject.transform;
+			tileObjects[i].transform.SetParent(gameObject.transform);
 
 			// Randomly changes the type of each tile generated
+			//while (chimneyTileTemplate[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS)
+			//{
 			tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = Random.Range(2, chimneyTileTemplate.Length);
+			//}
 			// Find the min and max values for the current chimney tile template and generate a random number and set it to be the tiles value
 			tileObjects[i].GetComponent<ChimneyTile>().TileValue = Random.Range(chimneyTileTemplate[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].minTileValue, chimneyTileTemplate[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].maxTileValue);
 
@@ -97,7 +103,57 @@ public class TileManager : MonoBehaviour {
 
 			tileUsedArray[i] = Instantiate(Resources.Load("Prefabs/Tile_Used", typeof(GameObject)), transform) as GameObject;
 			tileUsedArray[i].transform.SetParent(gameObject.transform);
+
+			// Setup the positions for the tiles and their values
+			tileObjects[i].transform.position = new Vector3(tileObjects[i].transform.position.x, tileObjects[i].transform.position.y - tileObjects[i].transform.localScale.y * i - spaceBetweenTiles * i, tileObjects[i].transform.position.z);
+			tileValuesObject[i].transform.position = new Vector3(tileObjects[i].transform.position.x, tileObjects[i].transform.position.y - 5.5f, tileObjects[i].transform.position.z);
+			tileBackground[i].transform.position = new Vector3(tileObjects[i].transform.position.x, tileObjects[i].transform.position.y, tileObjects[i].transform.position.z);
+			tileUsedArray[i].transform.position = new Vector3(tileObjects[i].transform.position.x, tileObjects[i].transform.position.y, tileObjects[i].transform.position.z);
+
+			// Change the text depending on the current card value
+			tileValueText[i].text = tileObjects[i].GetComponent<ChimneyTile>().TileValue.ToString();
+			currentTileCatagory = chimneyTileTemplate[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory;
+			switch (currentTileCatagory)
+			{
+				case ChimneyTileTemplate.Catagory.ARMOUR:
+					tileValueText[i].color = ArmourColour;
+					break;
+				case ChimneyTileTemplate.Catagory.WEAPON:
+					tileValueText[i].color = WeaponColour;
+					break;
+				case ChimneyTileTemplate.Catagory.POTION:
+					tileValueText[i].color = PotionColour;
+					break;
+				case ChimneyTileTemplate.Catagory.SKIPTOOL:
+					tileValueText[i].color = SkipToolColour;
+					break;
+				case ChimneyTileTemplate.Catagory.ENEMY:
+					tileValueText[i].color = EnemyColour;
+					break;
+				case ChimneyTileTemplate.Catagory.BOMB:
+					tileValueText[i].color = BombColour;
+					break;
+				case ChimneyTileTemplate.Catagory.MONEY:
+					tileValueText[i].color = MoneyColour;
+					break;
+				case ChimneyTileTemplate.Catagory.EMPTY:
+					tileValueText[i].color = BombColour;
+					break;
+				default:
+					break;
+			}
+
+			// Give the tiles tags
+			if (chimneyTileTemplate[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ENEMY)
+			{
+				tileObjects[i].gameObject.tag = "EnemyTile";
+			}
+			else
+			{
+				tileObjects[i].gameObject.tag = "StorableTile";
+			}
 		}
+
 		// Sets the selected tile to be the first tile generated
 		tileObjects[0].GetComponent<ChimneyTile>().Selected = true;
 		currentlySelectedTile = tileObjects[0];
@@ -109,20 +165,25 @@ public class TileManager : MonoBehaviour {
 			{
 				chimneyTileTemplate[i].Storable = false;
 			}
+
+			// Find the boss tiles
+			if (chimneyTileTemplate[i].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS)
+			{
+				bossTypesArray[i] = chimneyTileTemplate[i];
+			}
 		}
 
-		// Give the tiles tags
-		for (int i = 0; i < tileObjects.Length; i++)
-		{
-			if (chimneyTileTemplate[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ENEMY)
-			{
-				tileObjects[i].gameObject.tag = "EnemyTile";
-			}
-			else
-			{
-				tileObjects[i].gameObject.tag = "StorableTile";
-			}
-		}
+		// For the hearth tile
+		//tileObjects[tileObjects.Length -1].GetComponent<ChimneyTile>().RandomTileTypeNum = Random.Range(0, bossTypesArray.Length);
+		//for (int i = 0; i < chimneyTileTemplate.Length; i++)
+		//{
+		//	if (bossTypesArray[tileObjects[tileObjects.Length - 1].GetComponent<ChimneyTile>().RandomTileTypeNum] == chimneyTileTemplate[i])
+		//	{
+		//		tileObjects[tileObjects.Length - 1].GetComponent<ChimneyTile>().RandomTileTypeNum = i;
+		//		return;
+		//	}
+		//}
+		//tileObjects[tileObjects.Length - 1].GetComponent<ChimneyTile>().TileValue = Random.Range(bossTypesArray[tileObjects[tileObjects.Length - 1].GetComponent<ChimneyTile>().RandomTileTypeNum].minTileValue, bossTypesArray[tileObjects[tileObjects.Length - 1].GetComponent<ChimneyTile>().RandomTileTypeNum].maxTileValue);
 	}
 	
 	void OnEndDayMenuToggle(bool active)
@@ -131,59 +192,33 @@ public class TileManager : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void Update ()
+	void Update()
 	{
-		// Generate tiles
-			if (!tilesGenerated)
-			{
-				for (int i = 0; i < tileObjects.Length; i++)
-				{
-					tileObjects[i].transform.position = new Vector3(tileObjects[i].transform.position.x, tileObjects[i].transform.position.y - tileObjects[i].transform.localScale.y * i - spaceBetweenTiles * i, tileObjects[i].transform.position.z);
-					tileValuesObject[i].transform.position = new Vector3(tileObjects[i].transform.position.x, tileObjects[i].transform.position.y - 5.5f, tileObjects[i].transform.position.z);
-					tileBackground[i].transform.position = new Vector3(tileObjects[i].transform.position.x, tileObjects[i].transform.position.y, tileObjects[i].transform.position.z);
-					tileUsedArray[i].transform.position = new Vector3(tileObjects[i].transform.position.x, tileObjects[i].transform.position.y, tileObjects[i].transform.position.z);
-			}
-				tilesGenerated = true;
-			}
+		// Change the text depending on the current card value
+		tileValueText[currentTileNumber].text = tileObjects[currentTileNumber].GetComponent<ChimneyTile>().TileValue.ToString();
+
+		// Generate hearth tile if it hasn't already done so
+		if (!hasHearthTileBeenGenerated)
+		{
+			hasHearthTileBeenGenerated = true;
+
+			// Setup the hearth tile
+			tileObjects[tileObjects.Length - 1].transform.position = new Vector3(tileObjects[tileObjects.Length - 1].transform.position.x, chimneySidesGenerator.ChimneyHearth.transform.position.y, tileObjects[tileObjects.Length - 1].transform.position.z);
+			tileBackground[tileObjects.Length - 1].transform.position = new Vector3(tileObjects[tileObjects.Length - 1].transform.position.x, chimneySidesGenerator.ChimneyHearth.transform.position.y, tileObjects[tileObjects.Length - 1].transform.position.z);
+			tileUsedArray[tileObjects.Length - 1].transform.position = new Vector3(tileObjects[tileObjects.Length - 1].transform.position.x, chimneySidesGenerator.ChimneyHearth.transform.position.y, tileObjects[tileObjects.Length - 1].transform.position.z);
+			tileValuesObject[tileObjects.Length - 1].transform.position = new Vector3(tileObjects[tileObjects.Length - 1].transform.position.x, chimneySidesGenerator.ChimneyHearth.transform.position.y, tileObjects[tileObjects.Length - 1].transform.position.z);
+		}
+
+		// Move the text with it's tile
+			tileValuesObject[currentTileNumber].transform.position = new Vector3(tileObjects[currentTileNumber].transform.position.x, tileObjects[currentTileNumber].transform.position.y - 5.5f, tileObjects[currentTileNumber].transform.position.z);
+			tileBackground[currentTileNumber].transform.position = new Vector3(tileObjects[currentTileNumber].transform.position.x, tileObjects[currentTileNumber].transform.position.y, tileObjects[currentTileNumber].transform.position.z);
 
 		// Cycle through all the tiles
 		for (int i = 0; i < tileObjects.Length; i++)
 		{
-			// Change the text depending on the current card value
-				tileValueText[i].text = tileObjects[i].GetComponent<ChimneyTile>().TileValue.ToString();
-				currentTileCatagory = chimneyTileTemplate[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory;
-				switch (currentTileCatagory)
-				{
-					case ChimneyTileTemplate.Catagory.ARMOUR:
-						tileValueText[i].color = ArmourColour;
-						break;
-					case ChimneyTileTemplate.Catagory.WEAPON:
-						tileValueText[i].color = WeaponColour;
-						break;
-					case ChimneyTileTemplate.Catagory.POTION:
-						tileValueText[i].color = PotionColour;
-						break;
-					case ChimneyTileTemplate.Catagory.SKIPTOOL:
-						tileValueText[i].color = SkipToolColour;
-						break;
-					case ChimneyTileTemplate.Catagory.ENEMY:
-						tileValueText[i].color = EnemyColour;
-						break;
-					case ChimneyTileTemplate.Catagory.BOMB:
-						tileValueText[i].color = BombColour;
-						break;
-					case ChimneyTileTemplate.Catagory.MONEY:
-						tileValueText[i].color = MoneyColour;
-						break;
-					case ChimneyTileTemplate.Catagory.EMPTY:
-						tileValueText[i].color = BombColour;
-						break;
-					default:
-						break;
-				}
 
 			// Check if the text should be showing or not
-				if (tileObjects[i].GetComponent<SpriteRenderer>().sprite == tileBackSprite)
+			if (tileObjects[i].GetComponent<SpriteRenderer>().sprite == tileBackSprite)
 				{
 					tileValueText[i].gameObject.SetActive(false);
 				}
@@ -192,41 +227,34 @@ public class TileManager : MonoBehaviour {
 					tileValueText[i].gameObject.SetActive(true);
 				}
 
-			// Move the text with it's tile
-			tileValuesObject[i].transform.position = new Vector3(tileObjects[i].transform.position.x, tileObjects[i].transform.position.y - 5.5f, tileObjects[i].transform.position.z);
-			tileBackground[i].transform.position = new Vector3(tileObjects[i].transform.position.x, tileObjects[i].transform.position.y, tileObjects[i].transform.position.z);
-
 			// Find the selected tile
-			if (tileObjects[i].GetComponent<ChimneyTile>().Selected)
-			{
-				tileSelected = true;
-				currentlySelectedTile = tileObjects[i];
-				currentTileNumber = i;
-			}
+				if (tileObjects[i].GetComponent<ChimneyTile>().Selected)
+				{
+					tileSelected = true;
+					currentlySelectedTile = tileObjects[i];
+					currentTileNumber = i;
+				}
 
 			// If the tile has been used put a transparent black cover over it
-			if (tileObjects[i].GetComponent<ChimneyTile>().TileUsed)
-			{
-				tileUsedArray[i].SetActive(true);
-			}
+				if (tileObjects[i].GetComponent<ChimneyTile>().TileUsed)
+				{
+					tileUsedArray[i].SetActive(true);
+				}
 		}
 
 		// Find what the current text value is
 			currentTileValueText = tileValueText[currentTileNumber];
 
-		// Make the tile glow appear on the selected tile
-			tileGlow.transform.position = new Vector3(currentlySelectedTile.transform.position.x, currentlySelectedTile.transform.position.y, currentlySelectedTile.transform.position.z);
-
 		// Make the tile glow render only when a tile is selected
 			if (tileSelected)
 			{
 				tileGlow.GetComponent<SpriteRenderer>().enabled = true;
-				scrollControl.ScrollRect.enabled = false;
+				// Make the tile glow appear on the selected tile
+				tileGlow.transform.position = new Vector3(currentlySelectedTile.transform.position.x, currentlySelectedTile.transform.position.y, currentlySelectedTile.transform.position.z);
 			}
 			else
 			{
 				tileGlow.GetComponent<SpriteRenderer>().enabled = false;
-				scrollControl.ScrollRect.enabled = true;
 			}
 
 			if (!currentlySelectedTile.GetComponent<ChimneyTile>().Selected)
