@@ -7,6 +7,9 @@ public class ChimneySidesGenerator : MonoBehaviour {
 	public float spaceBetweenChimneySides;
 
 	[SerializeField]
+	RectTransform canvasRect;
+
+	[SerializeField]
 	RectTransform panelTransform;
 	[SerializeField]
 	TileManager tileManager;
@@ -33,11 +36,12 @@ public class ChimneySidesGenerator : MonoBehaviour {
 		{
 			sides[i] = Instantiate(Resources.Load("Prefabs/Chimney_Sides", typeof(GameObject)), transform) as GameObject;
 			sides[i].transform.SetParent(gameObject.transform);
-			sides[i].transform.position = firstSidePos + new Vector3(0, - i * sides[i].transform.localScale.y, 0);
+			float scale = i * sides[i].transform.localScale.y;
+			sides[i].transform.localPosition = sides[0].transform.localPosition + new Vector3(0, -scale, 0);
 
 			chimneyBackgroundTiles[i] = Instantiate(Resources.Load("Prefabs/Chimney_Background", typeof(GameObject)), transform) as GameObject;
 			chimneyBackgroundTiles[i].transform.parent = gameObject.transform;
-			chimneyBackgroundTiles[i].transform.position = firstSidePos + new Vector3(0, -i * sides[i].transform.localScale.y, 0);
+			chimneyBackgroundTiles[i].transform.localPosition = chimneyBackgroundTiles[0].transform.localPosition + new Vector3(0, -scale, 0);
 		}
 	}
 
@@ -51,8 +55,9 @@ public class ChimneySidesGenerator : MonoBehaviour {
 			panelTransform.offsetMin = new Vector2(panelTransform.offsetMin.x, -sides.Length * sides[0].transform.localScale.y - 25f);
 			tilesGenerated = true;
 
-			chimneyHearth.transform.position = new Vector3(chimneyHearth.transform.position.x, sides[sides.Length -1].transform.position.y - sides[sides.Length - 1].transform.localScale.y - spaceBetweenChimneySides, chimneyHearth.transform.position.z);
-			chimneyHearthBackground.transform.position = new Vector3(chimneyHearth.transform.position.x, chimneyHearth.transform.position.y, chimneyHearth.transform.position.z);
+			float scale = (sides.Length) * sides[sides.Length - 1].transform.localScale.y;
+			chimneyHearth.transform.localPosition = sides[0].transform.localPosition + new Vector3(0, -scale, 90);
+			chimneyHearthBackground.transform.localPosition = sides[0].transform.localPosition + new Vector3(0, -scale, 90);
 		}
 	}
 }
