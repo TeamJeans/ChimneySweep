@@ -235,7 +235,7 @@ public class TileManager : MonoBehaviour {
 					tileValueText[i].gameObject.SetActive(true);
 				}
 
-			// Find the selected tile
+			    //Find the selected tile
 				if (tileObjects[i].GetComponent<ChimneyTile>().Selected)
 				{
 					tileSelected = true;
@@ -243,17 +243,18 @@ public class TileManager : MonoBehaviour {
 					currentTileNumber = i;
 				}
 
-			// If the tile has been used put a transparent black cover over it
+			    //If the tile has been used put a transparent black cover over it
 				if (tileObjects[i].GetComponent<ChimneyTile>().TileUsed)
 				{
 					tileUsedArray[i].SetActive(true);
 				}
 		}
 
-		// Find what the current text value is
+		    // Find what the current text value is
 			currentTileValueText = tileValueText[currentTileNumber];
 
-		// Make the tile glow render only when a tile is selected
+            
+		    // Make the tile glow render only when a tile is selected
 			if (tileSelected)
 			{
 				tileGlow.GetComponent<SpriteRenderer>().enabled = true;
@@ -271,7 +272,7 @@ public class TileManager : MonoBehaviour {
 			}
 
 
-		// If the user has dragged left or right, drag the tile in that direction
+		    // If the user has dragged left or right, drag the tile in that direction
 			if (swipeControls.SwipeLeft || swipeControls.SwipeRight && !endDayMenuEnabled)
 			{
 				if (currentlySelectedTile.GetComponent<ChimneyTile>().MouseOver)
@@ -280,14 +281,14 @@ public class TileManager : MonoBehaviour {
 				}
 			}
 
-		// If the player lets go of the tile it will go back to it's original position
+		    // If the player lets go of the tile it will go back to it's original position
 			if (!Input.GetMouseButton(0))
 			{
 				currentlySelectedTile.transform.position = new Vector3(0, currentlySelectedTile.transform.position.y, currentlySelectedTile.transform.position.z);
 				tileDragMode = false;
 			}
 
-		// Makes the tile follow the cursor when in drag mode
+		    // Makes the tile follow the cursor when in drag mode
 			if (tileDragMode && !endDayMenuEnabled)
 			{
 				mousePosition = Input.mousePosition;
@@ -302,10 +303,18 @@ public class TileManager : MonoBehaviour {
 		currentlySelectedTile.transform.position = new Vector3(0, currentlySelectedTile.transform.position.y, currentlySelectedTile.transform.position.z);
 		// Drag mode is disabled so the next tile doesn't automatically get dragged
 		tileDragMode = false;
-		// Change the selected tile to be the next in the queue
-		tileObjects[currentTileNumber].GetComponent<ChimneyTile>().Selected = false;
-		tileObjects[currentTileNumber].GetComponent<ChimneyTile>().TileUsed = true;
-		tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().Selected = true;
+
+        // Change the selected tile to be the next in the queue unless its the last tile
+        if (currentTileNumber < tileObjects.Length - 1) //the -1 is because the length was 1 longer than the chimney reached, not sure why but this fixes it
+        {
+            tileObjects[currentTileNumber].GetComponent<ChimneyTile>().Selected = false;
+            tileObjects[currentTileNumber].GetComponent<ChimneyTile>().TileUsed = true;
+            tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().Selected = true;
+        }
+        else
+        {
+            endDayMenuEnabled = true;
+        }
 
 		// Put the tile used sprite under the current tile
 		tileUsed.transform.position = new Vector3(tileObjects[currentTileNumber + 1].transform.position.x, tileObjects[currentTileNumber + 1].transform.position.y, tileObjects[currentTileNumber + 1].transform.position.z);
@@ -317,6 +326,7 @@ public class TileManager : MonoBehaviour {
 		currentlySelectedTile.transform.position = new Vector3(0, currentlySelectedTile.transform.position.y, currentlySelectedTile.transform.position.z);
 		// Drag mode is disabled so the next tile doesn't automatically get dragged
 		tileDragMode = false;
+
 		// Change the selected tile to be the next in the queue
 		tileObjects[currentTileNumber].GetComponent<ChimneyTile>().Selected = false;
 		for (int i = 0; i < noOfTilesToSkip; i++)
