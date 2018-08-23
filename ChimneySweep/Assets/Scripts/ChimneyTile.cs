@@ -34,16 +34,12 @@ public class ChimneyTile : MonoBehaviour
 
 	void OnMouseOver()
 	{
-		// Check if the user has their finger on the current tile, if so dont allow scroll up and down
+		// Check if the user has tapped
 		if (Input.GetMouseButtonDown(0) && tileManager.CurrentlySelectedTile == gameObject)
 		{
 			selected = true;
 		}
-        if (Input.GetMouseButtonUp(0) && tileManager.CurrentlySelectedTile == gameObject)
-        {
-            selected = false;
-        }
-        if (!mouseOver)
+		if (!mouseOver)
 		{
 			mouseOver = true;
 		}
@@ -55,7 +51,7 @@ public class ChimneyTile : MonoBehaviour
 		{
 			selected = false;
 		}
-        
+
 
 		// Set the tile to have the information it needs
 		if (selected)
