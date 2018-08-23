@@ -13,9 +13,6 @@ public class ChimneySidesGenerator : MonoBehaviour {
 	RectTransform panelTransform;
 	[SerializeField]
 	TileManager tileManager;
-	[SerializeField]
-	Vector3 firstSidePos;
-	Vector3 sidesScale = new Vector3(12.5f, 12.5f, 0);
 
 	[SerializeField]
 	GameObject chimneyHearth;

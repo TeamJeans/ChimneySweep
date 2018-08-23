@@ -101,7 +101,7 @@ public class TileManager : MonoBehaviour {
 			tileValuesObject[i] = Instantiate(Resources.Load("Prefabs/TileValuesObject", typeof(GameObject)), transform) as GameObject;
 			tileValuesObject[i].transform.SetParent(tileValuesCanvas.transform);
 			tileValueText[i] = Instantiate(Resources.Load("Prefabs/TileValueText", typeof(Text))) as Text;
-			tileValueText[i].gameObject.transform.SetParent(tileValuesCanvas.transform);
+			tileValueText[i].gameObject.transform.SetParent(tileValuesObject[i].transform);
 			tileValueText[i].transform.localScale = tileTextScale.transform.localScale;
 
 			tileBackground[i] = Instantiate(Resources.Load("Prefabs/Tile_Background", typeof(GameObject)), transform) as GameObject;
@@ -113,10 +113,9 @@ public class TileManager : MonoBehaviour {
 			// Setup the positions for the tiles and their values
 			float scale = i * tileObjects[i].transform.localScale.y + i * spaceBetweenTiles;
 			tileObjects[i].transform.localPosition = gameObject.transform.localPosition + new Vector3(0,-scale,0);
-			tileValuesObject[i].transform.localPosition = gameObject.transform.localPosition + new Vector3(0, -scale, 0);
+			tileValuesObject[i].transform.localPosition = gameObject.transform.localPosition + new Vector3(-2.5f, -scale + 7.5f, 0);
 			tileBackground[i].transform.localPosition = gameObject.transform.localPosition + new Vector3(0, -scale, 0);
 			tileUsedArray[i].transform.localPosition = gameObject.transform.localPosition + new Vector3(0, -scale, 0);
-			tileValueText[i].transform.localPosition = gameObject.transform.position + new Vector3(-2.5f, -scale + 16f, 0);
 
 			// Change the text depending on the current card value
 			tileValueText[i].text = tileObjects[i].GetComponent<ChimneyTile>().TileValue.ToString();
@@ -218,7 +217,7 @@ public class TileManager : MonoBehaviour {
 		}
 
 		// Move the text with it's tile
-			//tileValuesObject[currentTileNumber].transform.position = new Vector3(tileObjects[currentTileNumber].transform.position.x, tileObjects[currentTileNumber].transform.position.y - 5.5f, tileObjects[currentTileNumber].transform.position.z);
+			tileValuesObject[currentTileNumber].transform.localPosition = new Vector3(tileObjects[currentTileNumber].transform.localPosition.x - 2.5f, tileObjects[currentTileNumber].transform.localPosition.y + 7.5f, tileObjects[currentTileNumber].transform.position.z);
 			tileBackground[currentTileNumber].transform.position = new Vector3(tileObjects[currentTileNumber].transform.position.x, tileObjects[currentTileNumber].transform.position.y, tileObjects[currentTileNumber].transform.position.z);
 
 		// Cycle through all the tiles

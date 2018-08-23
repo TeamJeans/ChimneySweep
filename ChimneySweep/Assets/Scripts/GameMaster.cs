@@ -26,6 +26,9 @@ public class GameMaster : MonoBehaviour {
 	GameObject endDayMenu;
 
 	[SerializeField]
+	GameObject gameOverMenu;
+
+	[SerializeField]
 	CameraControl cameraControl;
 
 	[SerializeField]
@@ -110,6 +113,13 @@ public class GameMaster : MonoBehaviour {
 
 		// Deal with armour ui
 		UpdateArmourUI();
+
+		// Activate gameovermenu if hit points are at 0
+		if (currentHitPoints <= 0 && gameOverMenu.activeSelf != true)
+		{
+			gameOverMenu.SetActive(!gameOverMenu.activeSelf);
+			onToggleEndDayMenu.Invoke(gameOverMenu.activeSelf);
+		}
 	}
 
 	public void ToggleEndDayMenu()
@@ -121,6 +131,16 @@ public class GameMaster : MonoBehaviour {
 	public void ChangeSceneToDayOverStats()
 	{
 		SceneManager.LoadScene("DayOverStatsScene");
+	}
+
+	public void ChangeSceneToCalendar()
+	{
+		SceneManager.LoadScene("CalendarScene");
+	}
+
+	public void ChangeSceneToMainMenu()
+	{
+		SceneManager.LoadScene("MainMenuScene");
 	}
 
 	void LeftSwipingHandler()
@@ -151,7 +171,9 @@ public class GameMaster : MonoBehaviour {
 			tileSwipeLeft.CollisionWithEnemyTile = false;
 			if (Input.GetMouseButtonUp(0))
 			{
-				if (tileManager.tileObjects[tileManager.CurrentTileNumber + 1] != null)
+				Debug.Log("Current TileNumber: " + tileManager.CurrentTileNumber);
+				Debug.Log("No of Tiles: " + tileManager.tileObjects.Length);
+				if (tileManager.CurrentTileNumber + 1 != tileManager.tileObjects.Length)
 				{
 					// If the inventory is not full and this item is storable, add it to the next empty slot in the inventory
 					if (inventory.IsThereSpace() && tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].Storable)
@@ -199,6 +221,52 @@ public class GameMaster : MonoBehaviour {
 
 					// Change where the camera goes to when the next tile is selected
 					cameraControl.SetDesiredCamPos();
+				}
+				else
+				{
+					// If the inventory is not full and this item is storable, add it to the next empty slot in the inventory
+					if (inventory.IsThereSpace() && tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].Storable)
+					{
+						inventory.AddItem(tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum], tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue, tileManager.currentTileValueText.color);
+					}
+					else if (tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ARMOUR || (tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.POTION && (tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.CLAIRVOYANCE || tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.HEALTH)))
+					{
+						inventory.UseItem(true);
+					}
+					else if (tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory != ChimneyTileTemplate.Catagory.ENEMY)
+					{
+						currentMoney += tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+					}
+
+					// If the tile was an enemy find out it's value and take it away from the player's hit points
+					if (tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ENEMY)
+					{
+						if (currentArmourHitPoints <= 0)
+						{
+							currentHitPoints -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+						}
+						else if (currentArmourHitPoints >= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue)
+						{
+							currentArmourHitPoints -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+						}
+						else if (currentArmourHitPoints < tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue)
+						{
+							int remainder = tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue - currentArmourHitPoints;
+							currentArmourHitPoints -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+							currentHitPoints -= remainder;
+						}
+
+						if (currentHitPoints < 0)
+						{
+							currentHitPoints = 0;
+						}
+
+						currentMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+
+					}
+
+					// Move to the day stats scene
+					ChangeSceneToDayOverStats();
 				}
 				tileSwipeRight.CollisionWithTile = false;
 			}
