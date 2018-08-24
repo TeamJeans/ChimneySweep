@@ -39,7 +39,6 @@ public class TileManager : MonoBehaviour {
 	public GameObject[] tilePrefabs;
 	public GameObject[] tileObjects;
 	public ChimneyTileTemplate[] chimneyTileTemplate;
-	public ChimneyTileTemplate[] bossTypesArray;
 
 	[SerializeField]
 	GameObject tileValuesCanvas;
@@ -71,6 +70,8 @@ public class TileManager : MonoBehaviour {
 	ChimneySidesGenerator chimneySidesGenerator;
 	[SerializeField]
 	GameObject tileTextScale;
+	int bossCounter = 0;
+	int[] bossTileTemplates;
 
 	// Use this for initialization
 	void Start ()
@@ -83,6 +84,36 @@ public class TileManager : MonoBehaviour {
 		tileValuesObject = new GameObject[tileObjects.Length];
 		tileBackground = new GameObject[tileObjects.Length];
 		tileUsedArray = new GameObject[tileObjects.Length];
+
+		for (int i = 0; i < chimneyTileTemplate.Length; i++)
+		{
+			// Check how many bosses are avaliable
+			if (chimneyTileTemplate[i].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS)
+			{
+				bossCounter++;
+			}
+
+			// Make it so that you can't put enemies or money items in the inventory
+			if (chimneyTileTemplate[i].catagory == ChimneyTileTemplate.Catagory.ENEMY || chimneyTileTemplate[i].catagory == ChimneyTileTemplate.Catagory.MONEY)
+			{
+				chimneyTileTemplate[i].Storable = false;
+			}
+		}
+		bossTileTemplates = new int[bossCounter];   // Give the boss array the right size
+
+		for (int i = 0; i < bossTileTemplates.Length; i++)
+			bossTileTemplates[i] = 0;
+
+		int counter = 0;
+		for (int i = 0; i < chimneyTileTemplate.Length; i++)
+		{
+			if (chimneyTileTemplate[i].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS)
+			{
+				bossTileTemplates[counter] = i;
+				counter++;
+			}
+		}
+
 		for (int i = 0; i < tilePrefabs.Length; i++)
 		{
 			// Creates the array of blank tiles
@@ -91,11 +122,23 @@ public class TileManager : MonoBehaviour {
 			tileObjects[i].transform.localScale = tile.transform.localScale;
 
 			// Randomly changes the type of each tile generated
-			do
+			if (i == tileObjects.Length -1)
 			{
-				tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = Random.Range(2, chimneyTileTemplate.Length);
+				int tempIndex = Random.Range(0, bossTileTemplates.Length);
+				Debug.Log("Index: " + tempIndex);
+				Debug.Log("Tile Random No: " + bossTileTemplates[tempIndex]);
+				tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = bossTileTemplates[tempIndex];
+				Debug.Log("Tile Random No: " + bossTileTemplates[tempIndex]);
 			}
-			while (chimneyTileTemplate[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS);
+			else
+			{
+				do
+				{
+					tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = Random.Range(2, chimneyTileTemplate.Length);
+				}
+				while (chimneyTileTemplate[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS);
+			}
+
 
 			// Find the min and max values for the current chimney tile template and generate a random number and set it to be the tiles value
 			tileObjects[i].GetComponent<ChimneyTile>().TileValue = Random.Range(chimneyTileTemplate[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].minTileValue, chimneyTileTemplate[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].maxTileValue);
@@ -166,33 +209,6 @@ public class TileManager : MonoBehaviour {
 		// Sets the selected tile to be the first tile generated
 		tileObjects[0].GetComponent<ChimneyTile>().Selected = true;
 		currentlySelectedTile = tileObjects[0];
-
-		for (int i = 0; i < chimneyTileTemplate.Length; i++)
-		{
-			// Make it so that you can't put enemies or money items in the inventory
-			if (chimneyTileTemplate[i].catagory == ChimneyTileTemplate.Catagory.ENEMY || chimneyTileTemplate[i].catagory == ChimneyTileTemplate.Catagory.MONEY)
-			{
-				chimneyTileTemplate[i].Storable = false;
-			}
-
-			// Find the boss tiles
-			if (chimneyTileTemplate[i].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS)
-			{
-				bossTypesArray[i] = chimneyTileTemplate[i];
-			}
-		}
-
-		// For the hearth tile
-		//tileObjects[tileObjects.Length -1].GetComponent<ChimneyTile>().RandomTileTypeNum = Random.Range(0, bossTypesArray.Length);
-		//for (int i = 0; i < chimneyTileTemplate.Length; i++)
-		//{
-		//	if (bossTypesArray[tileObjects[tileObjects.Length - 1].GetComponent<ChimneyTile>().RandomTileTypeNum] == chimneyTileTemplate[i])
-		//	{
-		//		tileObjects[tileObjects.Length - 1].GetComponent<ChimneyTile>().RandomTileTypeNum = i;
-		//		return;
-		//	}
-		//}
-		//tileObjects[tileObjects.Length - 1].GetComponent<ChimneyTile>().TileValue = Random.Range(bossTypesArray[tileObjects[tileObjects.Length - 1].GetComponent<ChimneyTile>().RandomTileTypeNum].minTileValue, bossTypesArray[tileObjects[tileObjects.Length - 1].GetComponent<ChimneyTile>().RandomTileTypeNum].maxTileValue);
 	}
 	
 	void OnEndDayMenuToggle(bool active)
@@ -215,7 +231,7 @@ public class TileManager : MonoBehaviour {
 			tileObjects[tileObjects.Length - 1].transform.position = new Vector3(tileObjects[tileObjects.Length - 1].transform.position.x, chimneySidesGenerator.ChimneyHearth.transform.position.y, tileObjects[tileObjects.Length - 1].transform.position.z);
 			tileBackground[tileObjects.Length - 1].transform.position = new Vector3(tileObjects[tileObjects.Length - 1].transform.position.x, chimneySidesGenerator.ChimneyHearth.transform.position.y, tileObjects[tileObjects.Length - 1].transform.position.z);
 			tileUsedArray[tileObjects.Length - 1].transform.position = new Vector3(tileObjects[tileObjects.Length - 1].transform.position.x, chimneySidesGenerator.ChimneyHearth.transform.position.y, tileObjects[tileObjects.Length - 1].transform.position.z);
-			tileValuesObject[tileObjects.Length - 1].transform.position = new Vector3(tileObjects[tileObjects.Length - 1].transform.position.x, chimneySidesGenerator.ChimneyHearth.transform.position.y, tileObjects[tileObjects.Length - 1].transform.position.z);
+			tileValuesObject[tileObjects.Length - 1].transform.localPosition = new Vector3(tileObjects[tileObjects.Length - 1].transform.localPosition.x - 2.5f, tileObjects[tileObjects.Length - 1].transform.localPosition.y + 7.5f, tileObjects[tileObjects.Length - 1].transform.position.z);
 		}
 
 		// Move the text with it's tile

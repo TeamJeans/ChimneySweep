@@ -5077,6 +5077,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b8cb10e218f5877459a3d7c83a525490, type: 2}
   - {fileID: 11400000, guid: f32402a81bfe6904cb15a66489899f01, type: 2}
   - {fileID: 11400000, guid: dc4ae6ef68b97084ab9311f4b040f89e, type: 2}
+  - {fileID: 11400000, guid: 72b3cc4e42dece84ca4e9a68174335ab, type: 2}
+  - {fileID: 11400000, guid: 098a54c4724ed6b45a07c9fd83d084c7, type: 2}
+  - {fileID: 11400000, guid: 9d3be53314aed1f42be2c49ae3d845d8, type: 2}
   bossTypesArray: []
   tileValuesCanvas: {fileID: 802464466}
   tileValueText: []
