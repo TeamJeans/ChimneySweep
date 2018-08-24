@@ -535,6 +535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spaceBetweenChimneySides: 0
+  chimneyTextureChanger: {fileID: 883161625}
   canvasRect: {fileID: 883161624}
   panelTransform: {fileID: 1700119695}
   tileManager: {fileID: 1661293670}
@@ -2865,6 +2866,7 @@ GameObject:
   - component: {fileID: 883161623}
   - component: {fileID: 883161622}
   - component: {fileID: 883161621}
+  - component: {fileID: 883161625}
   m_Layer: 0
   m_Name: Chimney
   m_TagString: Untagged
@@ -2948,6 +2950,39 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &883161625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 883161620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5687aacb57d2ae3418748d433142b36e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chimneySidesGenerator: {fileID: 138664150}
+  chimneyTop: {fileID: 1687612278}
+  chimneyTopBackground: {fileID: 336346661}
+  chimneySides: []
+  chimneyBackground: []
+  chimneyHearth: {fileID: 323830493}
+  chimneyHearthBackground: {fileID: 450049738}
+  orangeChimney:
+  - {fileID: 21300000, guid: 3c8b6b113f92d434ab3b4740c6b53db8, type: 3}
+  - {fileID: 21300000, guid: 70688e71224ca0847aff1cd55dfdf433, type: 3}
+  - {fileID: 21300000, guid: cb7c04d05bbf91f4a8b9117548a084a2, type: 3}
+  - {fileID: 21300000, guid: 251a3a3e893952e4ebeda0e6e48303aa, type: 3}
+  - {fileID: 21300000, guid: afcac3926e0705841adb77417eac67b3, type: 3}
+  - {fileID: 21300000, guid: 152e0fa1ff25cca4299685074fed1a67, type: 3}
+  greyChimney:
+  - {fileID: 21300000, guid: 1c9f90db10f6a6b4da7a3bfdd0fd2bec, type: 3}
+  - {fileID: 21300000, guid: 62310b17e0b00934c8203e024b93c8b8, type: 3}
+  - {fileID: 21300000, guid: ec4b207d548d0034384b9e9241eb6213, type: 3}
+  - {fileID: 21300000, guid: 26905816de8166046b49447005ecf234, type: 3}
+  - {fileID: 21300000, guid: 84dc994e18d36de45ab64212d5d6ae26, type: 3}
+  - {fileID: 21300000, guid: 4e42dda804f49554992ac82d4a68cd8c, type: 3}
+  currentChimneyType: 0
 --- !u!1 &920406518
 GameObject:
   m_ObjectHideFlags: 0
@@ -4032,7 +4067,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 6df33f5234dee8f4a853eb321def1d23, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7dfb64b5391cd14428a6446e924145dd, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -5080,7 +5115,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 72b3cc4e42dece84ca4e9a68174335ab, type: 2}
   - {fileID: 11400000, guid: 098a54c4724ed6b45a07c9fd83d084c7, type: 2}
   - {fileID: 11400000, guid: 9d3be53314aed1f42be2c49ae3d845d8, type: 2}
-  bossTypesArray: []
   tileValuesCanvas: {fileID: 802464466}
   tileValueText: []
   currentTileValueText: {fileID: 0}
