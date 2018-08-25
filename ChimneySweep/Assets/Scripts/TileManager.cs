@@ -125,10 +125,10 @@ public class TileManager : MonoBehaviour {
 			if (i == tileObjects.Length -1)
 			{
 				int tempIndex = Random.Range(0, bossTileTemplates.Length);
-				Debug.Log("Index: " + tempIndex);
-				Debug.Log("Tile Random No: " + bossTileTemplates[tempIndex]);
+				//Debug.Log("Index: " + tempIndex);
+				//Debug.Log("Tile Random No: " + bossTileTemplates[tempIndex]);
 				tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = bossTileTemplates[tempIndex];
-				Debug.Log("Tile Random No: " + bossTileTemplates[tempIndex]);
+				//Debug.Log("Tile Random No: " + bossTileTemplates[tempIndex]);
 			}
 			else
 			{

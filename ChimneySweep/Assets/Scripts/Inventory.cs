@@ -17,6 +17,7 @@ public class Inventory : MonoBehaviour {
 	[SerializeField]
 	GameObject slotGlow;
 	GameObject selectedSlot;
+	public GameObject SelectedSlot { get { return selectedSlot; } }
 
 	[SerializeField]
 	ChimneyTileTemplate emptyTileTemplate;
@@ -125,7 +126,7 @@ public class Inventory : MonoBehaviour {
 		while(noEmptySlots && i < tileStored.Length - 1)
 		{
 			i++;
-			Debug.Log(i);
+			//Debug.Log(i);
 			if (tileStored[i].catagory == ChimneyTileTemplate.Catagory.EMPTY)
 			{
 				noEmptySlots = false;

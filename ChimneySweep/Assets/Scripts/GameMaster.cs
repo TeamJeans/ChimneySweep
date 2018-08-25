@@ -11,33 +11,38 @@ public class GameMaster : MonoBehaviour {
 	public CanvasScaler chimneyCanvasScaler;
 
 	[SerializeField]
-	InventoryItemTrigger inventoryItemTrigger;
-
-	[SerializeField]
 	TileSwipeLeft tileSwipeLeft;
-
 	[SerializeField]
 	TileSwipeRight tileSwipeRight;
-
 	[SerializeField]
 	TileManager tileManager;
-
 	[SerializeField]
 	GameObject endDayMenu;
-
 	[SerializeField]
 	GameObject gameOverMenu;
-
 	[SerializeField]
 	CameraControl cameraControl;
-
 	[SerializeField]
 	Inventory inventory;
-
+	[SerializeField]
+	InventoryItemTrigger inventoryItemTrigger;
 	[SerializeField]
 	RemoveInventoryItem removeInventoryItem;
 
 	// UI related variables
+	[SerializeField]
+	GameObject sellTextBackground;
+	[SerializeField]
+	GameObject leaveChimneyTextBackground;
+	[SerializeField]
+	GameObject sellRightTextBackground;
+	[SerializeField]
+	GameObject useTextBackground;
+	[SerializeField]
+	GameObject fightTextBackground;
+	[SerializeField]
+	GameObject storeTextBackground;
+
 	[SerializeField]
 	int maxHitPoints = 10;
 	[SerializeField]
@@ -61,9 +66,15 @@ public class GameMaster : MonoBehaviour {
 	[SerializeField]
 	Text moneyText;
 	[SerializeField]
+	Color moneyTextChangeColour;
+	[SerializeField]
 	Text hitPointsText;
 	[SerializeField]
+	Color hitPointsTextChangeColour;
+	[SerializeField]
 	Text armourHitPointsText;
+	[SerializeField]
+	Color armourHitPointsTextChangeColour;
 
 	[SerializeField]
 	GameObject armourIconObject;
@@ -160,7 +171,40 @@ public class GameMaster : MonoBehaviour {
 				cameraControl.SetDesiredCamPos();
 
 				tileSwipeLeft.CollisionWithStorableTile = false;
+
+				// Change UI elements back
+				moneyText.text = "\u00A3" + currentMoney;
+				sellTextBackground.SetActive(false);
+				moneyText.color = Color.white;
 			}
+			else
+			{
+				// Display what the new values will be
+				// Display what swiping it to the left does (Sell or Leave chimney)
+				sellTextBackground.SetActive(true);
+				// Change money text to gold colour and change the value to how much it would be if the player did this
+				int tempMoney = currentMoney + tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+				moneyText.text = "\u00A3" + tempMoney;
+				moneyText.color = moneyTextChangeColour;
+			}
+		}
+		else if (tileSwipeLeft.CollisionWithEnemyTile && !endDayMenu.activeSelf)
+		{
+			if (Input.GetMouseButtonUp(0))
+			{
+				// Change UI elements back
+				leaveChimneyTextBackground.SetActive(false);
+			}
+			// Display what the new values will be
+			// Display what swiping it to the left does (Sell or Leave chimney)
+			leaveChimneyTextBackground.SetActive(true);
+		}
+		else if (!tileSwipeLeft.CollisionWithStorableTile && !tileSwipeLeft.CollisionWithEnemyTile && !tileSwipeRight.CollisionWithTile && !inventoryItemTrigger.UseItem)
+		{
+			// Change UI elements back
+			sellTextBackground.SetActive(false);
+			leaveChimneyTextBackground.SetActive(false);
+			moneyText.color = Color.white;
 		}
 	}
 
@@ -270,6 +314,124 @@ public class GameMaster : MonoBehaviour {
 				}
 				tileSwipeRight.CollisionWithTile = false;
 			}
+			else
+			{
+				if (inventory.IsThereSpace() && tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].Storable)
+				{
+					// Show the "Store" text on the ui
+					storeTextBackground.SetActive(true);
+				}
+				else if (!inventory.IsThereSpace() && tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].Storable && tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory != ChimneyTileTemplate.Catagory.ARMOUR && (tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory != ChimneyTileTemplate.Catagory.POTION))
+				{
+					sellRightTextBackground.SetActive(true);
+					moneyText.color = moneyTextChangeColour;
+					int tempMoney = currentMoney + tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+					moneyText.text = "\u00A3" + tempMoney;
+				}
+				else
+				{
+					switch (tileManager.chimneyTileTemplate[tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory)
+					{
+						case ChimneyTileTemplate.Catagory.ENEMY:
+							fightTextBackground.SetActive(true);
+							if (!hasArmour)
+							{
+								int tempHitPoints = currentHitPoints - tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+								if (tempHitPoints < 0)
+									tempHitPoints = 0;
+								hitPointsText.color = hitPointsTextChangeColour;
+								hitPointsText.text = tempHitPoints + "/" + maxHitPoints;
+							}
+							else
+							{
+								if (tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue <= currentArmourHitPoints)
+								{
+									int tempArmourHitPoints = currentArmourHitPoints - tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+									if (tempArmourHitPoints < 0)
+										tempArmourHitPoints = 0;
+									armourHitPointsText.color = armourHitPointsTextChangeColour;
+									armourHitPointsText.text = tempArmourHitPoints + "/" + maxArmourHitPoints;
+								}
+								else
+								{
+									int tempArmourHitPoints = currentArmourHitPoints - tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+									if (tempArmourHitPoints < 0)
+										tempArmourHitPoints = 0;
+									armourHitPointsText.color = armourHitPointsTextChangeColour;
+									armourHitPointsText.text = tempArmourHitPoints + "/" + maxArmourHitPoints;
+									int tempHitPoints = currentHitPoints - (tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue - currentArmourHitPoints);
+									if (tempHitPoints < 0)
+										tempHitPoints = 0;
+									hitPointsText.color = hitPointsTextChangeColour;
+									hitPointsText.text = tempHitPoints + "/" + maxHitPoints;
+								}
+							}
+							break;
+						case ChimneyTileTemplate.Catagory.POTION:
+							useTextBackground.SetActive(true);
+							if (tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.HEALTH)
+							{
+								int tempHitPoints = currentHitPoints + tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+								if (tempHitPoints > maxHitPoints)
+									tempHitPoints = maxHitPoints;
+								hitPointsText.color = hitPointsTextChangeColour;
+								hitPointsText.text = tempHitPoints + "/" + maxHitPoints;
+							}
+							else if (tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.CLAIRVOYANCE)
+							{
+								// If we want to do anything for clairvoyance potions, add the code here
+							}
+							else
+							{
+								useTextBackground.SetActive(false);
+								sellRightTextBackground.SetActive(true);
+								moneyText.color = moneyTextChangeColour;
+								int tempMoney = currentMoney + tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+								moneyText.text = "\u00A3" + tempMoney;
+							}
+						break;
+						case ChimneyTileTemplate.Catagory.ARMOUR:
+							useTextBackground.SetActive(true);
+							armourIconObject.SetActive(true);
+							armourHitPointsText.gameObject.SetActive(true);
+							if (tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue >= maxArmourHitPoints)
+							{
+								armourHitPointsText.color = armourHitPointsTextChangeColour;
+								armourHitPointsText.text = tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue + "/" + tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+							}
+							else
+							{
+								int tempArmourHitPoints = currentArmourHitPoints + tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+								if (tempArmourHitPoints > maxArmourHitPoints)
+									tempArmourHitPoints = maxArmourHitPoints;
+								armourHitPointsText.color = armourHitPointsTextChangeColour;
+								armourHitPointsText.text = tempArmourHitPoints + "/" + maxArmourHitPoints;
+							}
+							break;
+						default:
+						break;
+					}
+				}
+			}
+		}
+		else if (!tileSwipeRight.CollisionWithTile && !tileSwipeLeft.CollisionWithStorableTile && !inventoryItemTrigger.UseItem)
+		{
+			// Change UI elements back
+			sellRightTextBackground.SetActive(false);
+			useTextBackground.SetActive(false);
+			fightTextBackground.SetActive(false);
+			storeTextBackground.SetActive(false);
+			moneyText.color = Color.white;
+			moneyText.text = "\u00A3" + currentMoney;
+			hitPointsText.color = Color.white;
+			hitPointsText.text = currentHitPoints + "/" + maxHitPoints;
+			armourHitPointsText.color = Color.white;
+			armourHitPointsText.text = currentArmourHitPoints + "/" + maxArmourHitPoints;
+			if (!hasArmour)
+			{
+				armourIconObject.SetActive(false);
+				armourHitPointsText.gameObject.SetActive(false);
+			}
 		}
 	}
 
@@ -298,19 +460,86 @@ public class GameMaster : MonoBehaviour {
 		}
 		else
 		{
-			armourIconObject.SetActive(false);
-			armourHitPointsText.gameObject.SetActive(false);
+			if (!tileSwipeRight.CollisionWithTile && !inventoryItemTrigger.UseItem)
+			{
+				armourIconObject.SetActive(false);
+				armourHitPointsText.gameObject.SetActive(false);
+			}
 		}
 
 		if (currentArmourHitPoints <= 0)
 		{
 			hasArmour = false;
 			currentArmourHitPoints = 0;
+			maxArmourHitPoints = 0;
 		}
 
 		if (currentArmourHitPoints > maxArmourHitPoints)
 		{
 			currentArmourHitPoints = maxArmourHitPoints;
+		}
+
+		// Show stats changing when using items from inentory
+		if (inventoryItemTrigger.UseItem)
+		{
+			switch (inventory.TileStored[inventory.SelectedSlot.GetComponent<InventorySlot>().SlotNum].catagory)
+			{
+				case ChimneyTileTemplate.Catagory.POTION:
+					if (inventory.TileStored[inventory.SelectedSlot.GetComponent<InventorySlot>().SlotNum].potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.HEALTH)
+					{
+						int tempHitPoints = currentHitPoints + inventory.SelectedSlot.GetComponent<InventorySlot>().ItemValue;
+						if (tempHitPoints > maxHitPoints)
+							tempHitPoints = maxHitPoints;
+						hitPointsText.color = hitPointsTextChangeColour;
+						hitPointsText.text = tempHitPoints + "/" + maxHitPoints;
+					}
+					else if (inventory.TileStored[inventory.SelectedSlot.GetComponent<InventorySlot>().SlotNum].potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.CLAIRVOYANCE)
+					{
+						// If we want to do anything for clairvoyance potions, add the code here
+					}
+					else if (inventory.TileStored[inventory.SelectedSlot.GetComponent<InventorySlot>().SlotNum].potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.POISON)
+					{
+						// If the current tile is an enemy, show how the enemy's value is affected
+					}
+					break;
+				case ChimneyTileTemplate.Catagory.ARMOUR:
+					armourIconObject.SetActive(true);
+					armourHitPointsText.gameObject.SetActive(true);
+					if (inventory.SelectedSlot.GetComponent<InventorySlot>().ItemValue >= maxArmourHitPoints)
+					{
+						armourHitPointsText.color = armourHitPointsTextChangeColour;
+						armourHitPointsText.text = inventory.SelectedSlot.GetComponent<InventorySlot>().ItemValue + "/" + inventory.SelectedSlot.GetComponent<InventorySlot>().ItemValue;
+					}
+					else
+					{
+						int tempArmourHitPoints = currentArmourHitPoints + inventory.SelectedSlot.GetComponent<InventorySlot>().ItemValue;
+						if (tempArmourHitPoints > maxArmourHitPoints)
+							tempArmourHitPoints = maxArmourHitPoints;
+						armourHitPointsText.color = armourHitPointsTextChangeColour;
+						armourHitPointsText.text = tempArmourHitPoints + "/" + maxArmourHitPoints;
+					}
+					break;
+				case ChimneyTileTemplate.Catagory.WEAPON:
+
+					break;
+				default:
+					break;
+			}
+		}
+		else if (!tileSwipeRight.CollisionWithTile && !tileSwipeLeft.CollisionWithStorableTile && !inventoryItemTrigger.UseItem)
+		{
+			// Change UI elements back
+			moneyText.color = Color.white;
+			moneyText.text = "\u00A3" + currentMoney;
+			hitPointsText.color = Color.white;
+			hitPointsText.text = currentHitPoints + "/" + maxHitPoints;
+			armourHitPointsText.color = Color.white;
+			armourHitPointsText.text = currentArmourHitPoints + "/" + maxArmourHitPoints;
+			if (!hasArmour)
+			{
+				armourIconObject.SetActive(false);
+				armourHitPointsText.gameObject.SetActive(false);
+			}
 		}
 	}
 }
