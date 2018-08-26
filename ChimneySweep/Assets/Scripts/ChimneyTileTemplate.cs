@@ -10,6 +10,11 @@ public class ChimneyTileTemplate : ScriptableObject
 	public Sprite artwork;
 	public int minTileValue;
 	public int maxTileValue;
+	string catagoryName;
+	public string CatagoryName { get { return catagoryName; } set { catagoryName = value; } }
+	string catagoryDescrition;
+	public string CatagoryDescription { get { return catagoryDescrition; } set { catagoryDescrition = value; } }
+
 	public enum Catagory
 	{
 		ARMOUR,

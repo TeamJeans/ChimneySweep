@@ -15,7 +15,7 @@ public class ScrollControl : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if(tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().MouseOver || tileManager.TileDragMode)
+		if(tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().MouseOver || tileManager.TileDragMode)
 		{
 			scrollRect.enabled = false;
 		}

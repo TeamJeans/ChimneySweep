@@ -29,8 +29,8 @@ public class ChimneySidesGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start()
 	{
-		sides = new GameObject[(tileManager.tilePrefabs.Length - 2) / 2]; //makes sure they match length
-		chimneyBackgroundTiles = new GameObject[(tileManager.tilePrefabs.Length - 2) / 2];
+		sides = new GameObject[(tileManager.TilePrefabs.Length - 2) / 2]; //makes sure they match length
+		chimneyBackgroundTiles = new GameObject[(tileManager.TilePrefabs.Length - 2) / 2];
 		for (int i = 0; i < sides.Length; i++)
 		{
 			sides[i] = Instantiate(Resources.Load("Prefabs/Chimney_Sides", typeof(GameObject)), transform) as GameObject;

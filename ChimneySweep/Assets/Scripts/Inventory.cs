@@ -188,7 +188,7 @@ public class Inventory : MonoBehaviour {
 		else
 		{
 			// Change what the item does depending on it's catagory.
-			switch (tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory)
+			switch (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory)
 			{
 				case ChimneyTileTemplate.Catagory.ARMOUR:
 					UsingArmourItem(chimneyTile);
@@ -272,11 +272,11 @@ public class Inventory : MonoBehaviour {
 		Debug.Log("Weapon used");
 
 		// Take the items value away from the current tiles value
-		tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue -= slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
+		tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue -= slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue;
 
-		if (tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue < 0)
+		if (tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue < 0)
 		{
-			tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue = 0;
+			tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue = 0;
 		}
 	}
 
@@ -301,7 +301,7 @@ public class Inventory : MonoBehaviour {
 		}
 		else
 		{
-			switch (tileManager.chimneyTileTemplate[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].potionSubCatagory)
+			switch (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].potionSubCatagory)
 			{
 				case ChimneyTileTemplate.PotionsSubCatagory.HEALTH:
 					UsingHealthPotionItem(chimneyTile);
@@ -331,7 +331,7 @@ public class Inventory : MonoBehaviour {
 		Debug.Log("Bomb used");
 
 		// Half the value of the current tile
-		tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue /= 2;
+		tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue /= 2;
 	}
 
 	void UsingHealthPotionItem(bool chimneyTile)
@@ -352,7 +352,7 @@ public class Inventory : MonoBehaviour {
 		Debug.Log("PoisonPotion used");
 
 		// Instantly kills an enemy
-		tileManager.tileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue = 0;
+		tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue = 0;
 	}
 
 	void UsingClairvoyancePotionItem(bool chimneyTile)

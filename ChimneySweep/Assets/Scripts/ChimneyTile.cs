@@ -7,6 +7,8 @@ public class ChimneyTile : MonoBehaviour
 {
 	TileManager tileManager;
 
+	//string ca
+
 	[SerializeField]
 	bool selected = false;
 	public bool Selected { get { return selected; } set { selected = value; } }
@@ -57,7 +59,7 @@ public class ChimneyTile : MonoBehaviour
 		if (selected)
 		{
 			// Display the artwork for the selected tile
-			GetComponent<SpriteRenderer>().sprite = tileManager.chimneyTileTemplate[randomTileTypeNum].artwork;
+			GetComponent<SpriteRenderer>().sprite = tileManager.ChimneyTileTemplateArray[randomTileTypeNum].artwork;
 		}
 		else if (tileUsed)
 		{
@@ -67,7 +69,7 @@ public class ChimneyTile : MonoBehaviour
 		else if (!tileManager.CurrentlySelectedTile == gameObject)
 		{
 			// Set the art work to show the back of the tile
-			GetComponent<SpriteRenderer>().sprite = tileManager.chimneyTileTemplate[0].artwork;
+			GetComponent<SpriteRenderer>().sprite = tileManager.ChimneyTileTemplateArray[0].artwork;
 		}
 	}
 

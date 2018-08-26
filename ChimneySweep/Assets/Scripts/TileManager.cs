@@ -12,19 +12,51 @@ public class TileManager : MonoBehaviour {
 
 	// Colours for tile values
 	[SerializeField]
-	Color ArmourColour;
+	Color armourColour;
 	[SerializeField]
-	Color WeaponColour;
+	string armourDescription;
 	[SerializeField]
-	Color PotionColour;
+	Color weaponColour;
 	[SerializeField]
-	Color SkipToolColour;
+	string weaponDescription;
 	[SerializeField]
-	Color EnemyColour;
+	Color potionColour;
 	[SerializeField]
-	Color BombColour;
+	string potionDescription;
 	[SerializeField]
-	Color MoneyColour;
+	Color skipToolColour;
+	[SerializeField]
+	string skipToolDescription;
+	[SerializeField]
+	Color enemyColour;
+	[SerializeField]
+	string enemyDescription;
+	[SerializeField]
+	Color bombColour;
+	[SerializeField]
+	string bombDescription;
+	[SerializeField]
+	Color moneyColour;
+	[SerializeField]
+	string moneyDescription;
+
+	// Variables for holding down tiles
+	bool showTileDescription = false;
+	public bool ShowTileDescription { get { return showTileDescription; } set { showTileDescription = value; } }
+	float elapsedTimeForTileBeingHeldDown = 0f;
+	float lengthOfTimeTileNeedsToBeHeldDown = 2f;
+	[SerializeField]
+	GameObject tileDescriptionMenu;
+	[SerializeField]
+	Text tileNameText;
+	[SerializeField]
+	Text tileTypeText;
+	[SerializeField]
+	Text tileDescriptionText;
+	[SerializeField]
+	Text tileTypeDescriptionText;
+	[SerializeField]
+	Image currentTileSprite;
 
 	Vector2 mousePosition;
 	ChimneyTileTemplate.Catagory currentTileCatagory;
@@ -36,19 +68,24 @@ public class TileManager : MonoBehaviour {
 	bool tileSelected = false;
 	bool hasHearthTileBeenGenerated = false;
 
-	public GameObject[] tilePrefabs;
-	public GameObject[] tileObjects;
-	public ChimneyTileTemplate[] chimneyTileTemplate;
+	[SerializeField]
+	GameObject[] tilePrefabs;
+	public GameObject[] TilePrefabs { get { return tilePrefabs; } }
+	GameObject[] tileObjects;
+	public GameObject[] TileObjects { get { return tileObjects; } set { tileObjects = value; } } 
+	[SerializeField]
+	ChimneyTileTemplate[] chimneyTileTemplateArray;
+	public ChimneyTileTemplate[] ChimneyTileTemplateArray { get { return chimneyTileTemplateArray; } }
 
 	[SerializeField]
 	GameObject tileValuesCanvas;
-	public Text[] tileValueText;
-	public Text currentTileValueText;
+	Text[] tileValueText;
+	public Text[] TileValueText { get { return tileValueText; } }
+	Text currentTileValueText;
+	public Text CurrentTileValueText { get { return currentTileValueText; } }
 
-	[SerializeField]
 	GameObject currentlySelectedTile;
 	public GameObject CurrentlySelectedTile { get { return currentlySelectedTile; } set { currentlySelectedTile = value; } }
-	[SerializeField]
 	int currentTileNumber = 0;
 	public int CurrentTileNumber{ get { return currentTileNumber; } }
 
@@ -56,13 +93,10 @@ public class TileManager : MonoBehaviour {
 	GameObject tileGlow;
 	[SerializeField]
 	GameObject tile;
-	[SerializeField]
 	GameObject[] tileBackground;
-	[SerializeField]
 	GameObject[] tileUsedArray;
 	[SerializeField]
 	GameObject tileUsed;
-	[SerializeField]
 	GameObject[] tileValuesObject;
 	[SerializeField]
 	Sprite tileBackSprite;
@@ -85,18 +119,18 @@ public class TileManager : MonoBehaviour {
 		tileBackground = new GameObject[tileObjects.Length];
 		tileUsedArray = new GameObject[tileObjects.Length];
 
-		for (int i = 0; i < chimneyTileTemplate.Length; i++)
+		for (int i = 0; i < chimneyTileTemplateArray.Length; i++)
 		{
 			// Check how many bosses are avaliable
-			if (chimneyTileTemplate[i].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS)
+			if (chimneyTileTemplateArray[i].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS)
 			{
 				bossCounter++;
 			}
 
 			// Make it so that you can't put enemies or money items in the inventory
-			if (chimneyTileTemplate[i].catagory == ChimneyTileTemplate.Catagory.ENEMY || chimneyTileTemplate[i].catagory == ChimneyTileTemplate.Catagory.MONEY)
+			if (chimneyTileTemplateArray[i].catagory == ChimneyTileTemplate.Catagory.ENEMY || chimneyTileTemplateArray[i].catagory == ChimneyTileTemplate.Catagory.MONEY)
 			{
-				chimneyTileTemplate[i].Storable = false;
+				chimneyTileTemplateArray[i].Storable = false;
 			}
 		}
 		bossTileTemplates = new int[bossCounter];   // Give the boss array the right size
@@ -105,9 +139,9 @@ public class TileManager : MonoBehaviour {
 			bossTileTemplates[i] = 0;
 
 		int counter = 0;
-		for (int i = 0; i < chimneyTileTemplate.Length; i++)
+		for (int i = 0; i < chimneyTileTemplateArray.Length; i++)
 		{
-			if (chimneyTileTemplate[i].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS)
+			if (chimneyTileTemplateArray[i].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS)
 			{
 				bossTileTemplates[counter] = i;
 				counter++;
@@ -134,14 +168,14 @@ public class TileManager : MonoBehaviour {
 			{
 				do
 				{
-					tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = Random.Range(2, chimneyTileTemplate.Length);
+					tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = Random.Range(2, chimneyTileTemplateArray.Length);
 				}
-				while (chimneyTileTemplate[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS);
+				while (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS);
 			}
 
 
 			// Find the min and max values for the current chimney tile template and generate a random number and set it to be the tiles value
-			tileObjects[i].GetComponent<ChimneyTile>().TileValue = Random.Range(chimneyTileTemplate[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].minTileValue, chimneyTileTemplate[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].maxTileValue);
+			tileObjects[i].GetComponent<ChimneyTile>().TileValue = Random.Range(chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].minTileValue, chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].maxTileValue);
 
 			tileValuesObject[i] = Instantiate(Resources.Load("Prefabs/TileValuesObject", typeof(GameObject)), transform) as GameObject;
 			tileValuesObject[i].transform.SetParent(tileValuesCanvas.transform);
@@ -164,39 +198,39 @@ public class TileManager : MonoBehaviour {
 
 			// Change the text depending on the current card value
 			tileValueText[i].text = tileObjects[i].GetComponent<ChimneyTile>().TileValue.ToString();
-			currentTileCatagory = chimneyTileTemplate[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory;
+			currentTileCatagory = chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory;
 			switch (currentTileCatagory)
 			{
 				case ChimneyTileTemplate.Catagory.ARMOUR:
-					tileValueText[i].color = ArmourColour;
+					tileValueText[i].color = armourColour;
 					break;
 				case ChimneyTileTemplate.Catagory.WEAPON:
-					tileValueText[i].color = WeaponColour;
+					tileValueText[i].color = weaponColour;
 					break;
 				case ChimneyTileTemplate.Catagory.POTION:
-					tileValueText[i].color = PotionColour;
+					tileValueText[i].color = potionColour;
 					break;
 				case ChimneyTileTemplate.Catagory.SKIPTOOL:
-					tileValueText[i].color = SkipToolColour;
+					tileValueText[i].color = skipToolColour;
 					break;
 				case ChimneyTileTemplate.Catagory.ENEMY:
-					tileValueText[i].color = EnemyColour;
+					tileValueText[i].color = enemyColour;
 					break;
 				case ChimneyTileTemplate.Catagory.BOMB:
-					tileValueText[i].color = BombColour;
+					tileValueText[i].color = bombColour;
 					break;
 				case ChimneyTileTemplate.Catagory.MONEY:
-					tileValueText[i].color = MoneyColour;
+					tileValueText[i].color = moneyColour;
 					break;
 				case ChimneyTileTemplate.Catagory.EMPTY:
-					tileValueText[i].color = BombColour;
+					tileValueText[i].color = bombColour;
 					break;
 				default:
 					break;
 			}
 
 			// Give the tiles tags
-			if (chimneyTileTemplate[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ENEMY)
+			if (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ENEMY)
 			{
 				tileObjects[i].gameObject.tag = "EnemyTile";
 			}
@@ -311,6 +345,28 @@ public class TileManager : MonoBehaviour {
 				mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 				currentlySelectedTile.transform.position = new Vector3(mousePosition.x, currentlySelectedTile.transform.position.y, currentlySelectedTile.transform.position.z);
 			}
+
+		// Deal with showing the tile descriptions
+			if (currentlySelectedTile.transform.position.x == 0 && currentlySelectedTile.GetComponent<ChimneyTile>().MouseOver && Input.GetMouseButton(0))
+			{
+				elapsedTimeForTileBeingHeldDown += Time.deltaTime;
+				if (elapsedTimeForTileBeingHeldDown >= lengthOfTimeTileNeedsToBeHeldDown)
+				{
+					showTileDescription = true;
+					elapsedTimeForTileBeingHeldDown = 0f;
+				}
+			}
+			else
+			{
+				elapsedTimeForTileBeingHeldDown = 0f;
+			}
+
+			if (showTileDescription)
+			{
+				showTileDescription = false;
+				SetUpCurrentTileDescription();
+				tileDescriptionMenu.SetActive(true);
+			}
 	}
 
 	public void MoveToNextTile()
@@ -350,7 +406,48 @@ public class TileManager : MonoBehaviour {
 	{
 		for (int i = 0; i < noOfTilesToShow; i++)
 		{
-			tileObjects[currentTileNumber + i + 1].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplate[tileObjects[currentTileNumber + i + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+			tileObjects[currentTileNumber + i + 1].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + i + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
 		}
+	}
+
+	public void SetUpCurrentTileDescription()
+	{
+		tileDescriptionMenu.SetActive(true);
+
+		switch (chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory)
+		{
+			case ChimneyTileTemplate.Catagory.ARMOUR:
+				//tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryName = "Armour";
+				break;
+			case ChimneyTileTemplate.Catagory.WEAPON:
+				chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].CatagoryName = "Weapon";
+				break;
+			case ChimneyTileTemplate.Catagory.POTION:
+				chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].CatagoryName = "Potion";
+				break;
+			case ChimneyTileTemplate.Catagory.SKIPTOOL:
+				chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].CatagoryName = "Skip Tool";
+				break;
+			case ChimneyTileTemplate.Catagory.ENEMY:
+				chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].CatagoryName = "Enemy";
+				break;
+			case ChimneyTileTemplate.Catagory.BOMB:
+				chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].CatagoryName = "Bomb";
+				break;
+			case ChimneyTileTemplate.Catagory.MONEY:
+				chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].CatagoryName = "Money";
+				break;
+			case ChimneyTileTemplate.Catagory.EMPTY:
+				chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].CatagoryName = "Empty";
+				break;
+			default:
+				break;
+		}
+
+		tileNameText.text = chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].tileName;
+		tileTypeText.text = "Type: " + chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].CatagoryName;
+		tileDescriptionText.text = chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].description;
+		tileTypeDescriptionText.text = chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].CatagoryDescription;
+		currentTileSprite.sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
 	}
 }
