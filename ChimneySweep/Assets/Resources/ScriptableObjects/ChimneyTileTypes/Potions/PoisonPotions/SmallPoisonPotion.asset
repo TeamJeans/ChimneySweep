@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Name: SmallPoisonPotion
   m_EditorClassIdentifier: 
   tileName: SmallPoisonPotion
-  description: 
+  description: Tile Description
   artwork: {fileID: 21300000, guid: d6a480ac8c8b23748af6716d1de7a36f, type: 3}
   minTileValue: 5
   maxTileValue: 8
   catagory: 2
   potionSubCatagory: 1
+  enemySubCatagory: 0

@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Name: PaddedSuit
   m_EditorClassIdentifier: 
   tileName: PaddedSuit
-  description: 
+  description: It's a suit that's padded...
   artwork: {fileID: 21300000, guid: 647dda653f6018f40a301213d5adfda1, type: 3}
   minTileValue: 5
   maxTileValue: 8
   catagory: 0
+  potionSubCatagory: 0
+  enemySubCatagory: 0

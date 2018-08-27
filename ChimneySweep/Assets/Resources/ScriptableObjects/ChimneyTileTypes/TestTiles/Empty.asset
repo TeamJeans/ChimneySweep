@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Name: Empty
   m_EditorClassIdentifier: 
   tileName: Empty
-  description: 
+  description: Tile Description
   artwork: {fileID: 0}
   minTileValue: 5
   maxTileValue: 8
   catagory: 7
+  potionSubCatagory: 0
+  enemySubCatagory: 0

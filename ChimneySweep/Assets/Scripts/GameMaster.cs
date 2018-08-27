@@ -21,6 +21,8 @@ public class GameMaster : MonoBehaviour {
 	[SerializeField]
 	GameObject gameOverMenu;
 	[SerializeField]
+	GameObject tileDescriptionMenu;
+	[SerializeField]
 	CameraControl cameraControl;
 	[SerializeField]
 	Inventory inventory;
@@ -77,7 +79,18 @@ public class GameMaster : MonoBehaviour {
 	Color armourHitPointsTextChangeColour;
 
 	[SerializeField]
+	GameObject heartIconObject;
+	[SerializeField]
+	Sprite heartNormalSprite;
+	[SerializeField]
+	Sprite heartBrokenSprite;
+
+	[SerializeField]
 	GameObject armourIconObject;
+	[SerializeField]
+	Sprite armourNormalSprite;
+	[SerializeField]
+	Sprite armourBrokenSprite;
 
 	void Awake()
 	{
@@ -131,6 +144,12 @@ public class GameMaster : MonoBehaviour {
 			gameOverMenu.SetActive(!gameOverMenu.activeSelf);
 			onToggleEndDayMenu.Invoke(gameOverMenu.activeSelf);
 		}
+
+		//// Make it so that you can't move the chimney about when the description screen is active
+		//if (tileDescriptionMenu.activeSelf == true)
+		//{
+		//	onToggleEndDayMenu.Invoke(tileDescriptionMenu.activeSelf);
+		//}
 
 		// Passing the current money value between scenes
 		StaticValueHolder.CurrentMoney = currentMoney;
@@ -337,6 +356,9 @@ public class GameMaster : MonoBehaviour {
 					{
 						case ChimneyTileTemplate.Catagory.ENEMY:
 							fightTextBackground.SetActive(true);
+							moneyText.color = moneyTextChangeColour;
+							int tempEnemyMoney = currentMoney + tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+							moneyText.text = "\u00A3" + tempEnemyMoney;
 							if (!hasArmour)
 							{
 								int tempHitPoints = currentHitPoints - tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
@@ -344,6 +366,7 @@ public class GameMaster : MonoBehaviour {
 									tempHitPoints = 0;
 								hitPointsText.color = hitPointsTextChangeColour;
 								hitPointsText.text = tempHitPoints + "/" + maxHitPoints;
+								heartIconObject.GetComponent<Image>().sprite = heartBrokenSprite;
 							}
 							else
 							{
@@ -354,6 +377,7 @@ public class GameMaster : MonoBehaviour {
 										tempArmourHitPoints = 0;
 									armourHitPointsText.color = armourHitPointsTextChangeColour;
 									armourHitPointsText.text = tempArmourHitPoints + "/" + maxArmourHitPoints;
+									armourIconObject.GetComponent<Image>().sprite = armourBrokenSprite;
 								}
 								else
 								{
@@ -367,6 +391,8 @@ public class GameMaster : MonoBehaviour {
 										tempHitPoints = 0;
 									hitPointsText.color = hitPointsTextChangeColour;
 									hitPointsText.text = tempHitPoints + "/" + maxHitPoints;
+									heartIconObject.GetComponent<Image>().sprite = heartBrokenSprite;
+									armourIconObject.GetComponent<Image>().sprite = armourBrokenSprite;
 								}
 							}
 							break;
@@ -377,7 +403,7 @@ public class GameMaster : MonoBehaviour {
 								int tempHitPoints = currentHitPoints + tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
 								if (tempHitPoints > maxHitPoints)
 									tempHitPoints = maxHitPoints;
-								hitPointsText.color = hitPointsTextChangeColour;
+								hitPointsText.color = Color.green;
 								hitPointsText.text = tempHitPoints + "/" + maxHitPoints;
 							}
 							else if (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.CLAIRVOYANCE)
@@ -420,6 +446,8 @@ public class GameMaster : MonoBehaviour {
 		else if (!tileSwipeRight.CollisionWithTile && !tileSwipeLeft.CollisionWithStorableTile && !inventoryItemTrigger.UseItem)
 		{
 			// Change UI elements back
+			heartIconObject.GetComponent<Image>().sprite = heartNormalSprite;
+			armourIconObject.GetComponent<Image>().sprite = armourNormalSprite;
 			sellRightTextBackground.SetActive(false);
 			useTextBackground.SetActive(false);
 			fightTextBackground.SetActive(false);
@@ -493,7 +521,7 @@ public class GameMaster : MonoBehaviour {
 						int tempHitPoints = currentHitPoints + inventory.SelectedSlot.GetComponent<InventorySlot>().ItemValue;
 						if (tempHitPoints > maxHitPoints)
 							tempHitPoints = maxHitPoints;
-						hitPointsText.color = hitPointsTextChangeColour;
+						hitPointsText.color = Color.green;
 						hitPointsText.text = tempHitPoints + "/" + maxHitPoints;
 					}
 					else if (inventory.TileStored[inventory.SelectedSlot.GetComponent<InventorySlot>().SlotNum].potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.CLAIRVOYANCE)

@@ -7,7 +7,10 @@ public class ChimneyTile : MonoBehaviour
 {
 	TileManager tileManager;
 
-	//string ca
+	string catagoryName;
+	public string CatagoryName { get { return catagoryName; } set { catagoryName = value; } }
+	string catagoryDescrition;
+	public string CatagoryDescription { get { return catagoryDescrition; } set { catagoryDescrition = value; } }
 
 	[SerializeField]
 	bool selected = false;

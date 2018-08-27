@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Name: LargeClairvoyancePotion
   m_EditorClassIdentifier: 
   tileName: LargeClairvoyancePotion
-  description: 
+  description: Tile Description
   artwork: {fileID: 21300000, guid: 720172f775e8ac8439c872b462383f12, type: 3}
   minTileValue: 5
   maxTileValue: 8
   catagory: 2
   potionSubCatagory: 2
+  enemySubCatagory: 0
