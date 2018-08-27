@@ -131,6 +131,9 @@ public class GameMaster : MonoBehaviour {
 			gameOverMenu.SetActive(!gameOverMenu.activeSelf);
 			onToggleEndDayMenu.Invoke(gameOverMenu.activeSelf);
 		}
+
+		// Passing the current money value between scenes
+		StaticValueHolder.CurrentMoney = currentMoney;
 	}
 
 	public void ToggleEndDayMenu()

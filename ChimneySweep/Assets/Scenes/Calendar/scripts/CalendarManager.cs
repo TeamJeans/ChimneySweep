@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;  // Required when Using UI elements.
 using UnityEngine;

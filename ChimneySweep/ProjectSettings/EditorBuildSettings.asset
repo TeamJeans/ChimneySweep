@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenuScene.unity
     guid: 63a7d9b53221b3c4d89e6f907cbddb3d
   - enabled: 1
-    path: Assets/Scenes/CalendarScene.unity
+    path: Assets/Scenes/Calendar/CalendarScene.unity
     guid: d8b988f807d7de943aec65258d6fb719
   - enabled: 1
     path: Assets/Scenes/ChimneyScene.unity
@@ -17,3 +17,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DayOverStatsScene.unity
     guid: ecdb66ddeb9fedb48943a2b958b931ad
+  m_configObjects: {}
