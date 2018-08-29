@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;  // Required when Using UI elements.
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CalendarManager : MonoBehaviour {
 
@@ -18,6 +19,7 @@ public class CalendarManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        Debug.Log("Place first is: " + calDays[0].transform.position.x);
         //add one to the days
         StaticValueHolder.CurrentDay += 1;
         //reset the check for rentPaid at start of scene
@@ -33,9 +35,11 @@ public class CalendarManager : MonoBehaviour {
 
 
         //cross off completed days
-        for (int i = 0;i < day; i++)
+        for (int i = 0; i < day; i++)
         {
-            Instantiate(dayDone, new Vector3(calDays[i].transform.position.x, calDays[i].transform.position.y,0),Quaternion.identity);
+            Debug.Log("Place is: " + calDays[i].transform.position);
+            GameObject myDayDone = Instantiate(dayDone, calDays[i].transform.position, calDays[i].transform.rotation);
+            myDayDone.transform.SetParent(GameObject.Find("/UIOverlay/Calendar").transform);
         }
     }
 
@@ -43,10 +47,10 @@ public class CalendarManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        Debug.Log("day: " + day);
-        Debug.Log("Moeny: " + StaticValueHolder.CurrentMoney);
+       // Debug.Log("day: " + day);
+       // Debug.Log("Money: " + StaticValueHolder.CurrentMoney);
         //if time to pay rent
-        if ((float)day / 7 == dayCheck && !rentPaid)
+        if ((float)day / 7 == dayCheck && !rentPaid && day > 0)
         {
             //if enough money to pay
             if (StaticValueHolder.CurrentMoney >= rent)
@@ -54,13 +58,17 @@ public class CalendarManager : MonoBehaviour {
                 StaticValueHolder.CurrentMoney -= rent;
                 rentPaid = true;
                 Debug.Log("Rent Paid: " + rentPaid);
-                
             }
             //if not enough to pay rent
             else
             {
                 Debug.Log("GameOver");
             }
+        }
+        //add day for testing, remove later --------------------------------------------------------
+        if(Input.GetKeyUp("a"))
+        {
+            SceneManager.LoadScene(1);
         }
     }
 }
