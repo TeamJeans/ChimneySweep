@@ -9,6 +9,7 @@ public class CalendarManager : MonoBehaviour {
     public GameObject[] calDays;
     public GameObject dayDone;
 
+    public int currentMoney;
     public Text rentDue;
     public int day;
     public float dayCheck;
@@ -19,9 +20,13 @@ public class CalendarManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        Debug.Log("Place first is: " + calDays[0].transform.position.x);
-        //add one to the days
+        currentMoney = StaticValueHolder.CurrentMoney;
+
+        StaticValueHolder.TotalMoney += currentMoney;
+
+        //add one to the days-------------------------------------------------------give it to aidans script
         StaticValueHolder.CurrentDay += 1;
+
         //reset the check for rentPaid at start of scene
         rentPaid = false;
         //gets the current day and checks if end of week
@@ -33,11 +38,9 @@ public class CalendarManager : MonoBehaviour {
         //show how much rent is due at end of week
         rentDue.text = "Rent Due: " + "\u00A3" + rent;
 
-
         //cross off completed days
         for (int i = 0; i < day; i++)
         {
-            Debug.Log("Place is: " + calDays[i].transform.position);
             GameObject myDayDone = Instantiate(dayDone, calDays[i].transform.position, calDays[i].transform.rotation);
             myDayDone.transform.SetParent(GameObject.Find("/UIOverlay/Calendar").transform);
         }
