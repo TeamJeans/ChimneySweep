@@ -774,6 +774,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 439f2d027b9a2094b959d41a224cdc56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  calDays:
+  - {fileID: 615948880}
+  - {fileID: 1888765264}
+  - {fileID: 1842427469}
+  - {fileID: 1175349663}
+  - {fileID: 659453709}
+  - {fileID: 1546141201}
+  - {fileID: 1718203296}
+  - {fileID: 1692663766}
+  - {fileID: 1621838342}
+  - {fileID: 1928660920}
+  - {fileID: 1476397058}
+  - {fileID: 266429856}
+  - {fileID: 762836847}
+  - {fileID: 742441969}
+  - {fileID: 2007675842}
+  - {fileID: 1430953857}
+  - {fileID: 2073197330}
+  - {fileID: 1306510495}
+  - {fileID: 853672990}
+  - {fileID: 1167949180}
+  - {fileID: 382998011}
+  - {fileID: 1589983656}
+  - {fileID: 736037053}
+  - {fileID: 1117073743}
+  - {fileID: 843198609}
+  - {fileID: 1123480373}
+  - {fileID: 1563853490}
+  - {fileID: 1076236342}
+  dayDone: {fileID: 0}
   rentDue: {fileID: 79268224}
   day: 0
   dayCheck: 0

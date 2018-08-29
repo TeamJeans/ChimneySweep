@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class CalendarManager : MonoBehaviour {
 
+    public GameObject[] calDays;
+    public GameObject dayDone;
+
     public Text rentDue;
     public int day;
     public float dayCheck;
@@ -15,6 +18,8 @@ public class CalendarManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        //add one to the days
+        StaticValueHolder.CurrentDay += 1;
         //reset the check for rentPaid at start of scene
         rentPaid = false;
         //gets the current day and checks if end of week
@@ -25,12 +30,21 @@ public class CalendarManager : MonoBehaviour {
         rent = 50 + week * 50;
         //show how much rent is due at end of week
         rentDue.text = "Rent Due: " + "\u00A3" + rent;
+
+
+        //cross off completed days
+        for (int i = 0;i < day; i++)
+        {
+            Instantiate(dayDone, new Vector3(calDays[i].transform.position.x, calDays[i].transform.position.y,0),Quaternion.identity);
+        }
     }
 
 
 	// Update is called once per frame
 	void Update ()
     {
+        Debug.Log("day: " + day);
+        Debug.Log("Moeny: " + StaticValueHolder.CurrentMoney);
         //if time to pay rent
         if ((float)day / 7 == dayCheck && !rentPaid)
         {
