@@ -59,7 +59,7 @@ public class GameMaster : MonoBehaviour {
 	public int CurrentArmourHitPoints { get { return currentArmourHitPoints; } set { currentArmourHitPoints = value; } }
 
 	[SerializeField]
-	int currentMoney = 0;
+	int currentMoney = StaticValueHolder.CurrentMoney;
 
 	[SerializeField]
 	bool hasArmour = false;
