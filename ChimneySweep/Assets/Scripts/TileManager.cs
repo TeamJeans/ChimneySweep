@@ -244,6 +244,8 @@ public class TileManager : MonoBehaviour {
 		// Sets the selected tile to be the first tile generated
 		tileObjects[0].GetComponent<ChimneyTile>().Selected = true;
 		currentlySelectedTile = tileObjects[0];
+
+		LoadMyData();
 	}
 	
 	void OnEndDayMenuToggle(bool active)
@@ -459,5 +461,28 @@ public class TileManager : MonoBehaviour {
 		tileDescriptionText.text = chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].description;
 		tileTypeDescriptionText.text = tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryDescription;
 		currentTileSprite.sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+	}
+
+	public void LoadMyData()
+	{
+		//int tempArrayPosition = 0;
+
+		//for (int i = 0; i < tileObjects.Length; i++)
+		//{
+		//	if ([i]. == "fireproofshield")
+		//	{
+		//		tempArrayPosition = i;
+		//		break;
+		//	}
+		//}
+		//ImportedDataContainer tile_armour_fireproofshield = ImportData.GetContainer("tile_armour_fireproofshield");
+
+		//tileObjects[tempArrayPosition].tileName = tile_armour_fireproofshield.GetData("name").ToString();
+		////mFloats = tile_armour_fireproofshield.GetData("speed_by_level").ToFloatArray();
+		////mString = tile_armour_fireproofshield.GetData("name").ToString();
+		////mFloat = tile_armour_fireproofshield.GetData("reputation").ToFloat();
+		////mInt = tile_armour_fireproofshield.GetData("hit_points").ToInt();
+		////mStrings = tile_armour_fireproofshield.GetData("friends").ToStringArray();
+
 	}
 }

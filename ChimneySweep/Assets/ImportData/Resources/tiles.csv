@@ -1,0 +1,6 @@
+tile_armour_fireproofshield,,tile_armour_gasmask,,tile_armour_paddedsuit,,tile_bombs_dynamite,,tile_bombs_sphericalbomb,,tile_bombs_sphericalbomb,
+name,Fireproof Shield,name,Gas Mask,name,Gas Mask,name,Dynamite,name,Spherical Bomb,name,Spherical Bomb
+description,<description>,description,<description>,description,<description>,description,<description>,description,<description>,description,<description>
+min_tile_value,5,min_tile_value,5,min_tile_value,5,min_tile_value,5,min_tile_value,5,min_tile_value,5
+max_tile_value,8,max_tile_value,8,max_tile_value,8,max_tile_value,8,max_tile_value,8,max_tile_value,8
+category,Armour,category,Armour,category,Armour,category,Bomb,category,Bomb,category,Bomb
