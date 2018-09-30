@@ -10,6 +10,7 @@ public class ChimneyTileTemplate : ScriptableObject
 	public Sprite artwork;
 	public int minTileValue;
 	public int maxTileValue;
+	public float spawnPercentage = 10.0f;
 
 	public enum Catagory
 	{
