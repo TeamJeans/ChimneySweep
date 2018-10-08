@@ -22,17 +22,29 @@ public class CameraControl : MonoBehaviour {
 
 	void LateUpdate()
 	{
+		selectedTile = tileManager.CurrentlySelectedTile.GetComponent(typeof(ChimneyTile)) as ChimneyTile;
 		if (selectedTile.Selected)
 		{
 			Vector2 smoothedPos = Vector2.Lerp(transform.position, desiredPos, smoothSpeed);
 			transform.position = new Vector3(transform.position.x,smoothedPos.y, transform.position.z);
 		}
+		else
+		{
+			SetDesiredCamPos();
+		}
 	}
 
 	public void SetDesiredCamPos()
 	{
-		desiredPos = tileManager.CurrentlySelectedTile.transform.position;
-		desiredPos = new Vector2(desiredPos.x, desiredPos.y - 65);
-		selectedTile = tileManager.CurrentlySelectedTile.GetComponent(typeof(ChimneyTile)) as ChimneyTile;
+		if (tileManager.CurrentTileNumber > (tileManager.TileObjects.Length/2))
+		{
+			desiredPos.y = 2 * (tileManager.CurrentTileNumber - (tileManager.TileObjects.Length / 2)) * ((tileManager.TileObjects[0].transform.localScale.y/2) + (tileManager.SpaceBetweenTiles / 2));
+			desiredPos = new Vector2(desiredPos.x, desiredPos.y);
+		}
+		else
+		{
+			desiredPos.y = -2 * (tileManager.TileObjects.Length / 2 - tileManager.CurrentTileNumber) * ((tileManager.TileObjects[0].transform.localScale.y/2) + (tileManager.SpaceBetweenTiles / 2));
+			desiredPos = new Vector2(desiredPos.x, desiredPos.y);
+		}
 	}
 }

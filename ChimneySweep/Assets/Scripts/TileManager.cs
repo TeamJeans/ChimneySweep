@@ -5,6 +5,7 @@ public class TileManager : MonoBehaviour {
 
 	[SerializeField]
 	float spaceBetweenTiles = 100f;
+	public float SpaceBetweenTiles { get { return spaceBetweenTiles; } }
 	[SerializeField]
 	Swipe swipeControls;
 	[SerializeField]
@@ -256,25 +257,6 @@ public class TileManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update()
 	{
-		// Change the text depending on the current card value
-		tileValueText[currentTileNumber].text = tileObjects[currentTileNumber].GetComponent<ChimneyTile>().TileValue.ToString();
-
-		// Generate hearth tile if it hasn't already done so
-		if (!hasHearthTileBeenGenerated)
-		{
-			hasHearthTileBeenGenerated = true;
-
-			// Setup the hearth tile
-			tileObjects[tileObjects.Length - 1].transform.position = new Vector3(tileObjects[tileObjects.Length - 1].transform.position.x, chimneySidesGenerator.ChimneyHearth.transform.position.y, tileObjects[tileObjects.Length - 1].transform.position.z);
-			tileBackground[tileObjects.Length - 1].transform.position = new Vector3(tileObjects[tileObjects.Length - 1].transform.position.x, chimneySidesGenerator.ChimneyHearth.transform.position.y, tileObjects[tileObjects.Length - 1].transform.position.z);
-			tileUsedArray[tileObjects.Length - 1].transform.position = new Vector3(tileObjects[tileObjects.Length - 1].transform.position.x, chimneySidesGenerator.ChimneyHearth.transform.position.y, tileObjects[tileObjects.Length - 1].transform.position.z);
-			tileValuesObject[tileObjects.Length - 1].transform.localPosition = new Vector3(tileObjects[tileObjects.Length - 1].transform.localPosition.x - 2.5f, tileObjects[tileObjects.Length - 1].transform.localPosition.y + 7.5f, tileObjects[tileObjects.Length - 1].transform.position.z);
-		}
-
-		// Move the text with it's tile
-			tileValuesObject[currentTileNumber].transform.localPosition = new Vector3(tileObjects[currentTileNumber].transform.localPosition.x - 2.5f, tileObjects[currentTileNumber].transform.localPosition.y + 7.5f, tileObjects[currentTileNumber].transform.position.z);
-			tileBackground[currentTileNumber].transform.position = new Vector3(tileObjects[currentTileNumber].transform.position.x, tileObjects[currentTileNumber].transform.position.y, tileObjects[currentTileNumber].transform.position.z);
-
 		// Cycle through all the tiles
 		for (int i = 0; i < tileObjects.Length; i++)
 		{
@@ -303,6 +285,26 @@ public class TileManager : MonoBehaviour {
 					tileUsedArray[i].SetActive(true);
 				}
 		}
+
+		// Change the text depending on the current card value
+		tileValueText[currentTileNumber].text = tileObjects[currentTileNumber].GetComponent<ChimneyTile>().TileValue.ToString();
+
+		// Generate hearth tile if it hasn't already done so
+		if (!hasHearthTileBeenGenerated)
+		{
+			hasHearthTileBeenGenerated = true;
+
+			// Setup the hearth tile
+			tileObjects[tileObjects.Length - 1].transform.position = new Vector3(tileObjects[tileObjects.Length - 1].transform.position.x, chimneySidesGenerator.ChimneyHearth.transform.position.y, tileObjects[tileObjects.Length - 1].transform.position.z);
+			tileBackground[tileObjects.Length - 1].transform.position = new Vector3(tileObjects[tileObjects.Length - 1].transform.position.x, chimneySidesGenerator.ChimneyHearth.transform.position.y, tileObjects[tileObjects.Length - 1].transform.position.z);
+			tileUsedArray[tileObjects.Length - 1].transform.position = new Vector3(tileObjects[tileObjects.Length - 1].transform.position.x, chimneySidesGenerator.ChimneyHearth.transform.position.y, tileObjects[tileObjects.Length - 1].transform.position.z);
+			tileValuesObject[tileObjects.Length - 1].transform.localPosition = new Vector3(tileObjects[tileObjects.Length - 1].transform.localPosition.x - 2.5f, tileObjects[tileObjects.Length - 1].transform.localPosition.y + 7.5f, tileObjects[tileObjects.Length - 1].transform.position.z);
+		}
+
+		// Move the text with it's tile
+			tileValuesObject[currentTileNumber].transform.localPosition = new Vector3(tileObjects[currentTileNumber].transform.localPosition.x - 2.5f, tileObjects[currentTileNumber].transform.localPosition.y + 7.5f, tileObjects[currentTileNumber].transform.position.z);
+			tileBackground[currentTileNumber].transform.position = new Vector3(tileObjects[currentTileNumber].transform.position.x, tileObjects[currentTileNumber].transform.position.y, tileObjects[currentTileNumber].transform.position.z);
+
 
 		// Find what the current text value is
 			currentTileValueText = tileValueText[currentTileNumber];
@@ -381,6 +383,8 @@ public class TileManager : MonoBehaviour {
 	{
 		// Puts the tile back where it is supposed to be
 		currentlySelectedTile.transform.position = new Vector3(0, currentlySelectedTile.transform.position.y, currentlySelectedTile.transform.position.z);
+		tileBackground[currentTileNumber].transform.position = new Vector3(0, currentlySelectedTile.transform.position.y, currentlySelectedTile.transform.position.z);
+		tileValuesObject[currentTileNumber].transform.localPosition = new Vector3(- 2.5f, tileObjects[currentTileNumber].transform.localPosition.y + 7.5f, tileObjects[currentTileNumber].transform.position.z);
 		// Drag mode is disabled so the next tile doesn't automatically get dragged
 		tileDragMode = false;
 		// Change the selected tile to be the next in the queue
@@ -390,6 +394,8 @@ public class TileManager : MonoBehaviour {
 
 		// Put the tile used sprite under the current tile
 		tileUsed.transform.position = new Vector3(tileObjects[currentTileNumber + 1].transform.position.x, tileObjects[currentTileNumber + 1].transform.position.y, tileObjects[currentTileNumber + 1].transform.position.z);
+		CurrentlySelectedTile = tileObjects[currentTileNumber + 1];
+		currentTileNumber++;
 	}
 
 	public void SkipTiles(int noOfTilesToSkip)
