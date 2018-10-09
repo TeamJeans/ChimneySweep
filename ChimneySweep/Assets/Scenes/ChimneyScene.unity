@@ -6326,6 +6326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileManager: {fileID: 1661293670}
+  chimney: {fileID: 883161620}
   panelTransform: {fileID: 1700119695}
   smoothSpeed: 0.13
 --- !u!1 &1708216000

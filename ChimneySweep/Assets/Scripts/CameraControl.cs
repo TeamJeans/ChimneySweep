@@ -9,6 +9,9 @@ public class CameraControl : MonoBehaviour {
 	ChimneyTile selectedTile;
 
 	[SerializeField]
+	GameObject chimney;
+
+	[SerializeField]
 	RectTransform panelTransform;
 
 	[SerializeField]
@@ -25,8 +28,8 @@ public class CameraControl : MonoBehaviour {
 		selectedTile = tileManager.CurrentlySelectedTile.GetComponent(typeof(ChimneyTile)) as ChimneyTile;
 		if (selectedTile.Selected)
 		{
-			Vector2 smoothedPos = Vector2.Lerp(transform.position, desiredPos, smoothSpeed);
-			transform.position = new Vector3(transform.position.x,smoothedPos.y, transform.position.z);
+			Vector2 smoothedPos = Vector2.Lerp(transform.localPosition, desiredPos, smoothSpeed);
+			transform.localPosition = new Vector3(transform.localPosition.x,smoothedPos.y, transform.localPosition.z);
 		}
 		else
 		{
@@ -38,12 +41,12 @@ public class CameraControl : MonoBehaviour {
 	{
 		if (tileManager.CurrentTileNumber > (tileManager.TileObjects.Length/2))
 		{
-			desiredPos.y = 2 * (tileManager.CurrentTileNumber - (tileManager.TileObjects.Length / 2)) * ((tileManager.TileObjects[0].transform.localScale.y/2) + (tileManager.SpaceBetweenTiles / 2));
+			desiredPos.y = (tileManager.CurrentTileNumber - (tileManager.TileObjects.Length / 2)) * ((tileManager.TileObjects[0].transform.localScale.y) + (tileManager.SpaceBetweenTiles));
 			desiredPos = new Vector2(desiredPos.x, desiredPos.y);
 		}
 		else
 		{
-			desiredPos.y = -2 * (tileManager.TileObjects.Length / 2 - tileManager.CurrentTileNumber) * ((tileManager.TileObjects[0].transform.localScale.y/2) + (tileManager.SpaceBetweenTiles / 2));
+			desiredPos.y = -1 * (tileManager.TileObjects.Length / 2 - tileManager.CurrentTileNumber) * ((tileManager.TileObjects[0].transform.localScale.y) + (tileManager.SpaceBetweenTiles));
 			desiredPos = new Vector2(desiredPos.x, desiredPos.y);
 		}
 	}
