@@ -377,6 +377,12 @@ public class TileManager : MonoBehaviour {
 			{
 				tileDescriptionMenu.SetActive(false);
 			}
+
+		// Make the next tile visable
+		if (currentTileNumber != tileObjects.Length - 1)
+		{
+			tileObjects[currentTileNumber + 1].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+		}
 	}
 
 	public void MoveToNextTile()
