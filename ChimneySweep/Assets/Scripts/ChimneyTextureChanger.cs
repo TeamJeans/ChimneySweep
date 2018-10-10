@@ -33,7 +33,8 @@ public class ChimneyTextureChanger : MonoBehaviour {
 	public enum ChimneyType
 	{
 		ORANGE,
-		GREY
+		GREY,
+		NUM_OF_TYPES
 	}
 	[SerializeField]
 
@@ -54,7 +55,8 @@ public class ChimneyTextureChanger : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-		//currentChimneyType = randomTypeNo;
+		randomTypeNo = Random.Range(0, (int)ChimneyType.NUM_OF_TYPES);
+		currentChimneyType = (ChimneyType)randomTypeNo;
 		SetChimneyType(currentChimneyType);
 	}
 

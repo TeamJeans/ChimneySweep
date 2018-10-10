@@ -170,7 +170,7 @@ public class TileManager : MonoBehaviour {
 			{
 				do
 				{
-					tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = Random.Range(2, chimneyTileTemplateArray.Length);
+					tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = getRandomTileBasedOnPercentage();
 				}
 				while (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS);
 			}
@@ -496,5 +496,27 @@ public class TileManager : MonoBehaviour {
 		////mInt = tile_armour_fireproofshield.GetData("hit_points").ToInt();
 		////mStrings = tile_armour_fireproofshield.GetData("friends").ToStringArray();
 
+	}
+
+	public int getRandomTileBasedOnPercentage()
+	{
+		float itemWeight = 0;
+		for (int i = 0; i < chimneyTileTemplateArray.Length; i++)
+		{
+			itemWeight += chimneyTileTemplateArray[i].spawnPercentage;
+		}
+
+		float randomValue = Random.Range(0,itemWeight);
+
+		for (int i = 0; i < chimneyTileTemplateArray.Length; i++)
+		{
+			if (randomValue <= chimneyTileTemplateArray[i].spawnPercentage)
+			{
+				return i;
+			}
+			randomValue -= chimneyTileTemplateArray[i].spawnPercentage;
+		}
+
+		return 0;
 	}
 }

@@ -16,6 +16,7 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 0306310769e81f140a82f29cc6559b71, type: 3}
   minTileValue: 5
   maxTileValue: 7
+  spawnPercentage: 10
   catagory: 4
   potionSubCatagory: 0
   enemySubCatagory: 1
