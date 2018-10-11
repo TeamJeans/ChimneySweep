@@ -19,6 +19,8 @@ public class GameMaster : MonoBehaviour {
 	[SerializeField]
 	GameObject endDayMenu;
 	[SerializeField]
+	GameObject optionsMenu;
+	[SerializeField]
 	GameObject gameOverMenu;
 	[SerializeField]
 	GameObject tileDescriptionMenu;
@@ -159,6 +161,12 @@ public class GameMaster : MonoBehaviour {
 	{
 		endDayMenu.SetActive(!endDayMenu.activeSelf);
 		onToggleEndDayMenu.Invoke(endDayMenu.activeSelf);
+	}
+
+	public void ToggleOptionsMenu()
+	{
+		optionsMenu.SetActive(!optionsMenu.activeSelf);
+		onToggleEndDayMenu.Invoke(optionsMenu.activeSelf);
 	}
 
 	public void ChangeSceneToDayOverStats()
