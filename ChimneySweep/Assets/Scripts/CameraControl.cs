@@ -9,9 +9,6 @@ public class CameraControl : MonoBehaviour {
 	ChimneyTile selectedTile;
 
 	[SerializeField]
-	GameObject chimney;
-
-	[SerializeField]
 	RectTransform panelTransform;
 
 	[SerializeField]

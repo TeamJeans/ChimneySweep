@@ -426,7 +426,10 @@ public class TileManager : MonoBehaviour {
 	{
 		for (int i = 0; i < noOfTilesToShow; i++)
 		{
-			tileObjects[currentTileNumber + i + 1].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + i + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+			if (tileObjects.Length > (currentTileNumber + i + 1))
+			{
+				tileObjects[currentTileNumber + i + 1].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + i + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+			}
 		}
 	}
 
