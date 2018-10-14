@@ -26969,7 +26969,7 @@ Prefab:
     - target: {fileID: 198435101738736608, guid: 3e861adb9a4d45d4485cf9c0295f376c,
         type: 2}
       propertyPath: InitialModule.startSize.scalar
-      value: 0.29
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 199677405214517770, guid: 3e861adb9a4d45d4485cf9c0295f376c,
         type: 2}
@@ -27069,13 +27069,19 @@ Prefab:
     - target: {fileID: 198435101738736608, guid: 3e861adb9a4d45d4485cf9c0295f376c,
         type: 2}
       propertyPath: EmissionModule.rateOverTime.scalar
-      value: 39.03
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 198435101738736608, guid: 3e861adb9a4d45d4485cf9c0295f376c,
         type: 2}
       propertyPath: InitialModule.randomizeRotationDirection
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 198435101738736608, guid: 3e861adb9a4d45d4485cf9c0295f376c,
+        type: 2}
+      propertyPath: ShapeModule.m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ea5aa5a9d0a138849911902b0be629cd,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e861adb9a4d45d4485cf9c0295f376c, type: 2}
   m_IsPrefabAsset: 0
