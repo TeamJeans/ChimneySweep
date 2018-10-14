@@ -20611,6 +20611,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1661293669}
   - component: {fileID: 1661293670}
+  - component: {fileID: 1661293671}
   m_Layer: 8
   m_Name: TileManager
   m_TagString: TileManager
@@ -20670,6 +20671,7 @@ MonoBehaviour:
   tileDescriptionText: {fileID: 2068062041}
   tileTypeDescriptionText: {fileID: 1615061799}
   currentTileSprite: {fileID: 2147409037}
+  tileCatagoryVariables: {fileID: 1661293671}
   tileDragMode: 0
   tilePrefabs:
   - {fileID: 1835462580897350, guid: b38afb3fffa74e841b40da6427b517e5, type: 2}
@@ -20724,6 +20726,31 @@ MonoBehaviour:
   tileBackSprite: {fileID: 21300000, guid: ff802d7af42b086428da0934043181eb, type: 3}
   chimneySidesGenerator: {fileID: 138664150}
   tileTextScale: {fileID: 1905434963}
+--- !u!114 &1661293671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1661293668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c29c8754e49faa47a0e5f6f7ae988de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  percentages:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  armourPercentage: 10
+  weaponPercentage: 10
+  potionPercentage: 10
+  enemyPercentage: 10
+  skipToolPercentage: 10
+  bombPrecentage: 10
+  moneyPercentage: 0
 --- !u!1 &1687612278
 GameObject:
   m_ObjectHideFlags: 0

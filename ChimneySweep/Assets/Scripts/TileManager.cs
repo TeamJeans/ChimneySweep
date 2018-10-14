@@ -60,6 +60,9 @@ public class TileManager : MonoBehaviour {
 	[SerializeField]
 	Image currentTileSprite;
 
+	[SerializeField]
+	TileCatagoryVariables tileCatagoryVariables;
+
 	Vector2 mousePosition;
 	ChimneyTileTemplate.Catagory currentTileCatagory;
 
@@ -170,7 +173,7 @@ public class TileManager : MonoBehaviour {
 			{
 				do
 				{
-					tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = getRandomTileBasedOnPercentage();
+					tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = GetRandomTileBasedOnPercentage();
 				}
 				while (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS);
 			}
@@ -501,25 +504,49 @@ public class TileManager : MonoBehaviour {
 
 	}
 
-	public int getRandomTileBasedOnPercentage()
+	public int GetRandomTileBasedOnPercentage()
 	{
-		float itemWeight = 0;
+		ChimneyTileTemplate.Catagory randomCatagory = GetRandomTileCatagory();
+
+		float tileWeight = 0;
 		for (int i = 0; i < chimneyTileTemplateArray.Length; i++)
 		{
-			itemWeight += chimneyTileTemplateArray[i].spawnPercentage;
+			if (chimneyTileTemplateArray[i].catagory == randomCatagory)
+			{
+				tileWeight += chimneyTileTemplateArray[i].spawnPercentage;
+			}
 		}
 
-		float randomValue = Random.Range(0,itemWeight);
+		float randomValue = Random.Range(0, tileWeight);
 
 		for (int i = 0; i < chimneyTileTemplateArray.Length; i++)
 		{
-			if (randomValue <= chimneyTileTemplateArray[i].spawnPercentage)
+			if (chimneyTileTemplateArray[i].catagory == randomCatagory)
 			{
-				return i;
-			}
-			randomValue -= chimneyTileTemplateArray[i].spawnPercentage;
+				if (randomValue <= chimneyTileTemplateArray[i].spawnPercentage)
+				{
+					return i;
+				}
+				randomValue -= chimneyTileTemplateArray[i].spawnPercentage;
+			}	
 		}
 
 		return 0;
+	}
+
+	public ChimneyTileTemplate.Catagory GetRandomTileCatagory()
+	{
+		float catagoryItemWeight = tileCatagoryVariables.SumOfPercentages;
+		float randomCatagoryValue = Random.Range(0, catagoryItemWeight);
+		for (int i = 0; i < tileCatagoryVariables.percentages.Length; i++)
+		{
+			if (randomCatagoryValue <= tileCatagoryVariables.percentages[i])
+			{
+				return (ChimneyTileTemplate.Catagory)i;
+			}
+			randomCatagoryValue -= tileCatagoryVariables.percentages[i];
+		}
+
+		return (ChimneyTileTemplate.Catagory)0;
 	}
 }
