@@ -17,7 +17,7 @@ public class TileCatagoryVariables : MonoBehaviour {
 	float sumOfPercentages = 0.0f;
 	public float SumOfPercentages{ get { return sumOfPercentages; } }
 
-	void Start()
+	void Awake()
 	{
 		for (int i = 0; i < percentages.Length; i++)
 		{

@@ -542,6 +542,7 @@ public class TileManager : MonoBehaviour {
 		{
 			if (randomCatagoryValue <= tileCatagoryVariables.percentages[i])
 			{
+				Debug.Log((ChimneyTileTemplate.Catagory)i);
 				return (ChimneyTileTemplate.Catagory)i;
 			}
 			randomCatagoryValue -= tileCatagoryVariables.percentages[i];
