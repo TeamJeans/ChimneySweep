@@ -17,6 +17,10 @@ MonoBehaviour:
   minTileValue: 5
   maxTileValue: 8
   spawnPercentage: 1000
+  particleEffects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   catagory: 4
   potionSubCatagory: 0
   enemySubCatagory: 0

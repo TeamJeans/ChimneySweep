@@ -72,6 +72,7 @@ public class TileManager : MonoBehaviour {
 	bool endDayMenuEnabled = false;
 	bool tileSelected = false;
 	bool hasHearthTileBeenGenerated = false;
+	bool particleEffectsInstatiated = false;
 
 	[SerializeField]
 	GameObject[] tilePrefabs;
@@ -111,6 +112,7 @@ public class TileManager : MonoBehaviour {
 	GameObject tileTextScale;
 	int bossCounter = 0;
 	int[] bossTileTemplates;
+	GameObject[] tempParticleArray;
 
 	// Use this for initialization
 	void Start ()
@@ -250,6 +252,27 @@ public class TileManager : MonoBehaviour {
 		currentlySelectedTile = tileObjects[0];
 
 		LoadMyData();
+
+		// Intatiate particle effects
+		if (!particleEffectsInstatiated)
+		{
+			particleEffectsInstatiated = true;
+			if (chimneyTileTemplateArray[tileObjects[0].GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects != null)
+			{
+				for (int i = 0; i < chimneyTileTemplateArray[tileObjects[0].GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects.Length; i++)
+				{
+					tempParticleArray = new GameObject[chimneyTileTemplateArray[tileObjects[0].GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects.Length -1];
+					tempParticleArray = chimneyTileTemplateArray[tileObjects[0].GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects;
+					tempParticleArray[i] = Instantiate(tempParticleArray[i]) as GameObject;
+					tempParticleArray[i].transform.SetParent(tileGlow.transform);
+					tempParticleArray[i].transform.localScale = tileGlow.transform.localScale;
+				}
+			}
+			else
+			{
+				Debug.Log("No particle effects for: " + chimneyTileTemplateArray[tileObjects[0].GetComponent<ChimneyTile>().RandomTileTypeNum].tileName);
+			}
+		}
 	}
 	
 	void OnEndDayMenuToggle(bool active)
@@ -386,10 +409,37 @@ public class TileManager : MonoBehaviour {
 		{
 			tileObjects[currentTileNumber + 1].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
 		}
+
+		// Intatiate particle effects
+		if (!particleEffectsInstatiated)
+		{
+			particleEffectsInstatiated = true;
+			if (chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects != null)
+			{
+				for (int i = 0; i < chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects.Length; i++)
+				{
+					tempParticleArray = new GameObject[chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects.Length - 1];
+					tempParticleArray = chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects;
+					tempParticleArray[i] = Instantiate(tempParticleArray[i]) as GameObject;
+					tempParticleArray[i].transform.SetParent(tileGlow.transform);
+					tempParticleArray[i].transform.localScale = tileGlow.transform.localScale;
+				}
+			}
+		}
 	}
 
 	public void MoveToNextTile()
 	{
+		// Destroy particle effects
+		if (particleEffectsInstatiated)
+		{
+			for (int i = 0; i < chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects.Length; i++)
+			{
+				Destroy(tempParticleArray[i].gameObject);
+			}
+			particleEffectsInstatiated = false;
+		}
+
 		// Puts the tile back where it is supposed to be
 		currentlySelectedTile.transform.position = new Vector3(0, currentlySelectedTile.transform.position.y, currentlySelectedTile.transform.position.z);
 		tileBackground[currentTileNumber].transform.position = new Vector3(0, currentlySelectedTile.transform.position.y, currentlySelectedTile.transform.position.z);
@@ -400,6 +450,7 @@ public class TileManager : MonoBehaviour {
 		tileObjects[currentTileNumber].GetComponent<ChimneyTile>().Selected = false;
 		tileObjects[currentTileNumber].GetComponent<ChimneyTile>().TileUsed = true;
 		tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().Selected = true;
+
 
 		// Put the tile used sprite under the current tile
 		tileUsed.transform.position = new Vector3(tileObjects[currentTileNumber + 1].transform.position.x, tileObjects[currentTileNumber + 1].transform.position.y, tileObjects[currentTileNumber + 1].transform.position.z);

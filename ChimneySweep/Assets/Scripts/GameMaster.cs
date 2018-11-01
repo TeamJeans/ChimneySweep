@@ -518,7 +518,7 @@ public class GameMaster : MonoBehaviour {
 			currentArmourHitPoints = maxArmourHitPoints;
 		}
 
-		// Show stats changing when using items from inentory
+		// Show stats changing when using items from inventory
 		if (inventoryItemTrigger.UseItem)
 		{
 			switch (inventory.TileStored[inventory.SelectedSlot.GetComponent<InventorySlot>().SlotNum].catagory)
