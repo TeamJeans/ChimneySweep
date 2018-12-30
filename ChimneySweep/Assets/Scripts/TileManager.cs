@@ -444,8 +444,10 @@ public class TileManager : MonoBehaviour {
 		currentlySelectedTile.transform.position = new Vector3(0, currentlySelectedTile.transform.position.y, currentlySelectedTile.transform.position.z);
 		tileBackground[currentTileNumber].transform.position = new Vector3(0, currentlySelectedTile.transform.position.y, currentlySelectedTile.transform.position.z);
 		tileValuesObject[currentTileNumber].transform.localPosition = new Vector3(- 2.5f, tileObjects[currentTileNumber].transform.localPosition.y + 7.5f, tileObjects[currentTileNumber].transform.position.z);
+
 		// Drag mode is disabled so the next tile doesn't automatically get dragged
 		tileDragMode = false;
+
 		// Change the selected tile to be the next in the queue
 		tileObjects[currentTileNumber].GetComponent<ChimneyTile>().Selected = false;
 		tileObjects[currentTileNumber].GetComponent<ChimneyTile>().TileUsed = true;

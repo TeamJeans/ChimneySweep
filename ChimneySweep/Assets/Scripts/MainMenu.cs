@@ -9,6 +9,8 @@ public class MainMenu : MonoBehaviour {
     public void MainMenuNewGameButton()
     {
 		StaticValueHolder.CurrentMoney = 0;
+		StaticValueHolder.TotalMoney = 0;
+		StaticValueHolder.CurrentDay = -1;
 		SceneManager.LoadScene("CalendarScene");
 	}
 
@@ -16,6 +18,8 @@ public class MainMenu : MonoBehaviour {
 	{
 		// Add the saved value for money
 		StaticValueHolder.CurrentMoney = 0;
+		StaticValueHolder.TotalMoney = 0;
+		StaticValueHolder.CurrentDay = -1;
 		SceneManager.LoadScene("CalendarScene");
 	}
 }

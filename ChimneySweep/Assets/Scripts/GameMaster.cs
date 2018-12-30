@@ -61,7 +61,7 @@ public class GameMaster : MonoBehaviour {
 	public int CurrentArmourHitPoints { get { return currentArmourHitPoints; } set { currentArmourHitPoints = value; } }
 
 	[SerializeField]
-	int currentMoney = StaticValueHolder.CurrentMoney;
+	int currentMoney = StaticValueHolder.TotalMoney;
 
 	[SerializeField]
 	bool hasArmour = false;
@@ -155,6 +155,7 @@ public class GameMaster : MonoBehaviour {
 
 		// Passing the current money value between scenes
 		StaticValueHolder.CurrentMoney = currentMoney;
+		//Debug.Log("Current Money");
 	}
 
 	public void ToggleEndDayMenu()
