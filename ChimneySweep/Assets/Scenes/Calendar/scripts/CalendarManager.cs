@@ -11,6 +11,14 @@ public class CalendarManager : MonoBehaviour {
 
     public int currentMoney;
     public Text rentDue;
+    public Text Gold1;
+    public Text Gold2;
+    public Text Gold3;
+    public Text Gold4;
+    public Text Gold5;
+    public Text Gold6;
+    public Text Gold7;
+
     public int day;
     public float dayCheck;
     public int week;
@@ -27,6 +35,19 @@ public class CalendarManager : MonoBehaviour {
         //add one to the days-------------------------------------------------------give it to aidans script
         StaticValueHolder.CurrentDay += 1;
 
+        //reset days at the end of the week
+        if (StaticValueHolder.CurrentDay > 7)
+        {
+            StaticValueHolder.CurrentDay = 0;
+            StaticValueHolder.CurrentWeek += 1;
+            for (int i = 0; i < 7; i++)
+            {
+                StaticValueHolder.DayValues[i] = 0;
+            }
+        }
+
+        StaticValueHolder.DayValues[StaticValueHolder.CurrentDay] = (StaticValueHolder.TotalMoney - StaticValueHolder.CurrentMoney);
+
         //reset the check for rentPaid at start of scene
         rentPaid = false;
         //gets the current day and checks if end of week
@@ -34,14 +55,17 @@ public class CalendarManager : MonoBehaviour {
         //used to increase rent
         rent = 50 + week * 50;
         //show how much rent is due at end of week
-        rentDue.text = "Rent Due: " + "\u00A3" + rent;
+        rentDue.text = StaticValueHolder.TotalMoney + "/" + rent;
 
-        //reset days at the end of the week
-        if (StaticValueHolder.CurrentDay > 7)
-        {
-            StaticValueHolder.CurrentDay = 0;
-            StaticValueHolder.CurrentWeek += 1;
-        }
+        Gold1.text = StaticValueHolder.DayValues[0] + ""; //for some reason there has to be a string in here or it doesnt work so leave the empty string
+        Gold2.text = StaticValueHolder.DayValues[1] + "";
+        Gold3.text = StaticValueHolder.DayValues[2] + "";
+        Gold4.text = StaticValueHolder.DayValues[3] + "";
+        Gold5.text = StaticValueHolder.DayValues[4] + "";
+        Gold6.text = StaticValueHolder.DayValues[5] + "";
+        Gold7.text = StaticValueHolder.DayValues[6] + "";
+
+
 
         //cross off completed days
         for (int i = 0; i < StaticValueHolder.CurrentDay; i++)
