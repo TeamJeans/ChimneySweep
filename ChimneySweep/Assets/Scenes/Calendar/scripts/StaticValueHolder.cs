@@ -6,7 +6,7 @@ using UnityEngine;
 public static class StaticValueHolder
 {
     //initialise here
-    private static int currentMoney, currentDay, totalMoney;
+    private static int currentMoney, currentDay, currentWeek, totalMoney;
 
     public static int CurrentMoney
     {
@@ -29,6 +29,18 @@ public static class StaticValueHolder
         set
         {
             currentDay = value;
+        }
+    }
+
+    public static int CurrentWeek
+    {
+        get
+        {
+            return currentWeek;
+        }
+        set
+        {
+            currentWeek = value;
         }
     }
 

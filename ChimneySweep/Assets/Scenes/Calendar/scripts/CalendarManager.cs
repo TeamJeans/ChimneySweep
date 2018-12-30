@@ -30,16 +30,21 @@ public class CalendarManager : MonoBehaviour {
         //reset the check for rentPaid at start of scene
         rentPaid = false;
         //gets the current day and checks if end of week
-        day = StaticValueHolder.CurrentDay;
         dayCheck = StaticValueHolder.CurrentDay / 7;
         //used to increase rent
-        week = day / 7;
         rent = 50 + week * 50;
         //show how much rent is due at end of week
         rentDue.text = "Rent Due: " + "\u00A3" + rent;
 
+        //reset days at the end of the week
+        if (StaticValueHolder.CurrentDay > 7)
+        {
+            StaticValueHolder.CurrentDay = 0;
+            StaticValueHolder.CurrentWeek += 1;
+        }
+
         //cross off completed days
-        for (int i = 0; i < day; i++)
+        for (int i = 0; i < StaticValueHolder.CurrentDay; i++)
         {
             GameObject myDayDone = Instantiate(dayDone, calDays[i].transform.position, calDays[i].transform.rotation);
             myDayDone.transform.SetParent(GameObject.Find("/UIOverlay/Calendar").transform);
@@ -50,10 +55,10 @@ public class CalendarManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-       // Debug.Log("day: " + day);
-       // Debug.Log("Money: " + StaticValueHolder.CurrentMoney);
+        //Debug.Log("day: " + day);
+        //Debug.Log("Money: " + StaticValueHolder.CurrentMoney);
         //if time to pay rent
-        if ((float)day / 7 == dayCheck && !rentPaid && day > 0)
+        if ((float)StaticValueHolder.CurrentDay / 7 == dayCheck && !rentPaid && StaticValueHolder.CurrentDay > 0)
         {
             //if enough money to pay
             if (StaticValueHolder.CurrentMoney >= rent)
@@ -68,7 +73,7 @@ public class CalendarManager : MonoBehaviour {
                 Debug.Log("GameOver");
             }
         }
-        //add day for testing, remove later --------------------------------------------------------
+        //TODO add day for testing, remove later --------------------------------------------------------
         if(Input.GetKeyUp("a"))
         {
             SceneManager.LoadScene(1);

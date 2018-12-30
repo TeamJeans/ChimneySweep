@@ -74,3 +74,6 @@ TagManager:
   - name: InventorySelectedItem
     uniqueID: 1536178693
     locked: 0
+  - name: Calendar
+    uniqueID: 1494220299
+    locked: 0
