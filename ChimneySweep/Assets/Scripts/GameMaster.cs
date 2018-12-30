@@ -61,7 +61,7 @@ public class GameMaster : MonoBehaviour {
 	public int CurrentArmourHitPoints { get { return currentArmourHitPoints; } set { currentArmourHitPoints = value; } }
 
 	[SerializeField]
-	int currentMoney = StaticValueHolder.TotalMoney;
+	int currentMoney = 0;
 
 	[SerializeField]
 	bool hasArmour = false;
@@ -100,6 +100,8 @@ public class GameMaster : MonoBehaviour {
 		{
 			gm = GameObject.FindGameObjectWithTag("GM").GetComponent<GameMaster>();
 		}
+
+		currentMoney = StaticValueHolder.TotalMoney;
 	}
 
 	public delegate void EndDayMenuCallBack(bool active);
