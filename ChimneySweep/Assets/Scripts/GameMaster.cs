@@ -79,6 +79,8 @@ public class GameMaster : MonoBehaviour {
 	Text armourHitPointsText;
 	[SerializeField]
 	Color armourHitPointsTextChangeColour;
+	[SerializeField]
+	Text dayText;
 
 	[SerializeField]
 	GameObject heartIconObject;
@@ -107,6 +109,11 @@ public class GameMaster : MonoBehaviour {
 	public delegate void EndDayMenuCallBack(bool active);
 	public EndDayMenuCallBack onToggleEndDayMenu;
 	
+	void Start()
+	{
+		dayText.text = "Day " + StaticValueHolder.CurrentDay;
+	}
+
 	// Update is called once per frame
 	void Update ()
 	{
