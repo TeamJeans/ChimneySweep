@@ -164,7 +164,7 @@ public class GameMaster : MonoBehaviour {
 		//}
 
 		// Passing the current money value between scenes
-		StaticValueHolder.DailyMoney = currentMoney;
+		//StaticValueHolder.DailyMoney = currentMoney;
 		//Debug.Log("Current Money");
 	}
 

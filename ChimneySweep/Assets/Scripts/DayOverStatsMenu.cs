@@ -19,6 +19,7 @@ public class DayOverStatsMenu : MonoBehaviour {
 
 	public void DayOverMenuCalendarButton()
 	{
+		StaticValueHolder.TotalMoney += StaticValueHolder.DailyMoney;
 		Debug.Log("Pressed");
 		SceneManager.LoadScene("CalendarScene");
 	}
@@ -26,6 +27,7 @@ public class DayOverStatsMenu : MonoBehaviour {
 	public void DayOverNextDayButton()
 	{
 		// Sets the amount of money earned for the current day
+		StaticValueHolder.TotalMoney += StaticValueHolder.DailyMoney;
 		StaticValueHolder.DayValues[StaticValueHolder.CurrentDay] = StaticValueHolder.DailyMoney;
 		if (StaticValueHolder.CurrentDay < 7)
 		{
