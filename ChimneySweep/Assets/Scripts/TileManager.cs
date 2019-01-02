@@ -579,24 +579,27 @@ public class TileManager : MonoBehaviour {
 
 	void instantiateParticles()
 	{
-		Debug.Log("Particle Length: " + chimneyTileTemplateArray[CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects.Length);
-		tempParticleArray = new GameObject[chimneyTileTemplateArray[CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects.Length];
-		for (int i = 0; i < chimneyTileTemplateArray[CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects.Length; i++)
+		if (chimneyTileTemplateArray[CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects != null)
 		{
-			tempParticleArray[i] = chimneyTileTemplateArray[CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects[i];
-			tempParticleArray[i] = Instantiate(tempParticleArray[i]) as GameObject;
-			tempParticleArray[i].transform.SetParent(tileGlow.transform);
-			tempParticleArray[i].transform.localPosition = new Vector3(0,-0.3f,0);
+			tempParticleArray = new GameObject[chimneyTileTemplateArray[CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects.Length];
+			for (int i = 0; i < chimneyTileTemplateArray[CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects.Length; i++)
+			{
+				tempParticleArray[i] = chimneyTileTemplateArray[CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects[i];
+				tempParticleArray[i] = Instantiate(tempParticleArray[i]) as GameObject;
+				tempParticleArray[i].transform.SetParent(tileGlow.transform);
+				tempParticleArray[i].transform.localPosition = new Vector3(0,-0.3f,0);
+			}
 		}
 	}
 
 	void destroyParticles()
 	{
-		Debug.Log("Particle Length: " + chimneyTileTemplateArray[CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects.Length);
-		for (int i = 0; i < chimneyTileTemplateArray[CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects.Length; i++)
+		if (chimneyTileTemplateArray[CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects != null)
 		{
-			Debug.Log("Destroying particles: " + tempParticleArray[i]);
-			Destroy(tempParticleArray[i]);
+			for (int i = 0; i < chimneyTileTemplateArray[CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].particleEffects.Length; i++)
+			{
+				Destroy(tempParticleArray[i]);
+			}
 		}
 	}
 }

@@ -111,7 +111,7 @@ public class GameMaster : MonoBehaviour {
 	
 	void Start()
 	{
-		dayText.text = "Day " + StaticValueHolder.CurrentDay;
+		dayText.text = "Day " + (StaticValueHolder.CurrentDay + 1);
 	}
 
 	// Update is called once per frame
@@ -177,6 +177,13 @@ public class GameMaster : MonoBehaviour {
 	{
 		optionsMenu.SetActive(!optionsMenu.activeSelf);
 		onToggleEndDayMenu.Invoke(optionsMenu.activeSelf);
+	}
+
+	public void endDayYesOption()
+	{
+		StaticValueHolder.HitPoints = currentHitPoints;
+		StaticValueHolder.MaxHitPoints = maxHitPoints;
+		ChangeSceneToDayOverStats();
 	}
 
 	public void ChangeSceneToDayOverStats()

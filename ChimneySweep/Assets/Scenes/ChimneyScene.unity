@@ -3111,7 +3111,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1046055382}
-        m_MethodName: ChangeSceneToDayOverStats
+        m_MethodName: endDayYesOption
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8037,7 +8037,7 @@ Transform:
   m_GameObject: {fileID: 1890720776}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0, y: -0.362, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 1}
   m_Children: []
   m_Father: {fileID: 323830494}
   m_RootOrder: 0
@@ -8170,7 +8170,7 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
+  scalingMode: 0
   randomSeed: 0
   InitialModule:
     serializedVersion: 3
@@ -8178,7 +8178,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 160
+      scalar: 52.82
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -13401,6 +13401,19 @@ Prefab:
         type: 2}
       propertyPath: InitialModule.startSize.scalar
       value: 0.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 198435101738736608, guid: 3e861adb9a4d45d4485cf9c0295f376c,
+        type: 2}
+      propertyPath: scalingMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4273434308804154, guid: 3e861adb9a4d45d4485cf9c0295f376c, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.89
+      objectReference: {fileID: 0}
+    - target: {fileID: 4273434308804154, guid: 3e861adb9a4d45d4485cf9c0295f376c, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.94
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e861adb9a4d45d4485cf9c0295f376c, type: 2}

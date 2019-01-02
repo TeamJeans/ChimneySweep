@@ -890,6 +890,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7757eec99a75b34baf8433f082340db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moneyText: {fileID: 1977457839}
+  hpText: {fileID: 637367782}
 --- !u!224 &1390742759
 RectTransform:
   m_ObjectHideFlags: 0
