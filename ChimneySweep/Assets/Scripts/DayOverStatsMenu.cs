@@ -13,15 +13,12 @@ public class DayOverStatsMenu : MonoBehaviour {
 
 	void Start()
 	{
-		moneyText.text = "Money: \u00A3" + (StaticValueHolder.CurrentMoney - StaticValueHolder.TotalMoney);
+		moneyText.text = "Money: \u00A3" + StaticValueHolder.DailyMoney;
 		hpText.text = "HP: " + (StaticValueHolder.HitPoints) + "/" + (StaticValueHolder.MaxHitPoints);
 	}
 
 	public void DayOverMenuCalendarButton()
 	{
-		// Sets the amount of money earned for the current day
-		//StaticValueHolder.DayValues[StaticValueHolder.CurrentDay] = StaticValueHolder.CurrentMoney - StaticValueHolder.TotalMoney;
-
 		Debug.Log("Pressed");
 		SceneManager.LoadScene("CalendarScene");
 	}
@@ -29,7 +26,7 @@ public class DayOverStatsMenu : MonoBehaviour {
 	public void DayOverNextDayButton()
 	{
 		// Sets the amount of money earned for the current day
-		StaticValueHolder.DayValues[StaticValueHolder.CurrentDay] = StaticValueHolder.CurrentMoney - StaticValueHolder.TotalMoney;
+		StaticValueHolder.DayValues[StaticValueHolder.CurrentDay] = StaticValueHolder.DailyMoney;
 		if (StaticValueHolder.CurrentDay < 7)
 		{
 			StaticValueHolder.CurrentDay++;

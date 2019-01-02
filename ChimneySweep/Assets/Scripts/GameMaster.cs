@@ -112,6 +112,7 @@ public class GameMaster : MonoBehaviour {
 	void Start()
 	{
 		dayText.text = "Day " + (StaticValueHolder.CurrentDay + 1);
+		StaticValueHolder.DailyMoney = 0;
 	}
 
 	// Update is called once per frame
@@ -163,7 +164,7 @@ public class GameMaster : MonoBehaviour {
 		//}
 
 		// Passing the current money value between scenes
-		StaticValueHolder.CurrentMoney = currentMoney;
+		StaticValueHolder.DailyMoney = currentMoney;
 		//Debug.Log("Current Money");
 	}
 
@@ -278,6 +279,7 @@ public class GameMaster : MonoBehaviour {
 					else if (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory != ChimneyTileTemplate.Catagory.ENEMY)
 					{
 						currentMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+						StaticValueHolder.DailyMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
 					}
 
 					// If the tile was an enemy find out it's value and take it away from the player's hit points
@@ -304,6 +306,7 @@ public class GameMaster : MonoBehaviour {
 						}
 
 						currentMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+						StaticValueHolder.DailyMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
 
 					}
 
@@ -327,6 +330,7 @@ public class GameMaster : MonoBehaviour {
 					else if (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory != ChimneyTileTemplate.Catagory.ENEMY)
 					{
 						currentMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+						StaticValueHolder.DailyMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
 					}
 
 					// If the tile was an enemy find out it's value and take it away from the player's hit points
@@ -353,6 +357,7 @@ public class GameMaster : MonoBehaviour {
 						}
 
 						currentMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+						StaticValueHolder.DailyMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
 
 					}
 

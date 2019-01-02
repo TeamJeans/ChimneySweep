@@ -44,7 +44,7 @@ public class CalendarManager : MonoBehaviour {
         
        
         //show each days money
-        StaticValueHolder.DayValues[StaticValueHolder.CurrentDay] = (StaticValueHolder.TotalMoney - StaticValueHolder.DailyMoney);
+        StaticValueHolder.DayValues[StaticValueHolder.CurrentDay] = StaticValueHolder.DailyMoney;
 
         //reset the check for rentPaid at start of scene
         rentPaid = false;
