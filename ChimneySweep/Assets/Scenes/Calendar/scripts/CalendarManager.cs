@@ -9,7 +9,6 @@ public class CalendarManager : MonoBehaviour {
     public GameObject[] calDays;
     public GameObject dayDone;
 
-    public int currentMoney;
     public Text rentDue;
     public Text Gold1;
     public Text Gold2;
@@ -28,9 +27,6 @@ public class CalendarManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        currentMoney = StaticValueHolder.CurrentMoney;
-
-        StaticValueHolder.TotalMoney += currentMoney;
         //reset days at the end of the week
         if (StaticValueHolder.CurrentDay > 7)
         {
@@ -48,7 +44,7 @@ public class CalendarManager : MonoBehaviour {
         
        
         //show each days money
-        StaticValueHolder.DayValues[StaticValueHolder.CurrentDay] = (StaticValueHolder.TotalMoney - StaticValueHolder.CurrentMoney);
+        StaticValueHolder.DayValues[StaticValueHolder.CurrentDay] = (StaticValueHolder.TotalMoney - StaticValueHolder.DailyMoney);
 
         //reset the check for rentPaid at start of scene
         rentPaid = false;
@@ -87,9 +83,9 @@ public class CalendarManager : MonoBehaviour {
         if ((float)StaticValueHolder.CurrentDay / 7 == dayCheck && !rentPaid && StaticValueHolder.CurrentDay > 0)
         {
             //if enough money to pay
-            if (StaticValueHolder.CurrentMoney >= rent)
+            if (StaticValueHolder.DailyMoney >= rent)
             {
-                StaticValueHolder.CurrentMoney -= rent;
+                StaticValueHolder.DailyMoney -= rent;
                 rentPaid = true;
                 Debug.Log("Rent Paid: " + rentPaid);
             }
