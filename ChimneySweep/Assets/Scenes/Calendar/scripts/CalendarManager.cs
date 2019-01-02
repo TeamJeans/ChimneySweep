@@ -31,10 +31,6 @@ public class CalendarManager : MonoBehaviour {
         currentMoney = StaticValueHolder.CurrentMoney;
 
         StaticValueHolder.TotalMoney += currentMoney;
-
-        //add one to the days-------------------------------------------------------give it to aidans script
-        StaticValueHolder.CurrentDay += 1;
-
         //reset days at the end of the week
         if (StaticValueHolder.CurrentDay > 7)
         {
@@ -46,6 +42,12 @@ public class CalendarManager : MonoBehaviour {
             }
         }
 
+
+        //add one to the days-------------------------------------------------------give it to aidans script
+        StaticValueHolder.CurrentDay += 1;
+        
+       
+        //show each days money
         StaticValueHolder.DayValues[StaticValueHolder.CurrentDay] = (StaticValueHolder.TotalMoney - StaticValueHolder.CurrentMoney);
 
         //reset the check for rentPaid at start of scene
@@ -53,7 +55,7 @@ public class CalendarManager : MonoBehaviour {
         //gets the current day and checks if end of week
         dayCheck = StaticValueHolder.CurrentDay / 7;
         //used to increase rent
-        rent = 50 + week * 50;
+        rent = 200 + week * 200;
         //show how much rent is due at end of week
         rentDue.text = StaticValueHolder.TotalMoney + "/" + rent;
 
