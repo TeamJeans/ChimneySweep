@@ -164,8 +164,7 @@ public class GameMaster : MonoBehaviour {
 		//}
 
 		// Passing the current money value between scenes
-		//StaticValueHolder.DailyMoney = currentMoney;
-		//Debug.Log("Current Money");
+		StaticValueHolder.DailyMoney = currentMoney - StaticValueHolder.TotalMoney;
 	}
 
 	public void ToggleEndDayMenu()
@@ -306,7 +305,7 @@ public class GameMaster : MonoBehaviour {
 						}
 
 						currentMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
-						StaticValueHolder.DailyMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+						StaticValueHolder.DailyMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
 
 					}
 
@@ -357,7 +356,7 @@ public class GameMaster : MonoBehaviour {
 						}
 
 						currentMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
-						StaticValueHolder.DailyMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+						StaticValueHolder.DailyMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
 
 					}
 

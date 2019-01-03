@@ -2292,6 +2292,7 @@ GameObject:
   - component: {fileID: 428795986}
   - component: {fileID: 428795988}
   - component: {fileID: 428795987}
+  - component: {fileID: 428795989}
   m_Layer: 5
   m_Name: SellTextBackground
   m_TagString: Untagged
@@ -2330,7 +2331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.43529412}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2352,6 +2353,24 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 428795985}
   m_CullTransparentMesh: 0
+--- !u!95 &428795989
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 428795985}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bda31568f76cddf42b9bb2628f1a4c3e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &450049738
 GameObject:
   m_ObjectHideFlags: 0
@@ -5052,6 +5071,7 @@ GameObject:
   - component: {fileID: 1208181895}
   - component: {fileID: 1208181897}
   - component: {fileID: 1208181896}
+  - component: {fileID: 1208181898}
   m_Layer: 5
   m_Name: SellRightTextBackground
   m_TagString: Untagged
@@ -5112,6 +5132,24 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1208181894}
   m_CullTransparentMesh: 0
+--- !u!95 &1208181898
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1208181894}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bda31568f76cddf42b9bb2628f1a4c3e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1210286690
 GameObject:
   m_ObjectHideFlags: 0
@@ -5122,7 +5160,6 @@ GameObject:
   - component: {fileID: 1210286691}
   - component: {fileID: 1210286693}
   - component: {fileID: 1210286692}
-  - component: {fileID: 1210286694}
   m_Layer: 5
   m_Name: SellText
   m_TagString: Untagged
@@ -5188,24 +5225,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1210286690}
   m_CullTransparentMesh: 0
---- !u!95 &1210286694
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1210286690}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bda31568f76cddf42b9bb2628f1a4c3e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1243202859
 GameObject:
   m_ObjectHideFlags: 0

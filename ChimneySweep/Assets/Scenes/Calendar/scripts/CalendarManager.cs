@@ -40,11 +40,12 @@ public class CalendarManager : MonoBehaviour {
 
 
         //add one to the days-------------------------------------------------------give it to aidans script
+        //show each days money
+        StaticValueHolder.DayValues[StaticValueHolder.CurrentDay] = StaticValueHolder.DailyMoney;
+
         StaticValueHolder.CurrentDay += 1;
         
        
-        //show each days money
-        StaticValueHolder.DayValues[StaticValueHolder.CurrentDay] = StaticValueHolder.DailyMoney;
 
         //reset the check for rentPaid at start of scene
         rentPaid = false;
