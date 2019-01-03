@@ -252,18 +252,6 @@ public class TileManager : MonoBehaviour {
 		currentlySelectedTile = tileObjects[0];
 
 		Debug.Log("START: " + currentlySelectedTile);
-		//// Instantiate particle effects
-		//if (!particleEffectsInstatiated)
-		//{
-		//	particleEffectsInstatiated = true;
-		//	instantiateParticles();
-		//}
-
-	}
-	
-	void OnEndDayMenuToggle(bool active)
-	{
-		endDayMenuEnabled = active;
 	}
 
 	// Update is called once per frame
@@ -404,6 +392,11 @@ public class TileManager : MonoBehaviour {
 		}
 	}
 
+	void OnEndDayMenuToggle(bool active)
+	{
+		endDayMenuEnabled = active;
+	}
+
 	public void MoveToNextTile()
 	{
 		// Destroy particle effects
@@ -507,30 +500,7 @@ public class TileManager : MonoBehaviour {
 		currentTileSprite.sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
 	}
 
-	public void LoadMyData()
-	{
-		//int tempArrayPosition = 0;
-
-		//for (int i = 0; i < tileObjects.Length; i++)
-		//{
-		//	if ([i]. == "fireproofshield")
-		//	{
-		//		tempArrayPosition = i;
-		//		break;
-		//	}
-		//}
-		//ImportedDataContainer tile_armour_fireproofshield = ImportData.GetContainer("tile_armour_fireproofshield");
-
-		//tileObjects[tempArrayPosition].tileName = tile_armour_fireproofshield.GetData("name").ToString();
-		////mFloats = tile_armour_fireproofshield.GetData("speed_by_level").ToFloatArray();
-		////mString = tile_armour_fireproofshield.GetData("name").ToString();
-		////mFloat = tile_armour_fireproofshield.GetData("reputation").ToFloat();
-		////mInt = tile_armour_fireproofshield.GetData("hit_points").ToInt();
-		////mStrings = tile_armour_fireproofshield.GetData("friends").ToStringArray();
-
-	}
-
-	public int GetRandomTileBasedOnPercentage()
+	int GetRandomTileBasedOnPercentage()
 	{
 		ChimneyTileTemplate.Catagory randomCatagory = GetRandomTileCatagory();
 
@@ -560,7 +530,7 @@ public class TileManager : MonoBehaviour {
 		return 0;
 	}
 
-	public ChimneyTileTemplate.Catagory GetRandomTileCatagory()
+	ChimneyTileTemplate.Catagory GetRandomTileCatagory()
 	{
 		float catagoryItemWeight = tileCatagoryVariables.SumOfPercentages;
 		float randomCatagoryValue = Random.Range(0, catagoryItemWeight);
