@@ -98,6 +98,9 @@ public class TileManager : MonoBehaviour {
 	[SerializeField]
 	GameObject tileGlow;
 	[SerializeField]
+	GameObject tileAppearPS;
+
+	[SerializeField]
 	GameObject tile;
 	GameObject[] tileBackground;
 	GameObject[] tileUsedArray;
@@ -252,6 +255,21 @@ public class TileManager : MonoBehaviour {
 		currentlySelectedTile = tileObjects[0];
 
 		Debug.Log("START: " + currentlySelectedTile);
+
+		// Make the next tile visable. This needs to be done at the start because "Move to next tile isn't called"
+		if (currentTileNumber != tileObjects.Length - 1)
+		{
+			// Show puff of smoke before showing the next tile
+			if (tileObjects[currentTileNumber + 1].GetComponent<SpriteRenderer>().sprite != chimneyTileTemplateArray[tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork)
+			{
+				tileAppearPS.transform.localPosition = new Vector3(0, tileObjects[currentTileNumber + 1].transform.localPosition.y + 10, 0);
+				tileAppearPS.GetComponent<ParticleSystem>().Play();
+
+				// Show the artwork for that tile
+				tileObjects[currentTileNumber + 1].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+			}
+
+		}
 	}
 
 	// Update is called once per frame
@@ -378,12 +396,6 @@ public class TileManager : MonoBehaviour {
 				tileDescriptionMenu.SetActive(false);
 			}
 
-		// Make the next tile visable
-		if (currentTileNumber != tileObjects.Length - 1)
-		{
-			tileObjects[currentTileNumber + 1].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
-		}
-
 		// Intatiate particle effects
 		if (!particleEffectsInstatiated)
 		{
@@ -424,8 +436,23 @@ public class TileManager : MonoBehaviour {
 		tileUsed.transform.position = new Vector3(tileObjects[currentTileNumber + 1].transform.position.x, tileObjects[currentTileNumber + 1].transform.position.y, tileObjects[currentTileNumber + 1].transform.position.z);
 		CurrentlySelectedTile = tileObjects[currentTileNumber + 1];
 		currentTileNumber++;
-	}
 
+		// Make the next tile visable
+		if (currentTileNumber != tileObjects.Length - 1)
+		{
+			// Show puff of smoke before showing the next tile
+			if (tileObjects[currentTileNumber + 1].GetComponent<SpriteRenderer>().sprite != chimneyTileTemplateArray[tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork)
+			{
+				tileAppearPS.transform.localPosition = new Vector3(0,tileObjects[currentTileNumber + 1].transform.localPosition.y + 10,0);
+				tileAppearPS.GetComponent<ParticleSystem>().Play();
+
+				// Show the artwork for that tile
+				tileObjects[currentTileNumber + 1].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+			}
+
+		}
+	}
+	
 	public void SkipTiles(int noOfTilesToSkip)
 	{
 		// Puts the tile back where it is supposed to be
@@ -509,7 +536,7 @@ public class TileManager : MonoBehaviour {
 		{
 			if (chimneyTileTemplateArray[i].catagory == randomCatagory)
 			{
-				tileWeight += chimneyTileTemplateArray[i].spawnPercentage;
+				tileWeight += chimneyTileTemplateArray[i].spawnPercentage + chimneyTileTemplateArray[i].spawnPercentageIncreasePerWeek * StaticValueHolder.CurrentWeek;
 			}
 		}
 
@@ -519,11 +546,11 @@ public class TileManager : MonoBehaviour {
 		{
 			if (chimneyTileTemplateArray[i].catagory == randomCatagory)
 			{
-				if (randomValue <= chimneyTileTemplateArray[i].spawnPercentage)
+				if (randomValue <= (chimneyTileTemplateArray[i].spawnPercentage + chimneyTileTemplateArray[i].spawnPercentageIncreasePerWeek * StaticValueHolder.CurrentWeek))
 				{
 					return i;
 				}
-				randomValue -= chimneyTileTemplateArray[i].spawnPercentage;
+				randomValue -= (chimneyTileTemplateArray[i].spawnPercentage + chimneyTileTemplateArray[i].spawnPercentageIncreasePerWeek * StaticValueHolder.CurrentWeek);
 			}	
 		}
 

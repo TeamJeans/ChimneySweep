@@ -12,6 +12,7 @@ public class ChimneyTileTemplate : ScriptableObject
 	public int maxTileValue;
 	public float spawnPercentage = 10.0f;
 	public GameObject[] particleEffects;
+	public float spawnPercentageIncreasePerWeek = 0.0f;
 
 	public enum Catagory
 	{
