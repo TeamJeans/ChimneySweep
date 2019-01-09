@@ -363,10 +363,12 @@ public class Inventory : MonoBehaviour {
 		if (!chimneyTile)
 		{
 			tileManager.ShowTiles(slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue);
+			//tileManager.StartCoroutine("revealingTiles", slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue);
 		}
 		else
 		{
 			tileManager.ShowTiles(tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue);
+			//tileManager.StartCoroutine("revealingTiles", tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue);
 		}
 	}
 

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class TileManager : MonoBehaviour {
 
@@ -9,7 +10,7 @@ public class TileManager : MonoBehaviour {
 	[SerializeField]
 	Swipe swipeControls;
 	[SerializeField]
-	ScrollControl scrollControl;
+	CameraControl cameraControl;
 
 	// Colours for tile values
 	[SerializeField]
@@ -116,6 +117,9 @@ public class TileManager : MonoBehaviour {
 	int bossCounter = 0;
 	int[] bossTileTemplates;
 	GameObject[] tempParticleArray; // Stores each particle for a tile
+
+	[SerializeField]
+	Transform clairvoyanceTileAppearParticles;
 
 	// Use this for initialization
 	void Start ()
@@ -469,14 +473,39 @@ public class TileManager : MonoBehaviour {
 
 		// Put the tile used sprite under the current tile
 		tileUsed.transform.position = new Vector3(tileObjects[currentTileNumber + noOfTilesToSkip].transform.position.x, tileObjects[currentTileNumber + noOfTilesToSkip].transform.position.y, tileObjects[currentTileNumber + noOfTilesToSkip].transform.position.z);
+		CurrentlySelectedTile = tileObjects[currentTileNumber + noOfTilesToSkip];
+		currentTileNumber += noOfTilesToSkip;
+
+		// Make the next tile visable
+		if (currentTileNumber != tileObjects.Length - 1)
+		{
+			// Show puff of smoke before showing the next tile
+			if (tileObjects[currentTileNumber + 1].GetComponent<SpriteRenderer>().sprite != chimneyTileTemplateArray[tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork)
+			{
+				tileAppearPS.transform.localPosition = new Vector3(0, tileObjects[currentTileNumber + 1].transform.localPosition.y + 10, 0);
+				tileAppearPS.GetComponent<ParticleSystem>().Play();
+
+				// Show the artwork for that tile
+				tileObjects[currentTileNumber + 1].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+			}
+
+		}
+
+		cameraControl.SetDesiredCamPos();
 	}
 
 	public void ShowTiles(int noOfTilesToShow)
 	{
-		for (int i = 0; i < noOfTilesToShow; i++)
+		for (int i = 1; i < noOfTilesToShow + 1; i++)
 		{
 			if (tileObjects.Length > (currentTileNumber + i + 1))
 			{
+				// Add particles
+				Transform _purpleParticleClone = (Transform)Instantiate(clairvoyanceTileAppearParticles);
+				_purpleParticleClone.parent = tileGlow.transform.parent;
+				_purpleParticleClone.localPosition = new Vector3(0, tileObjects[currentTileNumber + i + 1].transform.localPosition.y - 10, 0);
+				Destroy(_purpleParticleClone.gameObject, 2f);
+
 				tileObjects[currentTileNumber + i + 1].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + i + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
 			}
 		}
@@ -599,4 +628,18 @@ public class TileManager : MonoBehaviour {
 			}
 		}
 	}
+
+	//public IEnumerator revealingTiles(int noOfTilesToShow)
+	//{
+	//	for (int i = 0; i < noOfTilesToShow; i++)
+	//	{
+	//		if (tileObjects.Length > (currentTileNumber + i + 1))
+	//		{
+	//			yield return new WaitForSeconds(0.1f);
+	//			tileAppearPS.transform.localPosition = new Vector3(0, tileObjects[currentTileNumber + i + 1].transform.localPosition.y + 10, 0);
+	//			tileAppearPS.GetComponent<ParticleSystem>().Play();
+	//			tileObjects[currentTileNumber + i + 1].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + i + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+	//		}
+	//	}
+	//}
 }

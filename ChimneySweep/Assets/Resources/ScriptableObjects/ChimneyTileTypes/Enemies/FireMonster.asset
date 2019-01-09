@@ -16,11 +16,12 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: d4e28452f124d61418354218d4a6a856, type: 3}
   minTileValue: 5
   maxTileValue: 8
-  spawnPercentage: 1000
+  spawnPercentage: 10
   particleEffects:
   - {fileID: 1593965332334894, guid: 9d96b1cbea52839418f6e85e8423a6c8, type: 2}
   - {fileID: 1425656902857394, guid: 6245d5497f68c08438b6bd19b44bd77d, type: 2}
   - {fileID: 1481361648959504, guid: 5eb39bdfa69ff4f409f181dc32661ecc, type: 2}
+  spawnPercentageIncreasePerWeek: 0
   catagory: 4
   potionSubCatagory: 0
   enemySubCatagory: 0
