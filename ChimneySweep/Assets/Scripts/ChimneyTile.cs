@@ -28,6 +28,9 @@ public class ChimneyTile : MonoBehaviour
 	int tileValue;
 	public int TileValue { get { return tileValue; } set { tileValue = value; } }
 
+	int constTileValue;
+	public int ConstTileValue { get { return constTileValue; } }
+
 	void Start()
 	{
 		// Find the tile manager
@@ -35,6 +38,8 @@ public class ChimneyTile : MonoBehaviour
 		{
 			tileManager = GameObject.FindGameObjectWithTag("TileManager").GetComponent(typeof(TileManager)) as TileManager;
 		}
+
+		constTileValue = tileValue;
 	}
 
 	void OnMouseOver()

@@ -269,7 +269,7 @@ public class GameMaster : MonoBehaviour {
 					// If the inventory is not full and this item is storable, add it to the next empty slot in the inventory
 					if (inventory.IsThereSpace() && tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].Storable)
 					{
-						inventory.AddItem(tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum], tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue, tileManager.CurrentTileValueText.color);
+						inventory.AddItem(tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum], tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue, tileManager.CurrentTileValueText.color);
 					}
 					else if (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ARMOUR || (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.POTION  && (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.CLAIRVOYANCE || tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.HEALTH)))
 					{
@@ -277,8 +277,8 @@ public class GameMaster : MonoBehaviour {
 					}
 					else if (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory != ChimneyTileTemplate.Catagory.ENEMY)
 					{
-						currentMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
-						StaticValueHolder.DailyMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+						currentMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
+						StaticValueHolder.DailyMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
 					}
 
 					// If the tile was an enemy find out it's value and take it away from the player's hit points
@@ -304,8 +304,8 @@ public class GameMaster : MonoBehaviour {
 							currentHitPoints = 0;
 						}
 
-						currentMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
-						StaticValueHolder.DailyMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+						currentMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
+						StaticValueHolder.DailyMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
 
 					}
 
@@ -320,7 +320,7 @@ public class GameMaster : MonoBehaviour {
 					// If the inventory is not full and this item is storable, add it to the next empty slot in the inventory
 					if (inventory.IsThereSpace() && tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].Storable)
 					{
-						inventory.AddItem(tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum], tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue, tileManager.CurrentTileValueText.color);
+						inventory.AddItem(tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum], tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue, tileManager.CurrentTileValueText.color);
 					}
 					else if (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ARMOUR || (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.POTION && (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.CLAIRVOYANCE || tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.HEALTH)))
 					{
@@ -328,8 +328,8 @@ public class GameMaster : MonoBehaviour {
 					}
 					else if (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory != ChimneyTileTemplate.Catagory.ENEMY)
 					{
-						currentMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
-						StaticValueHolder.DailyMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+						currentMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
+						StaticValueHolder.DailyMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
 					}
 
 					// If the tile was an enemy find out it's value and take it away from the player's hit points
@@ -355,8 +355,8 @@ public class GameMaster : MonoBehaviour {
 							currentHitPoints = 0;
 						}
 
-						currentMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
-						StaticValueHolder.DailyMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
+						currentMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
+						StaticValueHolder.DailyMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
 
 					}
 
@@ -376,7 +376,7 @@ public class GameMaster : MonoBehaviour {
 				{
 					sellRightTextBackground.SetActive(true);
 					moneyText.color = moneyTextChangeColour;
-					int tempMoney = currentMoney + tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+					int tempMoney = currentMoney + tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
 					moneyText.text = "\u00A3" + tempMoney;
 				}
 				else
@@ -386,7 +386,7 @@ public class GameMaster : MonoBehaviour {
 						case ChimneyTileTemplate.Catagory.ENEMY:
 							fightTextBackground.SetActive(true);
 							moneyText.color = moneyTextChangeColour;
-							int tempEnemyMoney = currentMoney + tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+							int tempEnemyMoney = currentMoney + tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
 							moneyText.text = "\u00A3" + tempEnemyMoney;
 							if (!hasArmour)
 							{
