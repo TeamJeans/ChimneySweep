@@ -28,18 +28,22 @@ public class ChimneyTextureChanger : MonoBehaviour {
 	Sprite[] orangeChimney = new Sprite[6];
 	[SerializeField]
 	Sprite[] greyChimney = new Sprite[6];
+	[SerializeField]
+	Sprite[] blueChimney = new Sprite[6];
+
+	[SerializeField]
+	bool randomChimney;
 
 	// Enums
 	public enum ChimneyType
 	{
 		ORANGE,
 		GREY,
+		BLUE,
 		NUM_OF_TYPES
 	}
+
 	[SerializeField]
-
-	int randomTypeNo = 0;
-
 	ChimneyType currentChimneyType;
 	public ChimneyType CurrentChimneyType { get { return currentChimneyType; } }
 	enum ChimneyPart
@@ -52,11 +56,15 @@ public class ChimneyTextureChanger : MonoBehaviour {
 		HEARTH_BACKGROUND = 5
 	}
 
+	int randomTypeNo = 0;
 	// Use this for initialization
 	void Start ()
 	{
-		randomTypeNo = Random.Range(0, (int)ChimneyType.NUM_OF_TYPES);
-		currentChimneyType = (ChimneyType)randomTypeNo;
+		if (randomChimney)
+		{
+			randomTypeNo = Random.Range(0, (int)ChimneyType.NUM_OF_TYPES);
+			currentChimneyType = (ChimneyType)randomTypeNo;
+		}
 		SetChimneyType(currentChimneyType);
 	}
 
@@ -69,6 +77,9 @@ public class ChimneyTextureChanger : MonoBehaviour {
 				break;
 			case ChimneyType.GREY:
 				selectedChimney = greyChimney;
+				break;
+			case ChimneyType.BLUE:
+				selectedChimney = blueChimney;
 				break;
 			default:
 				break;
