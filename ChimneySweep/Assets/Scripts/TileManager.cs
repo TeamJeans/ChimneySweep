@@ -14,31 +14,17 @@ public class TileManager : MonoBehaviour {
 
 	// Colours for tile values
 	[SerializeField]
-	Color armourColour;
-	[SerializeField]
 	string armourDescription;
-	[SerializeField]
-	Color weaponColour;
 	[SerializeField]
 	string weaponDescription;
 	[SerializeField]
-	Color potionColour;
-	[SerializeField]
 	string potionDescription;
-	[SerializeField]
-	Color skipToolColour;
 	[SerializeField]
 	string skipToolDescription;
 	[SerializeField]
-	Color enemyColour;
-	[SerializeField]
 	string enemyDescription;
 	[SerializeField]
-	Color bombColour;
-	[SerializeField]
 	string bombDescription;
-	[SerializeField]
-	Color moneyColour;
 	[SerializeField]
 	string moneyDescription;
 
@@ -197,8 +183,8 @@ public class TileManager : MonoBehaviour {
 			tileValueText[i].gameObject.transform.SetParent(tileValuesObject[i].transform);
 			tileValueText[i].transform.localScale = tileTextScale.transform.localScale;
 
-			tileBackground[i] = Instantiate(Resources.Load("Prefabs/Tile_Background", typeof(GameObject)), transform) as GameObject;
-			tileBackground[i].transform.SetParent(gameObject.transform);
+			// Set tile backgrounds based on the category that tile belongs to
+			SetTileBackgrounds(i);
 
 			tileUsedArray[i] = Instantiate(Resources.Load("Prefabs/Tile_Used", typeof(GameObject)), transform) as GameObject;
 			tileUsedArray[i].transform.SetParent(gameObject.transform);
@@ -212,36 +198,36 @@ public class TileManager : MonoBehaviour {
 
 			// Change the text depending on the current card value
 			tileValueText[i].text = tileObjects[i].GetComponent<ChimneyTile>().TileValue.ToString();
-			currentTileCatagory = chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory;
-			switch (currentTileCatagory)
-			{
-				case ChimneyTileTemplate.Catagory.ARMOUR:
-					tileValueText[i].color = armourColour;
-					break;
-				case ChimneyTileTemplate.Catagory.WEAPON:
-					tileValueText[i].color = weaponColour;
-					break;
-				case ChimneyTileTemplate.Catagory.POTION:
-					tileValueText[i].color = potionColour;
-					break;
-				case ChimneyTileTemplate.Catagory.SKIPTOOL:
-					tileValueText[i].color = skipToolColour;
-					break;
-				case ChimneyTileTemplate.Catagory.ENEMY:
-					tileValueText[i].color = enemyColour;
-					break;
-				case ChimneyTileTemplate.Catagory.BOMB:
-					tileValueText[i].color = bombColour;
-					break;
-				case ChimneyTileTemplate.Catagory.MONEY:
-					tileValueText[i].color = moneyColour;
-					break;
-				case ChimneyTileTemplate.Catagory.EMPTY:
-					tileValueText[i].color = bombColour;
-					break;
-				default:
-					break;
-			}
+			//currentTileCatagory = chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory;
+			//switch (currentTileCatagory)
+			//{
+			//	case ChimneyTileTemplate.Catagory.ARMOUR:
+			//		tileValueText[i].color = armourColour;
+			//		break;
+			//	case ChimneyTileTemplate.Catagory.WEAPON:
+			//		tileValueText[i].color = weaponColour;
+			//		break;
+			//	case ChimneyTileTemplate.Catagory.POTION:
+			//		tileValueText[i].color = potionColour;
+			//		break;
+			//	case ChimneyTileTemplate.Catagory.SKIPTOOL:
+			//		tileValueText[i].color = skipToolColour;
+			//		break;
+			//	case ChimneyTileTemplate.Catagory.ENEMY:
+			//		tileValueText[i].color = enemyColour;
+			//		break;
+			//	case ChimneyTileTemplate.Catagory.BOMB:
+			//		tileValueText[i].color = bombColour;
+			//		break;
+			//	case ChimneyTileTemplate.Catagory.MONEY:
+			//		tileValueText[i].color = moneyColour;
+			//		break;
+			//	case ChimneyTileTemplate.Catagory.EMPTY:
+			//		tileValueText[i].color = bombColour;
+			//		break;
+			//	default:
+			//		break;
+			//}
 
 			// Give the tiles tags
 			if (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ENEMY)
@@ -629,17 +615,46 @@ public class TileManager : MonoBehaviour {
 		}
 	}
 
-	//public IEnumerator revealingTiles(int noOfTilesToShow)
-	//{
-	//	for (int i = 0; i < noOfTilesToShow; i++)
-	//	{
-	//		if (tileObjects.Length > (currentTileNumber + i + 1))
-	//		{
-	//			yield return new WaitForSeconds(0.1f);
-	//			tileAppearPS.transform.localPosition = new Vector3(0, tileObjects[currentTileNumber + i + 1].transform.localPosition.y + 10, 0);
-	//			tileAppearPS.GetComponent<ParticleSystem>().Play();
-	//			tileObjects[currentTileNumber + i + 1].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + i + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
-	//		}
-	//	}
-	//}
+	void SetTileBackgrounds(int index)
+	{
+		switch (chimneyTileTemplateArray[tileObjects[index].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory)
+		{
+			case ChimneyTileTemplate.Catagory.ARMOUR:
+				tileBackground[index] = Instantiate(Resources.Load("Prefabs/TileBackgrounds/ArmourTileBackground", typeof(GameObject)), transform) as GameObject;
+				tileBackground[index].transform.SetParent(gameObject.transform);
+				break;
+			case ChimneyTileTemplate.Catagory.WEAPON:
+				tileBackground[index] = Instantiate(Resources.Load("Prefabs/TileBackgrounds/WeaponTileBackground", typeof(GameObject)), transform) as GameObject;
+				tileBackground[index].transform.SetParent(gameObject.transform);
+				break;
+			case ChimneyTileTemplate.Catagory.POTION:
+				tileBackground[index] = Instantiate(Resources.Load("Prefabs/TileBackgrounds/PotionTileBackground", typeof(GameObject)), transform) as GameObject;
+				tileBackground[index].transform.SetParent(gameObject.transform);
+				break;
+			case ChimneyTileTemplate.Catagory.SKIPTOOL:
+				tileBackground[index] = Instantiate(Resources.Load("Prefabs/TileBackgrounds/SkiptoolTileBackground", typeof(GameObject)), transform) as GameObject;
+				tileBackground[index].transform.SetParent(gameObject.transform);
+				break;
+			case ChimneyTileTemplate.Catagory.ENEMY:
+				if (chimneyTileTemplateArray[tileObjects[index].GetComponent<ChimneyTile>().RandomTileTypeNum].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS)
+				{
+					tileBackground[index] = Instantiate(Resources.Load("Prefabs/TileBackgrounds/BossTileBackground", typeof(GameObject)), transform) as GameObject;
+					tileBackground[index].transform.SetParent(gameObject.transform);
+				}
+				else
+				{
+					tileBackground[index] = Instantiate(Resources.Load("Prefabs/TileBackgrounds/MonsterTileBackground", typeof(GameObject)), transform) as GameObject;
+					tileBackground[index].transform.SetParent(gameObject.transform);
+				}
+				break;
+			case ChimneyTileTemplate.Catagory.BOMB:
+				tileBackground[index] = Instantiate(Resources.Load("Prefabs/TileBackgrounds/BombTileBackground", typeof(GameObject)), transform) as GameObject;
+				tileBackground[index].transform.SetParent(gameObject.transform);
+				break;
+			default:
+				tileBackground[index] = Instantiate(Resources.Load("Prefabs/Tile_Background", typeof(GameObject)), transform) as GameObject;
+				tileBackground[index].transform.SetParent(gameObject.transform);
+				break;
+		}
+	}
 }

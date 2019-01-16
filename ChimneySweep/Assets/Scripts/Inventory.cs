@@ -27,6 +27,8 @@ public class Inventory : MonoBehaviour {
 
 	[SerializeField]
 	Text[] itemValues;
+	[SerializeField]
+	Sprite[] catagoryTileBackground;
 
 	[SerializeField]
 	ChimneyTileTemplate[] tileStored;
@@ -142,7 +144,32 @@ public class Inventory : MonoBehaviour {
 		slots[freeSpace].GetComponent<SpriteRenderer>().sprite = newItem.artwork;
 		slots[freeSpace].GetComponent<InventorySlot>().ItemValue = itemValue;
 		itemValues[freeSpace].text = itemValue.ToString();
-		itemValues[freeSpace].color = color;
+
+		// Give them the correct backgrounds
+		switch (tileStored[freeSpace].catagory)
+		{
+			case ChimneyTileTemplate.Catagory.ARMOUR:
+				tileBackgrounds[freeSpace].GetComponent<SpriteRenderer>().sprite = catagoryTileBackground[0];
+				break;
+			case ChimneyTileTemplate.Catagory.WEAPON:
+				tileBackgrounds[freeSpace].GetComponent<SpriteRenderer>().sprite = catagoryTileBackground[1];
+				break;
+			case ChimneyTileTemplate.Catagory.POTION:
+				tileBackgrounds[freeSpace].GetComponent<SpriteRenderer>().sprite = catagoryTileBackground[2];
+				break;
+			case ChimneyTileTemplate.Catagory.SKIPTOOL:
+				tileBackgrounds[freeSpace].GetComponent<SpriteRenderer>().sprite = catagoryTileBackground[3];
+				break;
+			case ChimneyTileTemplate.Catagory.ENEMY:
+				tileBackgrounds[freeSpace].GetComponent<SpriteRenderer>().sprite = catagoryTileBackground[4];
+				break;
+			case ChimneyTileTemplate.Catagory.BOMB:
+				tileBackgrounds[freeSpace].GetComponent<SpriteRenderer>().sprite = catagoryTileBackground[5];
+				break;
+			default:
+				break;
+		}
+
 		tileBackgrounds[freeSpace].transform.position = new Vector3(slots[freeSpace].transform.position.x, slots[freeSpace].transform.position.y, slots[freeSpace].transform.position.z);
 	}
 

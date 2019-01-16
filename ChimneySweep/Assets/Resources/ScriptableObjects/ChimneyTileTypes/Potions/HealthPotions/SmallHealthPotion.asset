@@ -13,9 +13,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileName: SmallHealthPotion
   description: Tile Description
-  artwork: {fileID: 21300000, guid: 3e4034834d0650143a0ee6d88d0a3528, type: 3}
+  artwork: {fileID: 21300000, guid: bdb70c68b188b21408f177bce49f5e39, type: 3}
   minTileValue: 5
   maxTileValue: 8
+  spawnPercentage: 10
+  particleEffects: []
+  spawnPercentageIncreasePerWeek: 0
   catagory: 2
   potionSubCatagory: 0
   enemySubCatagory: 0
