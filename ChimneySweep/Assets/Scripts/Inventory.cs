@@ -9,6 +9,10 @@ public class Inventory : MonoBehaviour {
 	GameMaster gm;
 	[SerializeField]
 	TileManager tileManager;
+	public TileManager InventoryTileManager { get { return tileManager; } }
+	[SerializeField]
+	Swipe swipeControls;
+	public Swipe SwipeControls { get { return swipeControls; } }
 
 	[SerializeField]
 	GameObject[] slots;
@@ -138,11 +142,12 @@ public class Inventory : MonoBehaviour {
 		return !noEmptySlots;
 	}
 
-	public void AddItem(ChimneyTileTemplate newItem, int itemValue, Color color)
+	public void AddItem(ChimneyTileTemplate newItem, int itemValue, Color color, int chimneyTileIndex)
 	{
 		tileStored[freeSpace] = newItem;
 		slots[freeSpace].GetComponent<SpriteRenderer>().sprite = newItem.artwork;
 		slots[freeSpace].GetComponent<InventorySlot>().ItemValue = itemValue;
+		slots[freeSpace].GetComponent<InventorySlot>().ChimneyTileTemplateIndex = chimneyTileIndex;
 		itemValues[freeSpace].text = itemValue.ToString();
 
 		// Give them the correct backgrounds
@@ -171,6 +176,7 @@ public class Inventory : MonoBehaviour {
 		}
 
 		tileBackgrounds[freeSpace].transform.position = new Vector3(slots[freeSpace].transform.position.x, slots[freeSpace].transform.position.y, slots[freeSpace].transform.position.z);
+		slots[freeSpace].GetComponent<InventorySlot>().TileBackgroundSprite = tileBackgrounds[freeSpace].GetComponent<SpriteRenderer>().sprite;
 	}
 
 	public void UseItem(bool chimneyTile)

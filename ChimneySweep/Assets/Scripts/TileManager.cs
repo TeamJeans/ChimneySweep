@@ -46,6 +46,8 @@ public class TileManager : MonoBehaviour {
 	Text tileTypeDescriptionText;
 	[SerializeField]
 	Image currentTileSprite;
+	[SerializeField]
+	Image currentTileBackgroundSprite;
 
 	[SerializeField]
 	TileCatagoryVariables tileCatagoryVariables;
@@ -57,6 +59,7 @@ public class TileManager : MonoBehaviour {
 	bool tileDragMode = false;
 	public bool TileDragMode{get{ return tileDragMode; } set { tileDragMode = value; } }
 	bool endDayMenuEnabled = false;
+	public bool EndDayMenuEnabled { get { return endDayMenuEnabled; } }
 	bool tileSelected = false;
 	bool hasHearthTileBeenGenerated = false;
 	bool particleEffectsInstatiated = false;
@@ -271,13 +274,13 @@ public class TileManager : MonoBehaviour {
 
 			// Check if the text should be showing or not
 			if (tileObjects[i].GetComponent<SpriteRenderer>().sprite == tileBackSprite)
-				{
-					tileValueText[i].gameObject.SetActive(false);
-				}
-				else
-				{
-					tileValueText[i].gameObject.SetActive(true);
-				}
+			{
+				tileValueText[i].gameObject.SetActive(false);
+			}
+			else
+			{
+				tileValueText[i].gameObject.SetActive(true);
+			}
 
 			// Find the selected tile
 				if (tileObjects[i].GetComponent<ChimneyTile>().Selected)
@@ -540,6 +543,82 @@ public class TileManager : MonoBehaviour {
 		tileDescriptionText.text = chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].description;
 		tileTypeDescriptionText.text = tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryDescription;
 		currentTileSprite.sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+		currentTileBackgroundSprite.sprite = tileBackground[currentTileNumber].GetComponent<SpriteRenderer>().sprite;
+	}
+
+	public void SetUpInventoryTileDescription(InventorySlot inventorySlot)
+	{
+		tileDescriptionMenu.SetActive(true);
+
+		switch (chimneyTileTemplateArray[inventorySlot.ChimneyTileTemplateIndex].catagory)
+		{
+			case ChimneyTileTemplate.Catagory.ARMOUR:
+				inventorySlot.CatagoryName = "Armour";
+				inventorySlot.CatagoryDescription = armourDescription;
+				break;
+			case ChimneyTileTemplate.Catagory.WEAPON:
+				inventorySlot.CatagoryName = "Weapon";
+				inventorySlot.CatagoryDescription = weaponDescription;
+				break;
+			case ChimneyTileTemplate.Catagory.POTION:
+				inventorySlot.CatagoryName = "Potion";
+				inventorySlot.CatagoryDescription = potionDescription;
+				break;
+			case ChimneyTileTemplate.Catagory.SKIPTOOL:
+				inventorySlot.CatagoryName = "Skip Tool";
+				inventorySlot.CatagoryDescription = skipToolDescription;
+				break;
+			case ChimneyTileTemplate.Catagory.ENEMY:
+				inventorySlot.CatagoryName = "Enemy";
+				inventorySlot.CatagoryDescription = enemyDescription;
+				break;
+			case ChimneyTileTemplate.Catagory.BOMB:
+				inventorySlot.CatagoryName = "Bomb";
+				inventorySlot.CatagoryDescription = bombDescription;
+				break;
+			case ChimneyTileTemplate.Catagory.MONEY:
+				inventorySlot.CatagoryName = "Money";
+				inventorySlot.CatagoryDescription = moneyDescription;
+				break;
+			default:
+				break;
+		}
+
+		tileNameText.text = chimneyTileTemplateArray[inventorySlot.ChimneyTileTemplateIndex].tileName;
+		tileTypeText.text = "Type: " + inventorySlot.CatagoryName;
+		tileDescriptionText.text = chimneyTileTemplateArray[inventorySlot.ChimneyTileTemplateIndex].description;
+		tileTypeDescriptionText.text = inventorySlot.CatagoryDescription;
+		currentTileSprite.sprite = chimneyTileTemplateArray[inventorySlot.ChimneyTileTemplateIndex].artwork;
+		currentTileBackgroundSprite.sprite = inventorySlot.TileBackgroundSprite;
+	}
+
+	public void ShowInventoryTileDescription(InventorySlot inventorySlot)
+	{
+		if (inventorySlot.gameObject.transform.position.x == 0 && inventorySlot.MouseOver && Input.GetMouseButton(0))
+		{
+			elapsedTimeForTileBeingHeldDown += Time.deltaTime;
+			if (elapsedTimeForTileBeingHeldDown >= lengthOfTimeTileNeedsToBeHeldDown)
+			{
+				showTileDescription = true;
+				elapsedTimeForTileBeingHeldDown = 0f;
+			}
+		}
+		else
+		{
+			elapsedTimeForTileBeingHeldDown = 0f;
+		}
+
+		if (showTileDescription)
+		{
+			showTileDescription = false;
+			SetUpInventoryTileDescription(inventorySlot);
+			tileDescriptionMenu.SetActive(true);
+		}
+
+		if (tileDescriptionMenu.activeSelf == true && Input.GetMouseButtonDown(0))
+		{
+			tileDescriptionMenu.SetActive(false);
+		}
 	}
 
 	int GetRandomTileBasedOnPercentage()
