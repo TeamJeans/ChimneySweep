@@ -88,7 +88,7 @@ public class Inventory : MonoBehaviour {
 
 		if (slotSelected)
 		{
-			if (selectedSlot.GetComponent<InventorySlot>().MouseOver && Input.GetMouseButton(0))
+			if (selectedSlot.GetComponent<InventorySlot>().BeingDragged && selectedSlot.GetComponent<InventorySlot>().MouseOver)
 			{
 				mousePosition = Input.mousePosition;
 				mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
@@ -96,6 +96,8 @@ public class Inventory : MonoBehaviour {
 			}
 			if (Input.GetMouseButtonUp(0))
 			{
+				//Debug.Log("Mouse up");
+				selectedSlot.GetComponent<InventorySlot>().BeingDragged = false;
 				selectedSlot.transform.position = new Vector3(selectedSlot.GetComponent<InventorySlot>().OriginalPosition.x, selectedSlot.GetComponent<InventorySlot>().OriginalPosition.y, selectedSlot.GetComponent<InventorySlot>().OriginalPosition.z);
 			}
 		}

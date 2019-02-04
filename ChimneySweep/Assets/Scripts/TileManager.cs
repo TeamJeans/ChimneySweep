@@ -33,7 +33,8 @@ public class TileManager : MonoBehaviour {
 	public bool ShowTileDescription { get { return showTileDescription; } set { showTileDescription = value; } }
 	float elapsedTimeForTileBeingHeldDown = 0f;
 	[SerializeField]
-	float lengthOfTimeTileNeedsToBeHeldDown = 2f;
+	float lengthOfTimeTileNeedsToBeHeldDown = 1f;
+
 	[SerializeField]
 	GameObject tileDescriptionMenu;
 	[SerializeField]
@@ -594,18 +595,18 @@ public class TileManager : MonoBehaviour {
 
 	public void ShowInventoryTileDescription(InventorySlot inventorySlot)
 	{
-		if (inventorySlot.gameObject.transform.position.x == 0 && inventorySlot.MouseOver && Input.GetMouseButton(0))
+		if (!inventorySlot.BeingDragged && inventorySlot.MouseOver && Input.GetMouseButton(0))
 		{
-			elapsedTimeForTileBeingHeldDown += Time.deltaTime;
-			if (elapsedTimeForTileBeingHeldDown >= lengthOfTimeTileNeedsToBeHeldDown)
+			inventorySlot.ElapsedTimeForTileBeingHeldDown += Time.deltaTime;
+			if (inventorySlot.ElapsedTimeForTileBeingHeldDown >= inventorySlot.LengthOfTimeTileNeedsToBeHeldDown)
 			{
 				showTileDescription = true;
-				elapsedTimeForTileBeingHeldDown = 0f;
+				inventorySlot.ElapsedTimeForTileBeingHeldDown = 0f;
 			}
 		}
 		else
 		{
-			elapsedTimeForTileBeingHeldDown = 0f;
+			inventorySlot.ElapsedTimeForTileBeingHeldDown = 0f;
 		}
 
 		if (showTileDescription)

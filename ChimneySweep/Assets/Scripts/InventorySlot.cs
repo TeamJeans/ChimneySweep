@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class InventorySlot : MonoBehaviour {
 
-	[SerializeField]
-	bool selected;
+	bool selected = false;
 	public bool Selected { get { return selected; } set { selected = value; } }
+
+	bool beingDragged = false;
+	public bool BeingDragged { get { return beingDragged; } set { beingDragged = value; } }
 
 	int slotNum;
 	public int SlotNum { get { return slotNum; } set { slotNum = value; } }
@@ -21,6 +23,12 @@ public class InventorySlot : MonoBehaviour {
 	[SerializeField]
 	Inventory inventory;
 	Swipe swipeControls;
+
+	float elapsedTimeForTileBeingHeldDown = 0f;
+	public float ElapsedTimeForTileBeingHeldDown { get { return elapsedTimeForTileBeingHeldDown; } set { elapsedTimeForTileBeingHeldDown = value; } }
+	[SerializeField]
+	float lengthOfTimeTileNeedsToBeHeldDown = 1f;
+	public float LengthOfTimeTileNeedsToBeHeldDown { get { return lengthOfTimeTileNeedsToBeHeldDown; } }
 
 	int itemValue;
 	public int ItemValue { get { return itemValue; } set { itemValue = value; } }
@@ -44,34 +52,34 @@ public class InventorySlot : MonoBehaviour {
 
 	void OnMouseOver()
 	{
-		if (!mouseOver)
-		{
-			mouseOver = true;
-		}
+		mouseOver = true;
 	}
 
 	void OnMouseExit()
 	{
-		if (mouseOver)
-		{
-			mouseOver = false;
-		}
+		mouseOver = false;
 	}
 
 	void Update()
 	{
-		if (!mouseOver)
-		{
-			selected = false;
-		}
-
-		// Check if the user has dragged the tile
-		if (inventory.TileStored[slotNum].catagory != ChimneyTileTemplate.Catagory.EMPTY && swipeControls.SwipeUp && mouseOver)
+		// Check if the user has tapped the inventory item
+		if (inventory.TileStored[slotNum].catagory != ChimneyTileTemplate.Catagory.EMPTY && mouseOver && Input.GetMouseButtonDown(0))
 		{
 			Debug.Log("SELECTED INVENTORY TILE");
 			selected = true;
 		}
-		Debug.Log(selected);
+		//Debug.Log(selected);
+
+		if (selected && swipeControls.SwipeUp)
+		{
+			beingDragged = true;
+		}
+
+		if (!mouseOver && Input.GetMouseButtonDown(0))
+		{
+			selected = false;
+			beingDragged = false;
+		}
 
 		inventory.InventoryTileManager.ShowInventoryTileDescription(this);
 	}

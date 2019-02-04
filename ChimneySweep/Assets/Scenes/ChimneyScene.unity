@@ -1032,9 +1032,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62636f2e52e09c842b89566eecd9783c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selected: 0
   mouseOver: 0
   inventory: {fileID: 1068728037}
+  lengthOfTimeTileNeedsToBeHeldDown: 2
 --- !u!61 &188506183
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2242,9 +2242,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62636f2e52e09c842b89566eecd9783c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selected: 0
   mouseOver: 0
   inventory: {fileID: 1068728037}
+  lengthOfTimeTileNeedsToBeHeldDown: 2
 --- !u!61 &423663915
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11600,7 +11600,7 @@ MonoBehaviour:
   tileDescriptionText: {fileID: 2068062041}
   tileTypeDescriptionText: {fileID: 1615061799}
   currentTileSprite: {fileID: 2147409037}
-  currentTileBackgroundSprite: {fileID: 0}
+  currentTileBackgroundSprite: {fileID: 73146017}
   tileCatagoryVariables: {fileID: 1661293671}
   tileDragMode: 0
   tilePrefabs:
@@ -18100,9 +18100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62636f2e52e09c842b89566eecd9783c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selected: 0
   mouseOver: 0
   inventory: {fileID: 1068728037}
+  lengthOfTimeTileNeedsToBeHeldDown: 2
 --- !u!61 &1983355703
 BoxCollider2D:
   m_ObjectHideFlags: 0

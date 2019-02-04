@@ -19,6 +19,6 @@ MonoBehaviour:
   spawnPercentage: 10
   particleEffects: []
   spawnPercentageIncreasePerWeek: 0
-  catagory: 0
+  catagory: 5
   potionSubCatagory: 0
   enemySubCatagory: 0
