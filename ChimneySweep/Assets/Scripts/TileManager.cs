@@ -5,6 +5,9 @@ using System.Collections;
 public class TileManager : MonoBehaviour {
 
 	[SerializeField]
+	bool isShopChimney = false;
+
+	[SerializeField]
 	float spaceBetweenTiles = 100f;
 	public float SpaceBetweenTiles { get { return spaceBetweenTiles; } }
 	[SerializeField]
@@ -117,18 +120,16 @@ public class TileManager : MonoBehaviour {
 		// Toggles control of the tiles when the end day menu is open
 		GameMaster.gm.onToggleEndDayMenu += OnEndDayMenuToggle;
 
-		tileObjects = new GameObject[tilePrefabs.Length];
-		tileValueText = new Text[tileObjects.Length];
-		tileValuesObject = new GameObject[tileObjects.Length];
-		tileBackground = new GameObject[tileObjects.Length];
-		tileUsedArray = new GameObject[tileObjects.Length];
 
 		for (int i = 0; i < chimneyTileTemplateArray.Length; i++)
 		{
 			// Check how many bosses are avaliable
-			if (chimneyTileTemplateArray[i].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS)
+			if (!isShopChimney)
 			{
-				bossCounter++;
+				if (chimneyTileTemplateArray[i].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS)
+				{
+					bossCounter++;
+				}
 			}
 
 			// Make it so that you can't put enemies or money items in the inventory
@@ -137,20 +138,31 @@ public class TileManager : MonoBehaviour {
 				chimneyTileTemplateArray[i].Storable = false;
 			}
 		}
-		bossTileTemplates = new int[bossCounter];   // Give the boss array the right size
 
-		for (int i = 0; i < bossTileTemplates.Length; i++)
-			bossTileTemplates[i] = 0;
-
-		int counter = 0;
-		for (int i = 0; i < chimneyTileTemplateArray.Length; i++)
+		if (!isShopChimney)
 		{
-			if (chimneyTileTemplateArray[i].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS)
+			bossTileTemplates = new int[bossCounter];   // Give the boss array the right size
+
+			for (int i = 0; i < bossTileTemplates.Length; i++)
+				bossTileTemplates[i] = 0;
+
+			int counter = 0;
+			for (int i = 0; i < chimneyTileTemplateArray.Length; i++)
 			{
-				bossTileTemplates[counter] = i;
-				counter++;
+				if (chimneyTileTemplateArray[i].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS)
+				{
+					bossTileTemplates[counter] = i;
+					counter++;
+				}
 			}
 		}
+
+		// Create the size for all the arrays
+		tileObjects = new GameObject[tilePrefabs.Length];
+		tileValueText = new Text[tileObjects.Length];
+		tileValuesObject = new GameObject[tileObjects.Length];
+		tileBackground = new GameObject[tileObjects.Length];
+		tileUsedArray = new GameObject[tileObjects.Length];
 
 		for (int i = 0; i < tilePrefabs.Length; i++)
 		{
@@ -160,7 +172,7 @@ public class TileManager : MonoBehaviour {
 			tileObjects[i].transform.localScale = tile.transform.localScale;
 
 			// Randomly changes the type of each tile generated
-			if (i == tileObjects.Length -1)
+			if (i == tileObjects.Length -1 && !isShopChimney)
 			{
 				int tempIndex = Random.Range(0, bossTileTemplates.Length);
 				//Debug.Log("Index: " + tempIndex);
@@ -170,6 +182,7 @@ public class TileManager : MonoBehaviour {
 			}
 			else
 			{
+				// Generate a random tile and if it is a boss tile then keep generating them until it is not a boss tile
 				do
 				{
 					tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = GetRandomTileBasedOnPercentage();
@@ -202,36 +215,6 @@ public class TileManager : MonoBehaviour {
 
 			// Change the text depending on the current card value
 			tileValueText[i].text = tileObjects[i].GetComponent<ChimneyTile>().TileValue.ToString();
-			//currentTileCatagory = chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory;
-			//switch (currentTileCatagory)
-			//{
-			//	case ChimneyTileTemplate.Catagory.ARMOUR:
-			//		tileValueText[i].color = armourColour;
-			//		break;
-			//	case ChimneyTileTemplate.Catagory.WEAPON:
-			//		tileValueText[i].color = weaponColour;
-			//		break;
-			//	case ChimneyTileTemplate.Catagory.POTION:
-			//		tileValueText[i].color = potionColour;
-			//		break;
-			//	case ChimneyTileTemplate.Catagory.SKIPTOOL:
-			//		tileValueText[i].color = skipToolColour;
-			//		break;
-			//	case ChimneyTileTemplate.Catagory.ENEMY:
-			//		tileValueText[i].color = enemyColour;
-			//		break;
-			//	case ChimneyTileTemplate.Catagory.BOMB:
-			//		tileValueText[i].color = bombColour;
-			//		break;
-			//	case ChimneyTileTemplate.Catagory.MONEY:
-			//		tileValueText[i].color = moneyColour;
-			//		break;
-			//	case ChimneyTileTemplate.Catagory.EMPTY:
-			//		tileValueText[i].color = bombColour;
-			//		break;
-			//	default:
-			//		break;
-			//}
 
 			// Give the tiles tags
 			if (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ENEMY)
