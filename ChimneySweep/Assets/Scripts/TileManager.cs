@@ -5,7 +5,11 @@ using System.Collections;
 public class TileManager : MonoBehaviour {
 
 	[SerializeField]
+	GameMaster gm;
+	
+	[SerializeField]
 	bool isShopChimney = false;
+	public bool IsShopChimney { get { return isShopChimney; }}
 
 	[SerializeField]
 	float spaceBetweenTiles = 100f;
@@ -233,19 +237,51 @@ public class TileManager : MonoBehaviour {
 
 		Debug.Log("START: " + currentlySelectedTile);
 
-		// Make the next tile visable. This needs to be done at the start because "Move to next tile isn't called"
-		if (currentTileNumber != tileObjects.Length - 1)
+		// Show three tiles at a time if the chimney is a shop chimney
+		if (!isShopChimney)
 		{
-			// Show puff of smoke before showing the next tile
-			if (tileObjects[currentTileNumber + 1].GetComponent<SpriteRenderer>().sprite != chimneyTileTemplateArray[tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork)
+			// Make the next tile visable. This needs to be done at the start because "Move to next tile isn't called"
+			if (currentTileNumber != tileObjects.Length - 1)
 			{
-				tileAppearPS.transform.localPosition = new Vector3(0, tileObjects[currentTileNumber + 1].transform.localPosition.y + 10, 0);
-				tileAppearPS.GetComponent<ParticleSystem>().Play();
+				// Show puff of smoke before showing the next tile
+				if (tileObjects[currentTileNumber + 1].GetComponent<SpriteRenderer>().sprite != chimneyTileTemplateArray[tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork)
+				{
+					tileAppearPS.transform.localPosition = new Vector3(0, tileObjects[currentTileNumber + 1].transform.localPosition.y + 10, 0);
+					tileAppearPS.GetComponent<ParticleSystem>().Play();
 
-				// Show the artwork for that tile
-				tileObjects[currentTileNumber + 1].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+					// Show the artwork for that tile
+					tileObjects[currentTileNumber + 1].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+				}
+
 			}
+		}
+		else
+		{
+			if (currentTileNumber != tileObjects.Length - 1)
+			{
+				// Show puff of smoke before showing the next tile
+				if (tileObjects[currentTileNumber + 1].GetComponent<SpriteRenderer>().sprite != chimneyTileTemplateArray[tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork)
+				{
+					tileAppearPS.transform.localPosition = new Vector3(0, tileObjects[currentTileNumber + 1].transform.localPosition.y + 10, 0);
+					tileAppearPS.GetComponent<ParticleSystem>().Play();
 
+					// Show the artwork for that tile
+					tileObjects[currentTileNumber + 1].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+				}
+
+				if (currentTileNumber != tileObjects.Length - 2)
+				{
+					// Show puff of smoke before showing the next tile
+					if (tileObjects[currentTileNumber + 2].GetComponent<SpriteRenderer>().sprite != chimneyTileTemplateArray[tileObjects[currentTileNumber + 2].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork)
+					{
+						tileAppearPS.transform.localPosition = new Vector3(0, tileObjects[currentTileNumber + 2].transform.localPosition.y + 10, 0);
+						tileAppearPS.GetComponent<ParticleSystem>().Play();
+
+						// Show the artwork for that tile
+						tileObjects[currentTileNumber + 2].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + 2].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+					}
+				}
+			}
 		}
 	}
 
@@ -388,6 +424,38 @@ public class TileManager : MonoBehaviour {
 
 	public void MoveToNextTile()
 	{
+		// If the chimney is a shop chimney then stop at the right amount of tiles to show
+		if (isShopChimney)
+		{
+			switch (ShopChimneyValues.NoOfShopChimneyVisits)
+			{
+				case 0:
+					if (currentTileNumber == 2)
+					{
+						// Make this go to another scene
+						Debug.Log("Fix me");
+						gm.ChangeSceneToChimneyScene();
+						ShopChimneyValues.NoOfShopChimneyVisits++;
+						ShopChimneyValues.CurrentTilenumber = currentTileNumber++;
+						return;
+					}
+					break;
+				case 1:
+					if (currentTileNumber == 5)
+					{
+						// Make this go to another scene
+						Debug.Log("Fix me");
+						gm.ChangeSceneToChimneyScene();
+						ShopChimneyValues.NoOfShopChimneyVisits++;
+						ShopChimneyValues.CurrentTilenumber = currentTileNumber++;
+						return;
+					}
+					break;
+				default:
+					break;
+			}
+		}
+
 		// Destroy particle effects
 		if (particleEffectsInstatiated)
 		{
@@ -415,7 +483,7 @@ public class TileManager : MonoBehaviour {
 		currentTileNumber++;
 
 		// Make the next tile visable
-		if (currentTileNumber != tileObjects.Length - 1)
+		if (currentTileNumber != tileObjects.Length - 1 && !isShopChimney)
 		{
 			// Show puff of smoke before showing the next tile
 			if (tileObjects[currentTileNumber + 1].GetComponent<SpriteRenderer>().sprite != chimneyTileTemplateArray[tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork)

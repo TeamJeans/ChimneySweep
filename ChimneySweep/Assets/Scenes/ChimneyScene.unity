@@ -4856,6 +4856,8 @@ MonoBehaviour:
   useTextBackground: {fileID: 1844911981}
   fightTextBackground: {fileID: 704084651}
   storeTextBackground: {fileID: 1004154078}
+  buyTextBackground: {fileID: 0}
+  discardTextBackground: {fileID: 0}
   maxHitPoints: 10
   currentHitPoints: 10
   maxArmourHitPoints: 0
@@ -11583,6 +11585,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1751eecae49663349a10b237b304c4e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gm: {fileID: 1046055382}
+  isShopChimney: 0
   spaceBetweenTiles: 0.35
   swipeControls: {fileID: 1046055380}
   cameraControl: {fileID: 1700119698}

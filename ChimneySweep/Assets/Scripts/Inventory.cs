@@ -185,33 +185,40 @@ public class Inventory : MonoBehaviour {
 	{
 		if (!chimneyTile)
 		{
-
-			// Change what the item does depending on it's catagory.
-			switch (tileStored[selectedSlot.GetComponent<InventorySlot>().SlotNum].catagory)
+			// If the chimney is a shop don't use the tiles like this
+			if (!tileManager.IsShopChimney)
 			{
-				case ChimneyTileTemplate.Catagory.ARMOUR:
-					UsingArmourItem(chimneyTile);
-					break;
-				case ChimneyTileTemplate.Catagory.WEAPON:
-					UsingWeaponItem();
-					break;
-				case ChimneyTileTemplate.Catagory.POTION:
-					UsingPotionItem(chimneyTile);
-					break;
-				case ChimneyTileTemplate.Catagory.SKIPTOOL:
-					UsingSkipToolItem();
-					break;
-				case ChimneyTileTemplate.Catagory.ENEMY:
-					break;
-				case ChimneyTileTemplate.Catagory.BOMB:
-					UsingBombItem();
-					break;
-				case ChimneyTileTemplate.Catagory.MONEY:
-					break;
-				case ChimneyTileTemplate.Catagory.EMPTY:
-					break;
-				default:
-					break;
+				// Change what the item does depending on it's catagory.
+				switch (tileStored[selectedSlot.GetComponent<InventorySlot>().SlotNum].catagory)
+				{
+					case ChimneyTileTemplate.Catagory.ARMOUR:
+						UsingArmourItem(chimneyTile);
+						break;
+					case ChimneyTileTemplate.Catagory.WEAPON:
+						UsingWeaponItem();
+						break;
+					case ChimneyTileTemplate.Catagory.POTION:
+						UsingPotionItem(chimneyTile);
+						break;
+					case ChimneyTileTemplate.Catagory.SKIPTOOL:
+						UsingSkipToolItem();
+						break;
+					case ChimneyTileTemplate.Catagory.ENEMY:
+						break;
+					case ChimneyTileTemplate.Catagory.BOMB:
+						UsingBombItem();
+						break;
+					case ChimneyTileTemplate.Catagory.MONEY:
+						break;
+					case ChimneyTileTemplate.Catagory.EMPTY:
+						break;
+					default:
+						break;
+				}
+			}
+			else // The chimney is a shop
+			{
+				gm.SellingInventoryItem(slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue);
 			}
 
 			// Get rid of the item
@@ -222,32 +229,40 @@ public class Inventory : MonoBehaviour {
 		}
 		else
 		{
-			// Change what the item does depending on it's catagory.
-			switch (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory)
+			// If the chimney is a shop don't use the tiles like this
+			if (!tileManager.IsShopChimney)
 			{
-				case ChimneyTileTemplate.Catagory.ARMOUR:
-					UsingArmourItem(chimneyTile);
-					break;
-				case ChimneyTileTemplate.Catagory.WEAPON:
-					UsingWeaponItem();
-					break;
-				case ChimneyTileTemplate.Catagory.POTION:
-					UsingPotionItem(chimneyTile);
-					break;
-				case ChimneyTileTemplate.Catagory.SKIPTOOL:
-					UsingSkipToolItem();
-					break;
-				case ChimneyTileTemplate.Catagory.ENEMY:
-					break;
-				case ChimneyTileTemplate.Catagory.BOMB:
-					UsingBombItem();
-					break;
-				case ChimneyTileTemplate.Catagory.MONEY:
-					break;
-				case ChimneyTileTemplate.Catagory.EMPTY:
-					break;
-				default:
-					break;
+				// Change what the item does depending on it's catagory.
+				switch (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory)
+				{
+					case ChimneyTileTemplate.Catagory.ARMOUR:
+						UsingArmourItem(chimneyTile);
+						break;
+					case ChimneyTileTemplate.Catagory.WEAPON:
+						UsingWeaponItem();
+						break;
+					case ChimneyTileTemplate.Catagory.POTION:
+						UsingPotionItem(chimneyTile);
+						break;
+					case ChimneyTileTemplate.Catagory.SKIPTOOL:
+						UsingSkipToolItem();
+						break;
+					case ChimneyTileTemplate.Catagory.ENEMY:
+						break;
+					case ChimneyTileTemplate.Catagory.BOMB:
+						UsingBombItem();
+						break;
+					case ChimneyTileTemplate.Catagory.MONEY:
+						break;
+					case ChimneyTileTemplate.Catagory.EMPTY:
+						break;
+					default:
+						break;
+				}
+			}
+			else // The chimney is a shop
+			{
+				gm.SellingInventoryItem(slots[selectedSlot.GetComponent<InventorySlot>().SlotNum].GetComponent<InventorySlot>().ItemValue);
 			}
 		}
 	}

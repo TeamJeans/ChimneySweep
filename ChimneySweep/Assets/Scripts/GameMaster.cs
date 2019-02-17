@@ -48,6 +48,11 @@ public class GameMaster : MonoBehaviour {
 	GameObject storeTextBackground;
 
 	[SerializeField]
+	GameObject buyTextBackground;
+	[SerializeField]
+	GameObject discardTextBackground;
+
+	[SerializeField]
 	int maxHitPoints = 10;
 	[SerializeField]
 	int currentHitPoints = 10;
@@ -96,12 +101,17 @@ public class GameMaster : MonoBehaviour {
 	[SerializeField]
 	Sprite armourBrokenSprite;
 
+	ChimneyTileTemplate currentTileType;
+
 	void Awake()
 	{
 		if (gm == null)
 		{
 			gm = GameObject.FindGameObjectWithTag("GM").GetComponent<GameMaster>();
 		}
+
+		// REMOVE THIS!!!
+		StaticValueHolder.TotalMoney = 20;
 
 		currentMoney = StaticValueHolder.TotalMoney;
 	}
@@ -113,6 +123,13 @@ public class GameMaster : MonoBehaviour {
 	{
 		dayText.text = "Day " + (StaticValueHolder.CurrentDay + 1);
 		StaticValueHolder.DailyMoney = 0;
+
+		// Set the text background objects to be disabled at first
+		if (tileManager.IsShopChimney)
+		{
+			buyTextBackground.SetActive(false);
+			discardTextBackground.SetActive(false);
+		}
 	}
 
 	// Update is called once per frame
@@ -163,6 +180,9 @@ public class GameMaster : MonoBehaviour {
 		//	onToggleEndDayMenu.Invoke(tileDescriptionMenu.activeSelf);
 		//}
 
+		// Set the current tile type
+		currentTileType = tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum];
+
 		// Passing the current money value between scenes
 		StaticValueHolder.DailyMoney = currentMoney - StaticValueHolder.TotalMoney;
 	}
@@ -201,12 +221,17 @@ public class GameMaster : MonoBehaviour {
 		SceneManager.LoadScene("MainMenuScene");
 	}
 
+	public void ChangeSceneToChimneyScene()
+	{
+		SceneManager.LoadScene("ChimneyScene");
+	}
+
 	void LeftSwipingHandler()
 	{
 		if (tileSwipeLeft.CollisionWithStorableTile && !endDayMenu.activeSelf)
 		{
 			tileSwipeRight.CollisionWithTile = false;
-			if (Input.GetMouseButtonUp(0))
+			if (Input.GetMouseButtonUp(0) && !tileManager.IsShopChimney)
 			{
 				// Give the player a sum of money equal to that of the tile value
 				currentMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().TileValue;
@@ -223,8 +248,19 @@ public class GameMaster : MonoBehaviour {
 				moneyText.text = "\u00A3" + currentMoney;
 				sellTextBackground.SetActive(false);
 				moneyText.color = Color.white;
+				//discardTextBackground.SetActive(false);
 			}
-			else
+			else if(Input.GetMouseButtonUp(0) && tileManager.IsShopChimney)
+			{
+				// Move to the next tile in the queue
+				tileManager.MoveToNextTile();
+
+				// Change where the camera goes to when the next tile is selected
+				cameraControl.SetDesiredCamPos();
+
+				tileSwipeLeft.CollisionWithStorableTile = false;
+			}
+			else if (!tileManager.IsShopChimney) 
 			{
 				// Display what the new values will be
 				// Display what swiping it to the left does (Sell or Leave chimney)
@@ -233,6 +269,10 @@ public class GameMaster : MonoBehaviour {
 				int tempMoney = currentMoney + tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
 				moneyText.text = "\u00A3" + tempMoney;
 				moneyText.color = moneyTextChangeColour;
+			}
+			else if (tileManager.IsShopChimney)
+			{
+				discardTextBackground.SetActive(true);
 			}
 		}
 		else if (tileSwipeLeft.CollisionWithEnemyTile && !endDayMenu.activeSelf)
@@ -260,29 +300,29 @@ public class GameMaster : MonoBehaviour {
 		if (tileSwipeRight.CollisionWithTile)
 		{
 			tileSwipeLeft.CollisionWithEnemyTile = false;
-			if (Input.GetMouseButtonUp(0))
+			if (Input.GetMouseButtonUp(0) && !tileManager.IsShopChimney)
 			{
 				Debug.Log("Current TileNumber: " + tileManager.CurrentTileNumber);
 				Debug.Log("No of Tiles: " + tileManager.TileObjects.Length);
 				if (tileManager.CurrentTileNumber + 1 != tileManager.TileObjects.Length)
 				{
 					// If the inventory is not full and this item is storable, add it to the next empty slot in the inventory
-					if (inventory.IsThereSpace() && tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].Storable)
+					if (inventory.IsThereSpace() && currentTileType.Storable)
 					{
-						inventory.AddItem(tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum], tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue, tileManager.CurrentTileValueText.color, tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum);
+						inventory.AddItem(currentTileType, tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue, tileManager.CurrentTileValueText.color, tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum);
 					}
-					else if (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ARMOUR || (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.POTION  && (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.CLAIRVOYANCE || tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.HEALTH)))
+					else if (currentTileType.catagory == ChimneyTileTemplate.Catagory.ARMOUR || (currentTileType.catagory == ChimneyTileTemplate.Catagory.POTION  && (currentTileType.potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.CLAIRVOYANCE || currentTileType.potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.HEALTH)))
 					{
 						inventory.UseItem(true);
 					}
-					else if (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory != ChimneyTileTemplate.Catagory.ENEMY)
+					else if (currentTileType.catagory != ChimneyTileTemplate.Catagory.ENEMY)
 					{
 						currentMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
 						StaticValueHolder.DailyMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
 					}
 
 					// If the tile was an enemy find out it's value and take it away from the player's hit points
-					if (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ENEMY)
+					if (currentTileType.catagory == ChimneyTileTemplate.Catagory.ENEMY)
 					{
 						if (currentArmourHitPoints <= 0)
 						{
@@ -318,22 +358,22 @@ public class GameMaster : MonoBehaviour {
 				else
 				{
 					// If the inventory is not full and this item is storable, add it to the next empty slot in the inventory
-					if (inventory.IsThereSpace() && tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].Storable)
+					if (inventory.IsThereSpace() && currentTileType.Storable)
 					{
-						inventory.AddItem(tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum], tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue, tileManager.CurrentTileValueText.color, tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum);
+						inventory.AddItem(currentTileType, tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue, tileManager.CurrentTileValueText.color, tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum);
 					}
-					else if (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ARMOUR || (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.POTION && (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.CLAIRVOYANCE || tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.HEALTH)))
+					else if (currentTileType.catagory == ChimneyTileTemplate.Catagory.ARMOUR || (currentTileType.catagory == ChimneyTileTemplate.Catagory.POTION && (currentTileType.potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.CLAIRVOYANCE || currentTileType.potionSubCatagory == ChimneyTileTemplate.PotionsSubCatagory.HEALTH)))
 					{
 						inventory.UseItem(true);
 					}
-					else if (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory != ChimneyTileTemplate.Catagory.ENEMY)
+					else if (currentTileType.catagory != ChimneyTileTemplate.Catagory.ENEMY)
 					{
 						currentMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
 						StaticValueHolder.DailyMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
 					}
 
 					// If the tile was an enemy find out it's value and take it away from the player's hit points
-					if (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ENEMY)
+					if (currentTileType.catagory == ChimneyTileTemplate.Catagory.ENEMY)
 					{
 						if (currentArmourHitPoints <= 0)
 						{
@@ -367,12 +407,40 @@ public class GameMaster : MonoBehaviour {
 			}
 			else
 			{
-				if (inventory.IsThereSpace() && tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].Storable)
+				if (tileManager.IsShopChimney && Input.GetMouseButtonUp(0))
+				{
+					if (tileManager.CurrentTileNumber + 1 != tileManager.TileObjects.Length)
+					{
+						int tempMoney = currentMoney - tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
+
+						// If the inventory is not full and this item is storable, and the player has enough money to buy it, then add it to the inventory
+						if (inventory.IsThereSpace() && currentTileType.Storable && tempMoney >= 0)
+						{
+							currentMoney -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
+							StaticValueHolder.DailyMoney -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
+							inventory.AddItem(currentTileType, tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue, tileManager.CurrentTileValueText.color, tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum);
+
+							// Move to the next tile in the queue
+							tileManager.MoveToNextTile();
+
+							// Change where the camera goes to when the next tile is selected
+							cameraControl.SetDesiredCamPos();
+						}
+					}
+				}
+				else if (tileManager.IsShopChimney)
+				{
+					buyTextBackground.SetActive(true);
+					moneyText.color = moneyTextChangeColour;
+					int tempMoney = currentMoney - tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
+					moneyText.text = "\u00A3" + tempMoney;
+				}
+				else if (inventory.IsThereSpace() && currentTileType.Storable)
 				{
 					// Show the "Store" text on the ui
 					storeTextBackground.SetActive(true);
 				}
-				else if (!inventory.IsThereSpace() && tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].Storable && tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory != ChimneyTileTemplate.Catagory.ARMOUR && (tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory != ChimneyTileTemplate.Catagory.POTION))
+				else if (!inventory.IsThereSpace() && currentTileType.Storable && currentTileType.catagory != ChimneyTileTemplate.Catagory.ARMOUR && (currentTileType.catagory != ChimneyTileTemplate.Catagory.POTION))
 				{
 					sellRightTextBackground.SetActive(true);
 					moneyText.color = moneyTextChangeColour;
@@ -481,6 +549,11 @@ public class GameMaster : MonoBehaviour {
 			useTextBackground.SetActive(false);
 			fightTextBackground.SetActive(false);
 			storeTextBackground.SetActive(false);
+			if (tileManager.IsShopChimney)
+			{
+				buyTextBackground.SetActive(false);
+				discardTextBackground.SetActive(false);
+			}
 			moneyText.color = Color.white;
 			moneyText.text = "\u00A3" + currentMoney;
 			hitPointsText.color = Color.white;
@@ -499,7 +572,7 @@ public class GameMaster : MonoBehaviour {
 	{
 		if (inventoryItemTrigger.UseItem && !removeInventoryItem.RemoveItem && Input.GetMouseButtonUp(0))
 		{
-			if ((inventory.GetCurrentlySelectedItemCatagory() == ChimneyTileTemplate.Catagory.BOMB || inventory.GetCurrentlySelectedItemCatagory() == ChimneyTileTemplate.Catagory.WEAPON || inventory.GetCurrentlySelectedItemPotionCatagory() == ChimneyTileTemplate.PotionsSubCatagory.POISON) && tileManager.ChimneyTileTemplateArray[tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum].catagory != ChimneyTileTemplate.Catagory.ENEMY)
+			if ((inventory.GetCurrentlySelectedItemCatagory() == ChimneyTileTemplate.Catagory.BOMB || inventory.GetCurrentlySelectedItemCatagory() == ChimneyTileTemplate.Catagory.WEAPON || inventory.GetCurrentlySelectedItemPotionCatagory() == ChimneyTileTemplate.PotionsSubCatagory.POISON) && currentTileType.catagory != ChimneyTileTemplate.Catagory.ENEMY && !tileManager.IsShopChimney)
 			{
 				// Don't use the item
 			}
@@ -601,5 +674,11 @@ public class GameMaster : MonoBehaviour {
 				armourHitPointsText.gameObject.SetActive(false);
 			}
 		}
+	}
+
+	public void SellingInventoryItem(int itemValue)
+	{
+		currentMoney += itemValue;
+		StaticValueHolder.DailyMoney += itemValue;
 	}
 }
