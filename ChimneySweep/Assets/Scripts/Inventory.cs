@@ -52,7 +52,10 @@ public class Inventory : MonoBehaviour {
 		}
 
 		// If the inventory should already have items in it then set it to have those items
-
+		if (!ShopChimneyValues.InventoryEmpty)
+		{
+			LoadInventoryValues();
+		}
 	}
 	
 	// Update is called once per frame
@@ -69,9 +72,12 @@ public class Inventory : MonoBehaviour {
 				tileBackgrounds[i].transform.position = new Vector3(slots[i].transform.position.x, slots[i].transform.position.y, slots[i].transform.position.z);
 			}
 
+			Debug.Log("InventoryEmpty: " + ShopChimneyValues.InventoryEmpty);
+
 			// Check which slots have items in them
 			if (tileStored[i].catagory != ChimneyTileTemplate.Catagory.EMPTY)
 			{
+				ShopChimneyValues.InventoryEmpty = false;
 				tileBackgrounds[i].SetActive(true);
 			}
 			else
@@ -147,7 +153,7 @@ public class Inventory : MonoBehaviour {
 		return !noEmptySlots;
 	}
 
-	public void AddItem(ChimneyTileTemplate newItem, int itemValue, Color color, int chimneyTileIndex)
+	public void AddItem(ChimneyTileTemplate newItem, int itemValue, int chimneyTileIndex)
 	{
 		tileStored[freeSpace] = newItem;
 		slots[freeSpace].GetComponent<SpriteRenderer>().sprite = newItem.artwork;
@@ -439,10 +445,53 @@ public class Inventory : MonoBehaviour {
 	{
 		ShopChimneyValues.InventoryItemIndex = new int[slots.Length];
 		ShopChimneyValues.InventoryItemValue = new int[slots.Length];
+		ShopChimneyValues.InventoryTilesStored = new ChimneyTileTemplate[tileStored.Length];
+		//ShopChimneyValues.InventoryTileBackgrounds = new GameObject[tileBackgrounds.Length];
 		for (int i = 0; i < slots.Length; i++)
 		{
 			ShopChimneyValues.InventoryItemIndex[i] = slots[i].GetComponent<InventorySlot>().ChimneyTileTemplateIndex;
 			ShopChimneyValues.InventoryItemValue[i] = slots[i].GetComponent<InventorySlot>().ItemValue;
+			ShopChimneyValues.InventoryTilesStored[i] = tileStored[i];
+		}
+	}
+
+	public void LoadInventoryValues()
+	{
+		for (int i = 0; i < slots.Length; i++)
+		{
+			slots[i].GetComponent<InventorySlot>().ChimneyTileTemplateIndex = ShopChimneyValues.InventoryItemIndex[i];
+			slots[i].GetComponent<InventorySlot>().ItemValue = ShopChimneyValues.InventoryItemValue[i];
+			tileStored[i] = ShopChimneyValues.InventoryTilesStored[i];
+
+			switch (tileStored[i].catagory)
+			{
+				case ChimneyTileTemplate.Catagory.ARMOUR:
+					tileBackgrounds[i].GetComponent<SpriteRenderer>().sprite = catagoryTileBackground[0];
+					break;
+				case ChimneyTileTemplate.Catagory.WEAPON:
+					tileBackgrounds[i].GetComponent<SpriteRenderer>().sprite = catagoryTileBackground[1];
+					break;
+				case ChimneyTileTemplate.Catagory.POTION:
+					tileBackgrounds[i].GetComponent<SpriteRenderer>().sprite = catagoryTileBackground[2];
+					break;
+				case ChimneyTileTemplate.Catagory.SKIPTOOL:
+					tileBackgrounds[i].GetComponent<SpriteRenderer>().sprite = catagoryTileBackground[3];
+					break;
+				case ChimneyTileTemplate.Catagory.ENEMY:
+					tileBackgrounds[i].GetComponent<SpriteRenderer>().sprite = catagoryTileBackground[4];
+					break;
+				case ChimneyTileTemplate.Catagory.BOMB:
+					tileBackgrounds[i].GetComponent<SpriteRenderer>().sprite = catagoryTileBackground[5];
+					break;
+				default:
+					break;
+			}
+
+			tileBackgrounds[i].transform.position = new Vector3(slots[i].transform.position.x, slots[i].transform.position.y, slots[i].transform.position.z);
+			slots[i].GetComponent<InventorySlot>().TileBackgroundSprite = tileBackgrounds[i].GetComponent<SpriteRenderer>().sprite;
+			itemValues[i].text = slots[i].GetComponent<InventorySlot>().ItemValue.ToString();
+			slots[i].GetComponent<SpriteRenderer>().sprite = tileStored[i].artwork;
+
 		}
 	}
 }

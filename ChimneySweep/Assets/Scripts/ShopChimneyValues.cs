@@ -4,13 +4,11 @@ using UnityEngine;
 
 public static class ShopChimneyValues {
 
+	// Shop chimney tiles
 	static int noOfShopChimneyVisits = 0;
 	static int currentTileNumber = 0;
 	static int[] randomlyGeneratedTileIndex;
 	static int[] randomlyGeneratedTileValue;
-	static int[] inventoryItemIndex;
-	static int[] inventoryItemValue;
-	static bool newShopGenerated = false;
 
 	public static int NoOfShopChimneyVisits
 	{
@@ -36,6 +34,15 @@ public static class ShopChimneyValues {
 		set { randomlyGeneratedTileValue = value; }
 	}
 
+
+	// Inventory
+	static int[] inventoryItemIndex;
+	static int[] inventoryItemValue;
+	static ChimneyTileTemplate[] inventoryTilesStored;
+	static GameObject[] inventoryTileBackgrounds;
+	static bool newShopGenerated = false;
+	static bool inventoryEmpty = true;
+
 	public static int[] InventoryItemIndex
 	{
 		get { return inventoryItemIndex; }
@@ -48,10 +55,28 @@ public static class ShopChimneyValues {
 		set { inventoryItemValue = value; }
 	}
 
+	public static ChimneyTileTemplate[] InventoryTilesStored
+	{
+		get { return inventoryTilesStored; }
+		set { inventoryTilesStored = value; }
+	}
+
+	public static GameObject[] InventoryTileBackgrounds
+	{
+		get { return inventoryTileBackgrounds; }
+		set { inventoryTileBackgrounds = value; }
+	}
+
 	public static bool NewShopGenerated
 	{
 		get { return newShopGenerated; }
 		set { newShopGenerated = value; }
+	}
+
+	public static bool InventoryEmpty
+	{
+		get { return inventoryEmpty; }
+		set { inventoryEmpty = value; }
 	}
 
 }

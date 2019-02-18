@@ -238,36 +238,7 @@ public class TileManager : MonoBehaviour {
 		Debug.Log(ShopChimneyValues.NewShopGenerated);
 		if (ShopChimneyValues.NewShopGenerated && isShopChimney)
 		{
-			for (int i = 0; i < tileObjects.Length; i++)
-			{
-				tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = ShopChimneyValues.RandomlyGeneratedTileIndex[i];
-				tileObjects[i].GetComponent<ChimneyTile>().ConstTileValue = ShopChimneyValues.RandomlyGeneratedTileValue[i];
-				tileObjects[i].GetComponent<ChimneyTile>().TileValue = ShopChimneyValues.RandomlyGeneratedTileValue[i];
-				// Set tile backgrounds based on the category that tile belongs to
-				Destroy(tileBackground[i]);
-				SetTileBackgrounds(i);
-				float scale = i * tileObjects[i].transform.localScale.y + i * spaceBetweenTiles;
-				tileBackground[i].transform.localPosition = gameObject.transform.localPosition + new Vector3(0, -scale, 0);
-
-				// Change the text depending on the current card value
-				tileValueText[i].text = tileObjects[i].GetComponent<ChimneyTile>().TileValue.ToString();
-
-				// Give the tiles tags
-				if (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ENEMY)
-				{
-					tileObjects[i].gameObject.tag = "EnemyTile";
-				}
-				else
-				{
-					tileObjects[i].gameObject.tag = "StorableTile";
-				}
-			}
-
-			// Sets the selected tile to be the first tile generated
-			tileObjects[ShopChimneyValues.CurrentTilenumber].GetComponent<ChimneyTile>().Selected = true;
-			currentlySelectedTile = tileObjects[ShopChimneyValues.CurrentTilenumber];
-			currentTileNumber = ShopChimneyValues.CurrentTilenumber;
-
+			LoadShopChimney();
 			Debug.Log("START: " + currentlySelectedTile);
 		}
 		else
@@ -504,7 +475,6 @@ public class TileManager : MonoBehaviour {
 							ShopChimneyValues.RandomlyGeneratedTileIndex[i] = tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum;
 						}
 						ShopChimneyValues.NewShopGenerated = true;
-						inventory.SaveInventoryValues();
 						gm.ChangeSceneToChimneyScene();
 						return;
 					}
@@ -843,6 +813,62 @@ public class TileManager : MonoBehaviour {
 			default:
 				tileBackground[index] = Instantiate(Resources.Load("Prefabs/Tile_Background", typeof(GameObject)), transform) as GameObject;
 				tileBackground[index].transform.SetParent(gameObject.transform);
+				break;
+		}
+	}
+
+	void LoadShopChimney()
+	{
+		for (int i = 0; i < tileObjects.Length; i++)
+		{
+			tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = ShopChimneyValues.RandomlyGeneratedTileIndex[i];
+			tileObjects[i].GetComponent<ChimneyTile>().ConstTileValue = ShopChimneyValues.RandomlyGeneratedTileValue[i];
+			tileObjects[i].GetComponent<ChimneyTile>().TileValue = ShopChimneyValues.RandomlyGeneratedTileValue[i];
+			// Set tile backgrounds based on the category that tile belongs to
+			Destroy(tileBackground[i]);
+			SetTileBackgrounds(i);
+			float scale = i * tileObjects[i].transform.localScale.y + i * spaceBetweenTiles;
+			tileBackground[i].transform.localPosition = gameObject.transform.localPosition + new Vector3(0, -scale, 0);
+
+			// Change the text depending on the current card value
+			tileValueText[i].text = tileObjects[i].GetComponent<ChimneyTile>().TileValue.ToString();
+
+			// Give the tiles tags
+			if (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ENEMY)
+			{
+				tileObjects[i].gameObject.tag = "EnemyTile";
+			}
+			else
+			{
+				tileObjects[i].gameObject.tag = "StorableTile";
+			}
+		}
+
+		// Sets the selected tile to be the first tile generated
+		tileObjects[ShopChimneyValues.CurrentTilenumber].GetComponent<ChimneyTile>().Selected = true;
+		currentlySelectedTile = tileObjects[ShopChimneyValues.CurrentTilenumber];
+		currentTileNumber = ShopChimneyValues.CurrentTilenumber;
+
+		// Set which tiles should be used depending on the visit number
+		switch (ShopChimneyValues.NoOfShopChimneyVisits)
+		{
+			case 0:
+				break;
+			case 1:
+				for (int i = 0; i < 3; i++)
+				{
+					tileObjects[i].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+					tileObjects[i].GetComponent<ChimneyTile>().TileUsed = true;
+				}
+				break;
+			case 2:
+				for (int i = 0; i < 6; i++)
+				{
+					tileObjects[i].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+					tileObjects[i].GetComponent<ChimneyTile>().TileUsed = true;
+				}
+				break;
+			default:
 				break;
 		}
 	}
