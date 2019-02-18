@@ -11897,6 +11897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gm: {fileID: 1046055382}
+  inventory: {fileID: 1068728037}
   isShopChimney: 1
   spaceBetweenTiles: 0.6
   swipeControls: {fileID: 1046055380}

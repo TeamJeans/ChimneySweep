@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DayOverStatsScene.unity
     guid: ecdb66ddeb9fedb48943a2b958b931ad
+  - enabled: 1
+    path: Assets/Scenes/ShopScene.unity
+    guid: cf0fe38edd9ae4b45974ba0115d22a94
   m_configObjects: {}

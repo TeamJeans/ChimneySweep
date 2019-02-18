@@ -50,6 +50,9 @@ public class Inventory : MonoBehaviour {
 			slots[i].GetComponent<InventorySlot>().SlotNum = i;
 			//slots[i].GetComponent<SpriteRenderer>().sprite = tileStored[i].artwork;
 		}
+
+		// If the inventory should already have items in it then set it to have those items
+
 	}
 	
 	// Update is called once per frame
@@ -430,5 +433,16 @@ public class Inventory : MonoBehaviour {
 	public ChimneyTileTemplate.PotionsSubCatagory GetCurrentlySelectedItemPotionCatagory()
 	{
 		return tileStored[selectedSlot.GetComponent<InventorySlot>().SlotNum].potionSubCatagory;
+	}
+
+	public void SaveInventoryValues()
+	{
+		ShopChimneyValues.InventoryItemIndex = new int[slots.Length];
+		ShopChimneyValues.InventoryItemValue = new int[slots.Length];
+		for (int i = 0; i < slots.Length; i++)
+		{
+			ShopChimneyValues.InventoryItemIndex[i] = slots[i].GetComponent<InventorySlot>().ChimneyTileTemplateIndex;
+			ShopChimneyValues.InventoryItemValue[i] = slots[i].GetComponent<InventorySlot>().ItemValue;
+		}
 	}
 }

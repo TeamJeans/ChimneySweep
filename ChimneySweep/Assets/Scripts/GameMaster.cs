@@ -111,7 +111,7 @@ public class GameMaster : MonoBehaviour {
 		}
 
 		// REMOVE THIS!!!
-		StaticValueHolder.TotalMoney = 20;
+		//StaticValueHolder.TotalMoney = 20;
 
 		currentMoney = StaticValueHolder.TotalMoney;
 	}
@@ -223,7 +223,14 @@ public class GameMaster : MonoBehaviour {
 
 	public void ChangeSceneToChimneyScene()
 	{
+		StaticValueHolder.TotalMoney += StaticValueHolder.DailyMoney;
 		SceneManager.LoadScene("ChimneyScene");
+	}
+
+	public void ChangeSceneToShopChimneyScene()
+	{
+		StaticValueHolder.TotalMoney += StaticValueHolder.DailyMoney;
+		SceneManager.LoadScene("ShopScene");
 	}
 
 	void LeftSwipingHandler()

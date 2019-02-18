@@ -29,7 +29,7 @@ public class ChimneyTile : MonoBehaviour
 	public int TileValue { get { return tileValue; } set { tileValue = value; } }
 
 	int constTileValue;
-	public int ConstTileValue { get { return constTileValue; } }
+	public int ConstTileValue { get { return constTileValue; } set { constTileValue = value; } }
 
 	void Start()
 	{

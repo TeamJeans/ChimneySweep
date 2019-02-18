@@ -5080,7 +5080,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1046055382}
-        m_MethodName: ToggleOptionsMenu
+        m_MethodName: ChangeSceneToShopChimneyScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11586,6 +11586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gm: {fileID: 1046055382}
+  inventory: {fileID: 1068728037}
   isShopChimney: 0
   spaceBetweenTiles: 0.35
   swipeControls: {fileID: 1046055380}

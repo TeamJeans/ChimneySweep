@@ -6,6 +6,8 @@ public class TileManager : MonoBehaviour {
 
 	[SerializeField]
 	GameMaster gm;
+	[SerializeField]
+	Inventory inventory;
 	
 	[SerializeField]
 	bool isShopChimney = false;
@@ -231,11 +233,51 @@ public class TileManager : MonoBehaviour {
 			}
 		}
 
-		// Sets the selected tile to be the first tile generated
-		tileObjects[0].GetComponent<ChimneyTile>().Selected = true;
-		currentlySelectedTile = tileObjects[0];
 
-		Debug.Log("START: " + currentlySelectedTile);
+		// If a shop has already been generated then set the values for that shop
+		Debug.Log(ShopChimneyValues.NewShopGenerated);
+		if (ShopChimneyValues.NewShopGenerated && isShopChimney)
+		{
+			for (int i = 0; i < tileObjects.Length; i++)
+			{
+				tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = ShopChimneyValues.RandomlyGeneratedTileIndex[i];
+				tileObjects[i].GetComponent<ChimneyTile>().ConstTileValue = ShopChimneyValues.RandomlyGeneratedTileValue[i];
+				tileObjects[i].GetComponent<ChimneyTile>().TileValue = ShopChimneyValues.RandomlyGeneratedTileValue[i];
+				// Set tile backgrounds based on the category that tile belongs to
+				Destroy(tileBackground[i]);
+				SetTileBackgrounds(i);
+				float scale = i * tileObjects[i].transform.localScale.y + i * spaceBetweenTiles;
+				tileBackground[i].transform.localPosition = gameObject.transform.localPosition + new Vector3(0, -scale, 0);
+
+				// Change the text depending on the current card value
+				tileValueText[i].text = tileObjects[i].GetComponent<ChimneyTile>().TileValue.ToString();
+
+				// Give the tiles tags
+				if (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory == ChimneyTileTemplate.Catagory.ENEMY)
+				{
+					tileObjects[i].gameObject.tag = "EnemyTile";
+				}
+				else
+				{
+					tileObjects[i].gameObject.tag = "StorableTile";
+				}
+			}
+
+			// Sets the selected tile to be the first tile generated
+			tileObjects[ShopChimneyValues.CurrentTilenumber].GetComponent<ChimneyTile>().Selected = true;
+			currentlySelectedTile = tileObjects[ShopChimneyValues.CurrentTilenumber];
+			currentTileNumber = ShopChimneyValues.CurrentTilenumber;
+
+			Debug.Log("START: " + currentlySelectedTile);
+		}
+		else
+		{
+			// Sets the selected tile to be the first tile generated
+			tileObjects[0].GetComponent<ChimneyTile>().Selected = true;
+			currentlySelectedTile = tileObjects[0];
+
+			Debug.Log("START: " + currentlySelectedTile);
+		}
 
 		// Show three tiles at a time if the chimney is a shop chimney
 		if (!isShopChimney)
@@ -434,9 +476,18 @@ public class TileManager : MonoBehaviour {
 					{
 						// Make this go to another scene
 						Debug.Log("Fix me");
-						gm.ChangeSceneToChimneyScene();
 						ShopChimneyValues.NoOfShopChimneyVisits++;
-						ShopChimneyValues.CurrentTilenumber = currentTileNumber++;
+						ShopChimneyValues.CurrentTilenumber = currentTileNumber + 1;
+						ShopChimneyValues.RandomlyGeneratedTileIndex = new int[tilePrefabs.Length];
+						ShopChimneyValues.RandomlyGeneratedTileValue = new int[tilePrefabs.Length];
+						for (int i = 0; i < tileObjects.Length; i++)
+						{
+							ShopChimneyValues.RandomlyGeneratedTileIndex[i] = tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum;
+							ShopChimneyValues.RandomlyGeneratedTileValue[i] = tileObjects[i].GetComponent<ChimneyTile>().ConstTileValue;
+						}
+						ShopChimneyValues.NewShopGenerated = true;
+						inventory.SaveInventoryValues();
+						gm.ChangeSceneToChimneyScene();
 						return;
 					}
 					break;
@@ -445,9 +496,16 @@ public class TileManager : MonoBehaviour {
 					{
 						// Make this go to another scene
 						Debug.Log("Fix me");
-						gm.ChangeSceneToChimneyScene();
 						ShopChimneyValues.NoOfShopChimneyVisits++;
-						ShopChimneyValues.CurrentTilenumber = currentTileNumber++;
+						ShopChimneyValues.CurrentTilenumber = currentTileNumber + 1;
+						ShopChimneyValues.RandomlyGeneratedTileIndex = new int[tilePrefabs.Length];
+						for (int i = 0; i < tileObjects.Length; i++)
+						{
+							ShopChimneyValues.RandomlyGeneratedTileIndex[i] = tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum;
+						}
+						ShopChimneyValues.NewShopGenerated = true;
+						inventory.SaveInventoryValues();
+						gm.ChangeSceneToChimneyScene();
 						return;
 					}
 					break;
