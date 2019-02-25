@@ -72,7 +72,7 @@ public class Inventory : MonoBehaviour {
 				tileBackgrounds[i].transform.position = new Vector3(slots[i].transform.position.x, slots[i].transform.position.y, slots[i].transform.position.z);
 			}
 
-			Debug.Log("InventoryEmpty: " + ShopChimneyValues.InventoryEmpty);
+			//Debug.Log("InventoryEmpty: " + ShopChimneyValues.InventoryEmpty);
 
 			// Check which slots have items in them
 			if (tileStored[i].catagory != ChimneyTileTemplate.Catagory.EMPTY)

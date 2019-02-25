@@ -21,15 +21,17 @@ public class ChimneyTextureChanger : MonoBehaviour {
 	GameObject chimneyHearth;
 	[SerializeField]
 	GameObject chimneyHearthBackground;
+	[SerializeField]
+	GameObject chimneyBackgroundDetails;
 
 	// Sprite arrays
-	Sprite[] selectedChimney = new Sprite[6];
+	Sprite[] selectedChimney = new Sprite[7];
 	[SerializeField]
-	Sprite[] orangeChimney = new Sprite[6];
+	Sprite[] orangeChimney = new Sprite[7];
 	[SerializeField]
-	Sprite[] greyChimney = new Sprite[6];
+	Sprite[] greyChimney = new Sprite[7];
 	[SerializeField]
-	Sprite[] blueChimney = new Sprite[6];
+	Sprite[] blueChimney = new Sprite[7];
 
 	[SerializeField]
 	bool randomChimney;
@@ -54,7 +56,8 @@ public class ChimneyTextureChanger : MonoBehaviour {
 		SIDES = 2,
 		MAIN_BACKGROUND = 3,
 		HEARTH = 4,
-		HEARTH_BACKGROUND = 5
+		HEARTH_BACKGROUND = 5,
+		BACKGROUND_DETAILS = 6
 	}
 
 	int randomTypeNo = 0;
@@ -97,5 +100,6 @@ public class ChimneyTextureChanger : MonoBehaviour {
 		}
 		chimneyHearth.GetComponent<SpriteRenderer>().sprite = selectedChimney[(sbyte)ChimneyPart.HEARTH];
 		chimneyHearthBackground.GetComponent<SpriteRenderer>().sprite = selectedChimney[(sbyte)ChimneyPart.HEARTH_BACKGROUND];
+		chimneyBackgroundDetails.GetComponent<SpriteRenderer>().sprite = selectedChimney[(sbyte)ChimneyPart.BACKGROUND_DETAILS];
 	}
 }

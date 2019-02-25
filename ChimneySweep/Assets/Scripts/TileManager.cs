@@ -120,6 +120,11 @@ public class TileManager : MonoBehaviour {
 	[SerializeField]
 	Transform clairvoyanceTileAppearParticles;
 
+	[SerializeField]
+	Sprite shopTileBackgroundSprite;
+	[SerializeField]
+	Sprite regularTileBackgroundSprite;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -176,6 +181,14 @@ public class TileManager : MonoBehaviour {
 			tileObjects[i] = Instantiate(tilePrefabs[i]) as GameObject;
 			tileObjects[i].transform.SetParent(gameObject.transform);
 			tileObjects[i].transform.localScale = tile.transform.localScale;
+			if (isShopChimney)
+			{
+				tileObjects[i].GetComponent<SpriteRenderer>().sprite = shopTileBackgroundSprite;
+			}
+			else
+			{
+				tileObjects[i].GetComponent<SpriteRenderer>().sprite = regularTileBackgroundSprite;
+			}
 
 			// Randomly changes the type of each tile generated
 			if (i == tileObjects.Length -1 && !isShopChimney)

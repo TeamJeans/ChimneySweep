@@ -123,7 +123,7 @@ public class GameMaster : MonoBehaviour {
 	{
 		if (!tileManager.IsShopChimney)
 		{
-			dayText.text = "Day " + (StaticValueHolder.CurrentDay + 1);
+			dayText.text = "Day " + (StaticValueHolder.CurrentDay);
 		}
 		else
 		{
