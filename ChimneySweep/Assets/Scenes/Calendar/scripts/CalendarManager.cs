@@ -38,12 +38,14 @@ public class CalendarManager : MonoBehaviour {
             }
         }
 
+        if (StaticValueHolder.CurrentDay < 0) StaticValueHolder.CurrentDay = 0;
+
 
         //add one to the days-------------------------------------------------------give it to aidans script
         //show each days money
         StaticValueHolder.DayValues[StaticValueHolder.CurrentDay] = StaticValueHolder.DailyMoney;
 
-        StaticValueHolder.CurrentDay += 1;
+        
         
        
 
@@ -72,6 +74,8 @@ public class CalendarManager : MonoBehaviour {
             GameObject myDayDone = Instantiate(dayDone, calDays[i].transform.position, calDays[i].transform.rotation);
             myDayDone.transform.SetParent(GameObject.Find("/UIOverlay/Calendar").transform);
         }
+
+        StaticValueHolder.CurrentDay += 1;
     }
 
 
