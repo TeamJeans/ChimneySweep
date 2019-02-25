@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;  // Required when Using UI elements.
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class CalendarManager : MonoBehaviour {
 
@@ -23,6 +24,62 @@ public class CalendarManager : MonoBehaviour {
     public int week;
     public int rent;
     public bool rentPaid;
+
+
+    IEnumerator Type()
+    {
+        //print out each letter with slight delay to give typing effect
+        for (int i = 0; i < StaticValueHolder.DayValues[StaticValueHolder.CurrentDay-1]; i++)
+        {
+            Debug.Log("Starting thread");
+            //get the current day and only count up on that day
+            switch (StaticValueHolder.CurrentDay-1)
+            {
+                case 0:
+                    {
+                        Debug.Log("1");
+                        Gold1.text += 1;
+                        break;
+                    }
+                case 1:
+                    {
+                        Debug.Log("2");
+                        Gold2.text += 1;
+                        break;
+                    }
+                case 2:
+                    {
+                        Debug.Log("3");
+                        Gold3.text += 1;
+                        break;
+                    }
+                case 3:
+                    {
+                        Gold4.text += 1;
+                        break;
+                    }
+                case 4:
+                    {
+                        Gold5.text += 1;
+                        break;
+                    }
+                case 5:
+                    {
+                        Gold6.text += 1;
+                        break;
+                    }
+                case 6:
+                    {
+                        Gold7.text += 1;
+                        break;
+                    }
+                default:
+                    break;
+            }
+            yield return new WaitForSeconds(0.01f);
+        }
+    }
+
 
     // Use this for initialization
     void Start()
@@ -45,9 +102,6 @@ public class CalendarManager : MonoBehaviour {
         //show each days money
         StaticValueHolder.DayValues[StaticValueHolder.CurrentDay] = StaticValueHolder.DailyMoney;
 
-        
-        
-       
 
         //reset the check for rentPaid at start of scene
         rentPaid = false;
@@ -76,6 +130,11 @@ public class CalendarManager : MonoBehaviour {
         }
 
         StaticValueHolder.CurrentDay += 1;
+
+        //count up money on screen in real time
+        StartCoroutine(Type());
+        Debug.Log("Done");
+        Debug.Log(StaticValueHolder.CurrentDay);
     }
 
 
@@ -84,6 +143,13 @@ public class CalendarManager : MonoBehaviour {
     {
         //Debug.Log("day: " + day);
         //Debug.Log("Money: " + StaticValueHolder.CurrentMoney);
+
+
+        
+
+
+
+
         //if time to pay rent
         if ((float)StaticValueHolder.CurrentDay / 7 == dayCheck && !rentPaid && StaticValueHolder.CurrentDay > 0)
         {
