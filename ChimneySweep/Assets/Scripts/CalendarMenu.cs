@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class CalendarMenu : MonoBehaviour {
 
-	public void CalendarBackButton()
+	void CalendarBackButton()
 	{
 		SceneManager.LoadScene("MainMenuScene");
 	}
