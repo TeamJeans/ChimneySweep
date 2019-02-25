@@ -84,18 +84,13 @@ public class CalendarManager : MonoBehaviour {
                         countUp++;
                         break;
                     }
-                case 8:
-                    {
-                        Gold7.text = countUp + "";
-                        countUp++;
-                        break;
-                    }
                 default:
                     break;
             }
             yield return new WaitForSeconds(countUp /500);
         }
 
+        //particle when done counting up appears over number of gold of day
         if (StaticValueHolder.CurrentDay - 2 >= 0)
         {
             GameObject CountUpDone = Instantiate(countUpDone, calGold[StaticValueHolder.CurrentDay - 2].transform.position + UIBudge, calGold[StaticValueHolder.CurrentDay - 2].transform.rotation);
