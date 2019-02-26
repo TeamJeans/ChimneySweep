@@ -847,6 +847,10 @@ public class TileManager : MonoBehaviour {
 				tileBackground[index] = Instantiate(Resources.Load("Prefabs/TileBackgrounds/BombTileBackground", typeof(GameObject)), transform) as GameObject;
 				tileBackground[index].transform.SetParent(gameObject.transform);
 				break;
+			case ChimneyTileTemplate.Catagory.SHOP_TILE:
+				tileBackground[index] = Instantiate(Resources.Load("Prefabs/TileBackgrounds/ShopTileBackground", typeof(GameObject)), transform) as GameObject;
+				tileBackground[index].transform.SetParent(gameObject.transform);
+				break;
 			default:
 				tileBackground[index] = Instantiate(Resources.Load("Prefabs/Tile_Background", typeof(GameObject)), transform) as GameObject;
 				tileBackground[index].transform.SetParent(gameObject.transform);

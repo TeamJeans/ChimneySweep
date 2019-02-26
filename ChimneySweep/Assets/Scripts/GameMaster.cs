@@ -103,6 +103,9 @@ public class GameMaster : MonoBehaviour {
 	[SerializeField]
 	Sprite armourBrokenSprite;
 
+	[SerializeField]
+	GameObject resurrectionIconObject;
+
 	ChimneyTileTemplate currentTileType;
 
 	void Awake()
@@ -113,7 +116,7 @@ public class GameMaster : MonoBehaviour {
 		}
 
 		// REMOVE THIS!!!
-		//StaticValueHolder.TotalMoney = 20;
+		StaticValueHolder.TotalMoney = 200;
 
 		currentMoney = StaticValueHolder.TotalMoney;
 	}
@@ -194,6 +197,15 @@ public class GameMaster : MonoBehaviour {
 
 		// Passing the current money value between scenes
 		StaticValueHolder.DailyMoney = currentMoney - StaticValueHolder.TotalMoney;
+
+		if (resurrectionActive)
+		{
+			resurrectionIconObject.SetActive(true);
+		}
+		else
+		{
+			resurrectionIconObject.SetActive(false);
+		}
 	}
 
 	public void ToggleEndDayMenu()
@@ -338,24 +350,6 @@ public class GameMaster : MonoBehaviour {
 						currentMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
 						StaticValueHolder.DailyMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
 					}
-					else if (currentTileType.catagory != ChimneyTileTemplate.Catagory.SHOP_TILE)
-					{
-						if (currentTileType.tileName == "Resurrection")
-						{
-							resurrectionActive = true;
-							Debug.Log("TAKE MONEY OFF");
-						}
-						else if (currentTileType.tileName == "Lantern")
-						{
-							tileManager.NoOfLanterns++;
-							Debug.Log("TAKE MONEY OFF");
-						}
-						else if (currentTileType.tileName == "Health Needle")
-						{
-							maxHitPoints++;
-							Debug.Log("TAKE MONEY OFF");
-						}
-					}
 
 					// If the tile was an enemy find out it's value and take it away from the player's hit points
 					if (currentTileType.catagory == ChimneyTileTemplate.Catagory.ENEMY)
@@ -428,7 +422,15 @@ public class GameMaster : MonoBehaviour {
 
 						if (currentHitPoints < 0)
 						{
-							currentHitPoints = 0;
+							if (resurrectionActive)
+							{
+								resurrectionActive = false;
+								currentHitPoints = maxHitPoints / 2;
+							}
+							else
+							{
+								currentHitPoints = 0;
+							}
 						}
 
 						currentMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
@@ -455,6 +457,39 @@ public class GameMaster : MonoBehaviour {
 							currentMoney -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
 							StaticValueHolder.DailyMoney -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
 							inventory.AddItem(currentTileType, tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue, tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().RandomTileTypeNum);
+
+							// Move to the next tile in the queue
+							tileManager.MoveToNextTile();
+
+							// Change where the camera goes to when the next tile is selected
+							cameraControl.SetDesiredCamPos();
+						}
+						else
+						{
+							if (currentTileType.catagory == ChimneyTileTemplate.Catagory.SHOP_TILE)
+							{
+								if (currentTileType.tileName == "Resurrection")
+								{
+									Debug.Log("WORKS");
+									resurrectionActive = true;
+									currentMoney -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
+									StaticValueHolder.DailyMoney -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
+								}
+								else if (currentTileType.tileName == "Lantern")
+								{
+									Debug.Log("WORKS");
+									tileManager.NoOfLanterns++;
+									currentMoney -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
+									StaticValueHolder.DailyMoney -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
+								}
+								else if (currentTileType.tileName == "Health Needle")
+								{
+									Debug.Log("WORKS");
+									maxHitPoints++;
+									currentMoney -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
+									StaticValueHolder.DailyMoney -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
+								}
+							}
 
 							// Move to the next tile in the queue
 							tileManager.MoveToNextTile();

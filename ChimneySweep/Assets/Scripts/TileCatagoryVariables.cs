@@ -12,6 +12,7 @@ public class TileCatagoryVariables : MonoBehaviour {
 	public float enemyPercentage = 10;
 	public float skipToolPercentage = 10;
 	public float bombPrecentage = 10;
+	public float shopTilePercentage = 10;
 	public float moneyPercentage = 0;
 
 	float sumOfPercentages = 0.0f;
@@ -46,6 +47,9 @@ public class TileCatagoryVariables : MonoBehaviour {
 					break;
 				case ChimneyTileTemplate.Catagory.EMPTY:
 					percentages[i] = 0;
+					break;
+				case ChimneyTileTemplate.Catagory.SHOP_TILE:
+					percentages[i] = shopTilePercentage;
 					break;
 				default:
 					break;

@@ -5103,6 +5103,7 @@ MonoBehaviour:
   armourIconObject: {fileID: 1289981670}
   armourNormalSprite: {fileID: 21300000, guid: 7dfb64b5391cd14428a6446e924145dd, type: 3}
   armourBrokenSprite: {fileID: 21300000, guid: d90ed2152d555a94da16b6585bd945de, type: 3}
+  resurrectionIconObject: {fileID: 1852042291}
 --- !u!1 &1058429325
 GameObject:
   m_ObjectHideFlags: 0
@@ -10893,6 +10894,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1552176063}
+  - {fileID: 1852042292}
   m_Father: {fileID: 1453420641}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12005,12 +12007,16 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  - 0
+  - 0
+  - 0
   armourPercentage: 10
   weaponPercentage: 10
   potionPercentage: 10
   enemyPercentage: 10
   skipToolPercentage: 10
   bombPrecentage: 10
+  shopTilePercentage: 100
   moneyPercentage: 0
 --- !u!1 &1687612278
 GameObject:
@@ -13073,6 +13079,75 @@ CanvasRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1844911981}
+  m_CullTransparentMesh: 0
+--- !u!1 &1852042291
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1852042292}
+  - component: {fileID: 1852042294}
+  - component: {fileID: 1852042293}
+  m_Layer: 5
+  m_Name: ResurrectionImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1852042292
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1852042291}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1431643773}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -3.4, y: 7.1}
+  m_SizeDelta: {x: 77.47, y: 77.47}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1852042293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1852042291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: bd20eb1e7503a7a478464381dc0805df, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1852042294
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1852042291}
   m_CullTransparentMesh: 0
 --- !u!1 &1881602921
 GameObject:
