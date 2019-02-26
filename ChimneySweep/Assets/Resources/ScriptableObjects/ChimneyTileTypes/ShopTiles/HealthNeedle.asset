@@ -16,7 +16,7 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 2029c442a5a2d234087e60ef71f83a05, type: 3}
   minTileValue: 5
   maxTileValue: 5
-  spawnPercentage: 100
+  spawnPercentage: 100000000
   particleEffects: []
   spawnPercentageIncreasePerWeek: 0
   catagory: 8

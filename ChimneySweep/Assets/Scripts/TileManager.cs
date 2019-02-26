@@ -205,20 +205,31 @@ public class TileManager : MonoBehaviour {
 			else
 			{
 				// Generate a random tile and if it is a boss tile then keep generating them until it is not a boss tile
-				int noOfResurrectionTiles = 0;
-				do
+				if (isShopChimney)
 				{
-					if (noOfResurrectionTiles > 1)
+					int noOfResurrectionTiles = 0;
+					do
 					{
-						noOfResurrectionTiles = 1;
+						if (noOfResurrectionTiles > 1)
+						{
+							noOfResurrectionTiles = 1;
+						}
+						tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = GetRandomTileBasedOnPercentage();
+						if (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].tileName == "Resurrection")
+						{
+							noOfResurrectionTiles++;
+						}
 					}
-					tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = GetRandomTileBasedOnPercentage();
-					if (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].tileName == "Resurrection")
-					{
-						noOfResurrectionTiles++;
-					}
+					while (noOfResurrectionTiles > 1);
 				}
-				while (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS && noOfResurrectionTiles > 1);
+				else
+				{
+					do
+					{
+						tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = GetRandomTileBasedOnPercentage();
+					}
+					while (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS);
+				}
 			}
 
 
