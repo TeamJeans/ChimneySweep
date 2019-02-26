@@ -303,7 +303,23 @@ public class TileManager : MonoBehaviour {
 				}
 
 			}
+			
+			// If the player has lanterns then show more tiles ahead
+			for (int i = 1; i < noOfLanterns + 1; i++)
+			{
+				if (currentTileNumber + 1 + i <= tileObjects.Length - 1)
+				{
+					// Show puff of smoke before showing the next tile
+					if (tileObjects[currentTileNumber + 1 + i].GetComponent<SpriteRenderer>().sprite != chimneyTileTemplateArray[tileObjects[currentTileNumber + 1 + i].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork)
+					{
+						tileAppearPS.transform.localPosition = new Vector3(0, tileObjects[currentTileNumber + 1 + i].transform.localPosition.y + 10, 0);
+						tileAppearPS.GetComponent<ParticleSystem>().Play();
 
+						// Show the artwork for that tile
+						tileObjects[currentTileNumber + 1 + i].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + 1 + i].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+					}
+				}
+			}
 		}
 		else
 		{
@@ -560,6 +576,26 @@ public class TileManager : MonoBehaviour {
 				tileObjects[currentTileNumber + 1].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
 			}
 
+		}
+
+		if (!IsShopChimney)
+		{
+			// If the player has lanterns then show more tiles ahead
+			for (int i = 1; i < noOfLanterns + 1; i++)
+			{
+				if (currentTileNumber + 1 + i <= tileObjects.Length - 1)
+				{
+					// Show puff of smoke before showing the next tile
+					if (tileObjects[currentTileNumber + 1 + i].GetComponent<SpriteRenderer>().sprite != chimneyTileTemplateArray[tileObjects[currentTileNumber + 1 + i].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork)
+					{
+						tileAppearPS.transform.localPosition = new Vector3(0, tileObjects[currentTileNumber + 1 + i].transform.localPosition.y + 10, 0);
+						tileAppearPS.GetComponent<ParticleSystem>().Play();
+
+						// Show the artwork for that tile
+						tileObjects[currentTileNumber + 1 + i].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[currentTileNumber + 1 + i].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+					}
+				}
+			}
 		}
 	}
 	

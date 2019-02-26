@@ -7,6 +7,12 @@ public static class ShopChimneyValues {
 	// Shop chimney tiles
 	static int noOfShopChimneyVisits = 0;
 	static int currentTileNumber = 0;
+	static int numOfLanterns = 0;
+	static bool resurrectionActive = false;
+	static int maxHitPoints = 10;
+	static int currentHitPoints = maxHitPoints;
+	static int maxArmourHitPoints = 0;
+	static int currentArmoutHitPoints = 0;
 	static int[] randomlyGeneratedTileIndex;
 	static int[] randomlyGeneratedTileValue;
 
@@ -20,6 +26,42 @@ public static class ShopChimneyValues {
 	{
 		get { return currentTileNumber; }
 		set { currentTileNumber = value; }
+	}
+
+	public static int NumOfLanterns
+	{
+		get { return numOfLanterns; }
+		set { numOfLanterns = value; }
+	}
+
+	public static bool ResurrectionActive
+	{
+		get { return resurrectionActive; }
+		set { resurrectionActive = value; }
+	}
+
+	public static int CurrentHitPoints
+	{
+		get { return currentHitPoints; }
+		set { currentHitPoints = value; }
+	}
+
+	public static int MaxHitPoints
+	{
+		get { return maxHitPoints; }
+		set { maxHitPoints = value; }
+	}
+
+	public static int CurrentArmoutHitPoints
+	{
+		get { return currentArmoutHitPoints; }
+		set { currentArmoutHitPoints = value; }
+	}
+
+	public static int MaxArmourHitPoints
+	{
+		get { return maxArmourHitPoints; }
+		set { maxArmourHitPoints = value; }
 	}
 
 	public static int[] RandomlyGeneratedTileIndex

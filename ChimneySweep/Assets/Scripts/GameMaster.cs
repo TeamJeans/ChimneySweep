@@ -119,6 +119,19 @@ public class GameMaster : MonoBehaviour {
 		StaticValueHolder.TotalMoney = 200;
 
 		currentMoney = StaticValueHolder.TotalMoney;
+		resurrectionActive = ShopChimneyValues.ResurrectionActive;
+
+		maxHitPoints = ShopChimneyValues.MaxHitPoints;
+		currentHitPoints = ShopChimneyValues.CurrentHitPoints;
+		tileManager.NoOfLanterns = ShopChimneyValues.NumOfLanterns;
+		maxArmourHitPoints = ShopChimneyValues.MaxArmourHitPoints;
+		currentArmourHitPoints = ShopChimneyValues.CurrentArmoutHitPoints;
+
+		if (currentArmourHitPoints > 0)
+		{
+			hasArmour = true;
+		}
+		
 	}
 
 	public delegate void EndDayMenuCallBack(bool active);
@@ -244,6 +257,12 @@ public class GameMaster : MonoBehaviour {
 
 	public void ChangeSceneToChimneyScene()
 	{
+		ShopChimneyValues.MaxArmourHitPoints = maxArmourHitPoints;
+		ShopChimneyValues.CurrentArmoutHitPoints = currentArmourHitPoints;
+		ShopChimneyValues.MaxHitPoints = maxHitPoints;
+		ShopChimneyValues.CurrentHitPoints = currentHitPoints;
+		ShopChimneyValues.NumOfLanterns = tileManager.NoOfLanterns;
+		ShopChimneyValues.ResurrectionActive = resurrectionActive;
 		inventory.SaveInventoryValues();
 		StaticValueHolder.TotalMoney += StaticValueHolder.DailyMoney;
 		SceneManager.LoadScene("ChimneyScene");
@@ -251,6 +270,12 @@ public class GameMaster : MonoBehaviour {
 
 	public void ChangeSceneToShopChimneyScene()
 	{
+		ShopChimneyValues.MaxArmourHitPoints = maxArmourHitPoints;
+		ShopChimneyValues.CurrentArmoutHitPoints = currentArmourHitPoints;
+		ShopChimneyValues.MaxHitPoints = maxHitPoints;
+		ShopChimneyValues.CurrentHitPoints = currentHitPoints;
+		ShopChimneyValues.NumOfLanterns = tileManager.NoOfLanterns;
+		ShopChimneyValues.ResurrectionActive = resurrectionActive;
 		inventory.SaveInventoryValues();
 		StaticValueHolder.TotalMoney += StaticValueHolder.DailyMoney;
 		SceneManager.LoadScene("ShopScene");
@@ -371,7 +396,15 @@ public class GameMaster : MonoBehaviour {
 
 						if (currentHitPoints < 0)
 						{
-							currentHitPoints = 0;
+							if (resurrectionActive)
+							{
+								resurrectionActive = false;
+								currentHitPoints = maxHitPoints / 2;
+							}
+							else
+							{
+								currentHitPoints = 0;
+							}
 						}
 
 						currentMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
