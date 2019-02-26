@@ -42,6 +42,12 @@ public class CalendarManager : MonoBehaviour {
             //get the current day and only count up on that day
             switch (StaticValueHolder.CurrentDay-1)
             {
+                case 0:
+                    {
+                        Gold7.text = countUp + "";
+                        countUp++;
+                        break;
+                    }
                 case 1:
                     {
                         Gold1.text = countUp + "";
@@ -87,13 +93,20 @@ public class CalendarManager : MonoBehaviour {
                 default:
                     break;
             }
-            yield return new WaitForSeconds(countUp /500);
+            yield return new WaitForSeconds(countUp /900);
         }
 
         //particle when done counting up appears over number of gold of day
         if (StaticValueHolder.CurrentDay - 2 >= 0)
         {
             GameObject CountUpDone = Instantiate(countUpDone, calGold[StaticValueHolder.CurrentDay - 2].transform.position + UIBudge, calGold[StaticValueHolder.CurrentDay - 2].transform.rotation);
+            CountUpDone.transform.SetParent(GameObject.Find("/UIOverlay/Calendar").transform);
+        }
+
+        //particle when done for day 7 since its treated as day 0
+        if (Gold7.text != "0")
+        {
+            GameObject CountUpDone = Instantiate(countUpDone, calGold[6].transform.position + UIBudge, calGold[6].transform.rotation);
             CountUpDone.transform.SetParent(GameObject.Find("/UIOverlay/Calendar").transform);
         }
     }
