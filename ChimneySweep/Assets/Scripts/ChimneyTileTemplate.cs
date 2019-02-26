@@ -23,7 +23,8 @@ public class ChimneyTileTemplate : ScriptableObject
 		ENEMY,
 		BOMB,
 		MONEY,
-		EMPTY
+		EMPTY,
+		SHOP_TILE
 	};
 	public enum PotionsSubCatagory
 	{

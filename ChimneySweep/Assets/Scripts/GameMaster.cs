@@ -94,6 +94,8 @@ public class GameMaster : MonoBehaviour {
 	[SerializeField]
 	Sprite heartBrokenSprite;
 
+	bool resurrectionActive = false;
+
 	[SerializeField]
 	GameObject armourIconObject;
 	[SerializeField]
@@ -335,6 +337,24 @@ public class GameMaster : MonoBehaviour {
 					{
 						currentMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
 						StaticValueHolder.DailyMoney += tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
+					}
+					else if (currentTileType.catagory != ChimneyTileTemplate.Catagory.SHOP_TILE)
+					{
+						if (currentTileType.tileName == "Resurrection")
+						{
+							resurrectionActive = true;
+							Debug.Log("TAKE MONEY OFF");
+						}
+						else if (currentTileType.tileName == "Lantern")
+						{
+							tileManager.NoOfLanterns++;
+							Debug.Log("TAKE MONEY OFF");
+						}
+						else if (currentTileType.tileName == "Health Needle")
+						{
+							maxHitPoints++;
+							Debug.Log("TAKE MONEY OFF");
+						}
 					}
 
 					// If the tile was an enemy find out it's value and take it away from the player's hit points

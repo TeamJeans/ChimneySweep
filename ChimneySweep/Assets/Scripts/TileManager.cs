@@ -125,6 +125,9 @@ public class TileManager : MonoBehaviour {
 	[SerializeField]
 	Sprite regularTileBackgroundSprite;
 
+	int noOfLanterns = 0;
+	public int NoOfLanterns { get { return noOfLanterns; } set { noOfLanterns = value; } }
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -144,7 +147,7 @@ public class TileManager : MonoBehaviour {
 			}
 
 			// Make it so that you can't put enemies or money items in the inventory
-			if (chimneyTileTemplateArray[i].catagory == ChimneyTileTemplate.Catagory.ENEMY || chimneyTileTemplateArray[i].catagory == ChimneyTileTemplate.Catagory.MONEY)
+			if (chimneyTileTemplateArray[i].catagory == ChimneyTileTemplate.Catagory.ENEMY || chimneyTileTemplateArray[i].catagory == ChimneyTileTemplate.Catagory.MONEY || chimneyTileTemplateArray[i].catagory == ChimneyTileTemplate.Catagory.SHOP_TILE)
 			{
 				chimneyTileTemplateArray[i].Storable = false;
 			}
@@ -202,11 +205,20 @@ public class TileManager : MonoBehaviour {
 			else
 			{
 				// Generate a random tile and if it is a boss tile then keep generating them until it is not a boss tile
+				int noOfResurrectionTiles = 0;
 				do
 				{
+					if (noOfResurrectionTiles > 1)
+					{
+						noOfResurrectionTiles = 1;
+					}
 					tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = GetRandomTileBasedOnPercentage();
+					if (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].tileName == "Resurrection")
+					{
+						noOfResurrectionTiles++;
+					}
 				}
-				while (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS);
+				while (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS && noOfResurrectionTiles > 1);
 			}
 
 
@@ -280,6 +292,7 @@ public class TileManager : MonoBehaviour {
 				}
 
 			}
+
 		}
 		else
 		{
