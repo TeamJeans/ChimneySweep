@@ -10,6 +10,8 @@ TagManager:
   - EnemyTile
   - StorableTile
   - calendar
+  - ScaleBowl
+  - MoneyBag
   layers:
   - Default
   - TransparentFX
@@ -79,4 +81,10 @@ TagManager:
     locked: 0
   - name: Calendar
     uniqueID: 1494220299
+    locked: 0
+  - name: MoneyBag
+    uniqueID: 440036705
+    locked: 0
+  - name: Scale
+    uniqueID: 1005972779
     locked: 0

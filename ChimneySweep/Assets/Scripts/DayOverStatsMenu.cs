@@ -11,9 +11,24 @@ public class DayOverStatsMenu : MonoBehaviour {
 	[SerializeField]
 	Text hpText;
 
-	void Start()
+    int countUp;
+
+    IEnumerator CountMoneyUp()
+    {
+        //print out each letter with slight delay to give typing effect
+        for (int i = 0; i < StaticValueHolder.DailyMoney + 1; i++)
+        {
+            moneyText.text = "Money: \u00A3" + countUp;
+            countUp++;
+            yield return new WaitForSeconds(countUp / 900);
+        }
+    }
+
+    void Start()
 	{
-		moneyText.text = "Money: \u00A3" + StaticValueHolder.DailyMoney;
+        countUp = 0;
+        StartCoroutine(CountMoneyUp());
+		
 		hpText.text = "HP: " + (StaticValueHolder.HitPoints) + "/" + (StaticValueHolder.MaxHitPoints);
 	}
 

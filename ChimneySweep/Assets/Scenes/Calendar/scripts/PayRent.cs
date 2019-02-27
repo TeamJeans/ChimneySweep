@@ -9,15 +9,10 @@ public class PayRent : MonoBehaviour {
 
     public Animator moveCalendar;
     public Animator moveBackground;
-    Vector3 UIBudge;
     float countUp;
 
     IEnumerator CountTotalUp()
     {
-        UIBudge.x = 0;
-        UIBudge.y = 0;
-        UIBudge.z = -10;
-
         //print out each letter with slight delay to give typing effect
         for (int i = 0; i < StaticValueHolder.DailyMoney + 1; i++)
         {
@@ -38,11 +33,6 @@ public class PayRent : MonoBehaviour {
         StartCoroutine(CountTotalUp());
     }
 
-
-
-
-
-
     public void PayRentFunc()
     {
         //if time to pay rent
@@ -58,10 +48,7 @@ public class PayRent : MonoBehaviour {
                 //reset days at end of the week
                 StaticValueHolder.CurrentDay = 1;
                 StaticValueHolder.CurrentWeek += 1;
-                for (int i = 0; i < 8; i++)
-                {
-                    StaticValueHolder.DayValues[i] = 0;
-                }
+                for (int i = 0; i < 8; i++) StaticValueHolder.DayValues[i] = 0;
             }
             //if not enough to pay rent
             else
