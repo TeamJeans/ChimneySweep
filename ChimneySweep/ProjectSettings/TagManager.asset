@@ -56,6 +56,9 @@ TagManager:
   - name: TileBackGround
     uniqueID: 2256011195
     locked: 0
+  - name: TileValues
+    uniqueID: 811165033
+    locked: 0
   - name: Tile
     uniqueID: 1069276279
     locked: 0

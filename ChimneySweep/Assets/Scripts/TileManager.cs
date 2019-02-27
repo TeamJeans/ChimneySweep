@@ -522,11 +522,6 @@ public class TileManager : MonoBehaviour {
 						Debug.Log("Fix me");
 						ShopChimneyValues.NoOfShopChimneyVisits++;
 						ShopChimneyValues.CurrentTilenumber = currentTileNumber + 1;
-						//ShopChimneyValues.RandomlyGeneratedTileIndex = new int[tilePrefabs.Length];
-						//for (int i = 0; i < tileObjects.Length; i++)
-						//{
-						//	ShopChimneyValues.RandomlyGeneratedTileIndex[i] = tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum;
-						//}
 						ShopChimneyValues.NewShopGenerated = true;
 						gm.ChangeSceneToChimneyScene();
 						return;
@@ -539,10 +534,6 @@ public class TileManager : MonoBehaviour {
 						Debug.Log("Fix me");
 						ShopChimneyValues.NoOfShopChimneyVisits++;
 						ShopChimneyValues.CurrentTilenumber = currentTileNumber + 1;
-						//for (int i = 0; i < tileObjects.Length; i++)
-						//{
-						//	ShopChimneyValues.RandomlyGeneratedTileIndex[i] = tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum;
-						//}
 						ShopChimneyValues.NewShopGenerated = true;
 						gm.ChangeSceneToChimneyScene();
 						return;
@@ -555,10 +546,6 @@ public class TileManager : MonoBehaviour {
 						Debug.Log("Fix me");
 						ShopChimneyValues.NoOfShopChimneyVisits++;
 						ShopChimneyValues.CurrentTilenumber = currentTileNumber + 1;
-						//for (int i = 0; i < tileObjects.Length; i++)
-						//{
-						//	ShopChimneyValues.RandomlyGeneratedTileIndex[i] = tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum;
-						//}
 						ShopChimneyValues.NewShopGenerated = true;
 						gm.ChangeSceneToChimneyScene();
 						return;
@@ -571,10 +558,6 @@ public class TileManager : MonoBehaviour {
 						Debug.Log("Fix me");
 						ShopChimneyValues.NoOfShopChimneyVisits++;
 						ShopChimneyValues.CurrentTilenumber = currentTileNumber + 1;
-						for (int i = 0; i < tileObjects.Length; i++)
-						{
-							ShopChimneyValues.RandomlyGeneratedTileIndex[i] = tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum;
-						}
 						ShopChimneyValues.NewShopGenerated = true;
 						gm.ChangeSceneToChimneyScene();
 						return;
@@ -587,10 +570,6 @@ public class TileManager : MonoBehaviour {
 						Debug.Log("Fix me");
 						ShopChimneyValues.NoOfShopChimneyVisits++;
 						ShopChimneyValues.CurrentTilenumber = currentTileNumber + 1;
-						for (int i = 0; i < tileObjects.Length; i++)
-						{
-							ShopChimneyValues.RandomlyGeneratedTileIndex[i] = tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum;
-						}
 						ShopChimneyValues.NewShopGenerated = true;
 						gm.ChangeSceneToChimneyScene();
 						return;
@@ -603,11 +582,19 @@ public class TileManager : MonoBehaviour {
 						Debug.Log("Fix me");
 						ShopChimneyValues.NoOfShopChimneyVisits++;
 						ShopChimneyValues.CurrentTilenumber = currentTileNumber + 1;
-						for (int i = 0; i < tileObjects.Length; i++)
-						{
-							ShopChimneyValues.RandomlyGeneratedTileIndex[i] = tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum;
-						}
 						ShopChimneyValues.NewShopGenerated = true;
+						gm.ChangeSceneToChimneyScene();
+						return;
+					}
+					break;
+				case 7:
+					if (currentTileNumber == 23)
+					{
+						// Make this go to another scene
+						Debug.Log("Fix me");
+						ShopChimneyValues.NoOfShopChimneyVisits = 0;
+						ShopChimneyValues.CurrentTilenumber = 0;
+						ShopChimneyValues.NewShopGenerated = false;
 						gm.ChangeSceneToChimneyScene();
 						return;
 					}
@@ -1020,6 +1007,41 @@ public class TileManager : MonoBehaviour {
 				break;
 			case 2:
 				for (int i = 0; i < 6; i++)
+				{
+					tileObjects[i].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+					tileObjects[i].GetComponent<ChimneyTile>().TileUsed = true;
+				}
+				break;
+			case 3:
+				for (int i = 0; i < 9; i++)
+				{
+					tileObjects[i].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+					tileObjects[i].GetComponent<ChimneyTile>().TileUsed = true;
+				}
+				break;
+			case 4:
+				for (int i = 0; i < 12; i++)
+				{
+					tileObjects[i].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+					tileObjects[i].GetComponent<ChimneyTile>().TileUsed = true;
+				}
+				break;
+			case 5:
+				for (int i = 0; i < 15; i++)
+				{
+					tileObjects[i].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+					tileObjects[i].GetComponent<ChimneyTile>().TileUsed = true;
+				}
+				break;
+			case 6:
+				for (int i = 0; i < 18; i++)
+				{
+					tileObjects[i].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
+					tileObjects[i].GetComponent<ChimneyTile>().TileUsed = true;
+				}
+				break;
+			case 7:
+				for (int i = 0; i < 21; i++)
 				{
 					tileObjects[i].GetComponent<SpriteRenderer>().sprite = chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].artwork;
 					tileObjects[i].GetComponent<ChimneyTile>().TileUsed = true;

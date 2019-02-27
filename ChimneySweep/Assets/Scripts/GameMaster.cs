@@ -471,8 +471,17 @@ public class GameMaster : MonoBehaviour {
 
 					}
 
-					// Move to the day stats scene
-					ChangeSceneToDayOverStats();
+					if (!tileManager.IsShopChimney)
+					{
+						// Move to the next tile in the queue
+						tileManager.MoveToNextTile();
+					}
+					else
+					{
+						// Move to the day stats scene
+						ChangeSceneToDayOverStats();
+					}
+
 				}
 				tileSwipeRight.CollisionWithTile = false;
 			}
@@ -480,7 +489,7 @@ public class GameMaster : MonoBehaviour {
 			{
 				if (tileManager.IsShopChimney && Input.GetMouseButtonUp(0))
 				{
-					if (tileManager.CurrentTileNumber + 1 != tileManager.TileObjects.Length)
+					if (tileManager.CurrentTileNumber + 1 < tileManager.TileObjects.Length)
 					{
 						int tempMoney = currentMoney - tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
 
@@ -530,6 +539,11 @@ public class GameMaster : MonoBehaviour {
 							// Change where the camera goes to when the next tile is selected
 							cameraControl.SetDesiredCamPos();
 						}
+					}
+					else
+					{
+						// Move to the next tile in the queue
+						tileManager.MoveToNextTile();
 					}
 				}
 				else if (tileManager.IsShopChimney)
