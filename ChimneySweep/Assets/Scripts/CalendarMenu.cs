@@ -12,6 +12,10 @@ public class CalendarMenu : MonoBehaviour {
 
 	public void CalendarNextDayButton()
 	{
-		SceneManager.LoadScene("ChimneyScene");
+        if (StaticValueHolder.CurrentDay != 8)
+        {
+            SceneManager.LoadScene("ChimneyScene");
+        }
+		
 	}
 }

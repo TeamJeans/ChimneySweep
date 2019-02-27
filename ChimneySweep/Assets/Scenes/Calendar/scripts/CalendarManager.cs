@@ -20,11 +20,6 @@ public class CalendarManager : MonoBehaviour {
     public Text Gold6;
     public Text Gold7;
 
-    public int day;
-    public float dayCheck;
-    public int rent;
-    public bool rentPaid;
-
     public float countUp;
     Vector3 UIBudge;
 
@@ -33,8 +28,6 @@ public class CalendarManager : MonoBehaviour {
         UIBudge.x = 0;
         UIBudge.y = 0;
         UIBudge.z = -10;
-
-        Debug.Log("Current day at thread start: " + StaticValueHolder.CurrentDay);
 
         //print out each letter with slight delay to give typing effect
         for (int i = 0; i < StaticValueHolder.DailyMoney+1; i++)
@@ -110,6 +103,9 @@ public class CalendarManager : MonoBehaviour {
             CountUpDone.transform.SetParent(GameObject.Find("/UIOverlay/Calendar").transform);
         }
     }
+
+
+    
 
 
     // Use this for initialization

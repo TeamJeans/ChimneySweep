@@ -7,18 +7,50 @@ public class PayRent : MonoBehaviour {
     public int rent;
     public Text rentDue;
 
+    public Animator moveCalendar;
+    public Animator moveBackground;
+    Vector3 UIBudge;
+    float countUp;
+
+    IEnumerator CountTotalUp()
+    {
+        UIBudge.x = 0;
+        UIBudge.y = 0;
+        UIBudge.z = -10;
+
+        //print out each letter with slight delay to give typing effect
+        for (int i = 0; i < StaticValueHolder.DailyMoney + 1; i++)
+        {
+            Debug.Log("Looping, money is: " + StaticValueHolder.DailyMoney + "      Count is: " +  countUp);
+            rentDue.text = StaticValueHolder.TotalMoney - StaticValueHolder.DailyMoney + countUp + "/" + rent;
+            countUp++;
+            yield return new WaitForSeconds(countUp / 900);
+        }
+    }
+
+
     // Use this for initialization
     public void Start()
     {
         //used to increase rent
         rent = 200 + StaticValueHolder.CurrentWeek * 200;
         //show how much rent is due at end of week
-        rentDue.text = StaticValueHolder.TotalMoney + "/" + rent;
+        StartCoroutine(CountTotalUp());
+    }
 
 
+
+
+
+
+    public void PayRentFunc()
+    {
         //if time to pay rent
         if ((float)StaticValueHolder.CurrentDay == 8)
         {
+            moveBackground.SetBool("payingRentTransition", true);
+            moveCalendar.SetBool("payingRentTransition", true);
+
             //if enough money to pay
             if (StaticValueHolder.TotalMoney >= rent)
             {
@@ -39,3 +71,5 @@ public class PayRent : MonoBehaviour {
         }
     }
 }
+
+

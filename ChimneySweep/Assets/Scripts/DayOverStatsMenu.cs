@@ -29,10 +29,10 @@ public class DayOverStatsMenu : MonoBehaviour {
 		// Sets the amount of money earned for the current day
 		StaticValueHolder.TotalMoney += StaticValueHolder.DailyMoney;
 		StaticValueHolder.DayValues[StaticValueHolder.CurrentDay] = StaticValueHolder.DailyMoney;
-		if (StaticValueHolder.CurrentDay < 7)
-		{
-			StaticValueHolder.CurrentDay++;
-		}
-		SceneManager.LoadScene("ChimneyScene");
+		if (StaticValueHolder.CurrentDay < 7) StaticValueHolder.CurrentDay++;
+
+        //load next day unless its the end of the week in which case force back to calendar to pay rent
+        if (StaticValueHolder.CurrentDay == 7) SceneManager.LoadScene("CalendarScene");
+        else SceneManager.LoadScene("ChimneyScene");
 	}
 }
