@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Bellows
   m_EditorClassIdentifier: 
   tileName: Bellows
-  description: Tile Description
+  description: ' '
   artwork: {fileID: 21300000, guid: 346d7c47cb22f064dab2f68fb3f20117, type: 3}
   minTileValue: 5
   maxTileValue: 8

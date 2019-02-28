@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   tileName: Sword
-  description: Tile Description
+  description: ' '
   artwork: {fileID: 21300000, guid: 5118f81caa9f29b4495d6c2f0112ef54, type: 3}
   minTileValue: 5
   maxTileValue: 8

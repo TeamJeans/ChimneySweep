@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Ladder
   m_EditorClassIdentifier: 
   tileName: Ladder
-  description: Tile Description
+  description: ' '
   artwork: {fileID: 21300000, guid: f92a55967f3881746bdc03dfb69f1f2b, type: 3}
   minTileValue: 2
   maxTileValue: 4

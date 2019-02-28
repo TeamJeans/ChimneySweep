@@ -51,6 +51,8 @@ public class GameMaster : MonoBehaviour {
 	GameObject buyTextBackground;
 	[SerializeField]
 	GameObject discardTextBackground;
+	[SerializeField]
+	GameObject discardRightTextBackground;
 
 	[SerializeField]
 	int maxHitPoints = 10;
@@ -553,10 +555,17 @@ public class GameMaster : MonoBehaviour {
 				}
 				else if (tileManager.IsShopChimney)
 				{
-					buyTextBackground.SetActive(true);
-					moneyText.color = moneyTextChangeColour;
-					int tempMoney = currentMoney - tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
-					moneyText.text = "\u00A3" + tempMoney;
+					if (currentTileType.Storable && !inventory.IsThereSpace())
+					{
+						discardRightTextBackground.SetActive(true);
+					}
+					else
+					{
+						buyTextBackground.SetActive(true);
+						moneyText.color = moneyTextChangeColour;
+						int tempMoney = currentMoney - tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().ConstTileValue;
+						moneyText.text = "\u00A3" + tempMoney;
+					}
 				}
 				else if (inventory.IsThereSpace() && currentTileType.Storable)
 				{
@@ -581,38 +590,48 @@ public class GameMaster : MonoBehaviour {
 							moneyText.text = "\u00A3" + tempEnemyMoney;
 							if (!hasArmour)
 							{
-								int tempHitPoints = currentHitPoints - tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
-								if (tempHitPoints < 0)
-									tempHitPoints = 0;
-								hitPointsText.color = hitPointsTextChangeColour;
-								hitPointsText.text = tempHitPoints + "/" + maxHitPoints;
-								heartIconObject.GetComponent<Image>().sprite = heartBrokenSprite;
-							}
-							else
-							{
-								if (tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue <= currentArmourHitPoints)
+								// Check if the enemy's value is 0, if so don't change the ui
+								if (tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue > 0)
 								{
-									int tempArmourHitPoints = currentArmourHitPoints - tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
-									if (tempArmourHitPoints < 0)
-										tempArmourHitPoints = 0;
-									armourHitPointsText.color = armourHitPointsTextChangeColour;
-									armourHitPointsText.text = tempArmourHitPoints + "/" + maxArmourHitPoints;
-									armourIconObject.GetComponent<Image>().sprite = armourBrokenSprite;
-								}
-								else
-								{
-									int tempArmourHitPoints = currentArmourHitPoints - tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
-									if (tempArmourHitPoints < 0)
-										tempArmourHitPoints = 0;
-									armourHitPointsText.color = armourHitPointsTextChangeColour;
-									armourHitPointsText.text = tempArmourHitPoints + "/" + maxArmourHitPoints;
-									int tempHitPoints = currentHitPoints - (tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue - currentArmourHitPoints);
+
+									int tempHitPoints = currentHitPoints - tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
 									if (tempHitPoints < 0)
 										tempHitPoints = 0;
 									hitPointsText.color = hitPointsTextChangeColour;
 									hitPointsText.text = tempHitPoints + "/" + maxHitPoints;
 									heartIconObject.GetComponent<Image>().sprite = heartBrokenSprite;
-									armourIconObject.GetComponent<Image>().sprite = armourBrokenSprite;
+								}
+							}
+							else
+							{
+								// Check if the enemy's value is 0, if so don't change the ui
+								if (tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue > 0)
+								{
+
+									if (tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue <= currentArmourHitPoints)
+									{
+										int tempArmourHitPoints = currentArmourHitPoints - tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+										if (tempArmourHitPoints < 0)
+											tempArmourHitPoints = 0;
+										armourHitPointsText.color = armourHitPointsTextChangeColour;
+										armourHitPointsText.text = tempArmourHitPoints + "/" + maxArmourHitPoints;
+										armourIconObject.GetComponent<Image>().sprite = armourBrokenSprite;
+									}
+									else
+									{
+										int tempArmourHitPoints = currentArmourHitPoints - tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue;
+										if (tempArmourHitPoints < 0)
+											tempArmourHitPoints = 0;
+										armourHitPointsText.color = armourHitPointsTextChangeColour;
+										armourHitPointsText.text = tempArmourHitPoints + "/" + maxArmourHitPoints;
+										int tempHitPoints = currentHitPoints - (tileManager.TileObjects[tileManager.CurrentTileNumber].GetComponent<ChimneyTile>().TileValue - currentArmourHitPoints);
+										if (tempHitPoints < 0)
+											tempHitPoints = 0;
+										hitPointsText.color = hitPointsTextChangeColour;
+										hitPointsText.text = tempHitPoints + "/" + maxHitPoints;
+										heartIconObject.GetComponent<Image>().sprite = heartBrokenSprite;
+										armourIconObject.GetComponent<Image>().sprite = armourBrokenSprite;
+									}
 								}
 							}
 							break;
@@ -676,6 +695,7 @@ public class GameMaster : MonoBehaviour {
 			{
 				buyTextBackground.SetActive(false);
 				discardTextBackground.SetActive(false);
+				discardRightTextBackground.SetActive(false);
 			}
 			moneyText.color = Color.white;
 			moneyText.text = "\u00A3" + currentMoney;
@@ -736,7 +756,7 @@ public class GameMaster : MonoBehaviour {
 		}
 
 		// Show stats changing when using items from inventory
-		if (inventoryItemTrigger.UseItem)
+		if (inventoryItemTrigger.UseItem && !tileManager.IsShopChimney)
 		{
 			switch (inventory.TileStored[inventory.SelectedSlot.GetComponent<InventorySlot>().SlotNum].catagory)
 			{

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Broom
   m_EditorClassIdentifier: 
   tileName: Broom
-  description: Tile Description
+  description: ' '
   artwork: {fileID: 21300000, guid: 56859e39087b97c4ca2721212f6c2429, type: 3}
   minTileValue: 5
   maxTileValue: 8

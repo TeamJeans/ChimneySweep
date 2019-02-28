@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: SmallPoisonPotion
   m_EditorClassIdentifier: 
   tileName: SmallPoisonPotion
-  description: Tile Description
+  description: ' '
   artwork: {fileID: 21300000, guid: 45b18155fe0170f4980a4ee7d6a76755, type: 3}
   minTileValue: 5
   maxTileValue: 8

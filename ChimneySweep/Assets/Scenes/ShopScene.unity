@@ -113,6 +113,81 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &27041979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 27041980}
+  - component: {fileID: 27041982}
+  - component: {fileID: 27041981}
+  m_Layer: 5
+  m_Name: DiscardText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &27041980
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 27041979}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1565289612}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 12.65, y: -10.525003}
+  m_SizeDelta: {x: 263.26, y: 78.95}
+  m_Pivot: {x: 0.49999994, y: 0.49999994}
+--- !u!114 &27041981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 27041979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: b6f43bc10f1c12346a1f4de03927ff37, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 76
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Discard
+--- !u!222 &27041982
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 27041979}
+  m_CullTransparentMesh: 0
 --- !u!1001 &72742420
 Prefab:
   m_ObjectHideFlags: 0
@@ -1431,7 +1506,7 @@ GameObject:
   - component: {fileID: 268931191}
   - component: {fileID: 268931190}
   m_Layer: 5
-  m_Name: SellText
+  m_Name: DiscardText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4326,7 +4401,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 95db4d0a7a06e4146a3a85abeb4a5332, type: 3}
   - {fileID: 21300000, guid: b409946da09325c4cb8e83657620559e, type: 3}
   - {fileID: 21300000, guid: 6539caa6e96adaa4195bada79b69390e, type: 3}
-  - {fileID: 21300000, guid: 395698810119707498ae82c7db4c51d7, type: 3}
+  - {fileID: 0}
   - {fileID: 21300000, guid: 0d14a43c153f2844386adb714a9f869e, type: 3}
   - {fileID: 21300000, guid: 1c5f87ca0b3c7b040956010e13d81019, type: 3}
   purpleChimney:
@@ -5116,6 +5191,7 @@ MonoBehaviour:
   storeTextBackground: {fileID: 1004154078}
   buyTextBackground: {fileID: 374316711}
   discardTextBackground: {fileID: 1448127718}
+  discardRightTextBackground: {fileID: 1565289611}
   maxHitPoints: 10
   currentHitPoints: 10
   maxArmourHitPoints: 0
@@ -11147,6 +11223,7 @@ RectTransform:
   - {fileID: 1004154079}
   - {fileID: 374316712}
   - {fileID: 1448127719}
+  - {fileID: 1565289612}
   m_Father: {fileID: 1391441903}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11482,6 +11559,95 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a727d0098e63e39459c5b8063bd4690b, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1565289611
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1565289612}
+  - component: {fileID: 1565289615}
+  - component: {fileID: 1565289614}
+  - component: {fileID: 1565289613}
+  m_Layer: 5
+  m_Name: DiscardRightTextBackground
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1565289612
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1565289611}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.9999999, y: 0.9999999, z: 0.9999999}
+  m_Children:
+  - {fileID: 27041980}
+  m_Father: {fileID: 1453420641}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -173.00024, y: 476}
+  m_SizeDelta: {x: 308, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &1565289613
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1565289611}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bda31568f76cddf42b9bb2628f1a4c3e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1565289614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1565289611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.43529412}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1565289615
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1565289611}
+  m_CullTransparentMesh: 0
 --- !u!1 &1615061796
 GameObject:
   m_ObjectHideFlags: 0
@@ -11942,13 +12108,29 @@ MonoBehaviour:
   spaceBetweenTiles: 0.6
   swipeControls: {fileID: 1046055380}
   cameraControl: {fileID: 1700119698}
-  armourDescription: Gives you a shield that works as temporary hit points.
-  weaponDescription: Takes the tiles value away from the enemies tile value.
+  armourDescription: Armour will temporarily boost the players overall health, equal
+    to the value listed on the tile.
+  weaponDescription: Weapons can be used on monster tiles removing their health equal
+    to the value listed on the tile.
   potionDescription: Potion description.
-  skipToolDescription: Skip Tool description.
-  enemyDescription: Enemy Description.
-  bombDescription: Bomb Description.
+  skipToolDescription: Skip Tools will skip several tiles ahead equal to the value
+    listed on the tile.
+  enemyDescription: "Monster\u2019s tile values relate to their health and damage
+    they will do to the player. If the player defeats the monster, they will gain
+    money corresponding to the monster\u2019s initial health. If they flee from the
+    battle the day will immediately end."
+  bombDescription: Bombs can be used on monster tiles halving their health.
   moneyDescription: Money Description.
+  bossDescription: "Boss\u2019s are hard hitting monsters."
+  healthPotionDescription: Health Potions will heal equal to the value listed on the
+    tile.
+  poisonPotionDescription: "Poison Potions will reduce monster\u2019s health to 0."
+  clairvoyancePotionDescription: Clairvoyance Potions will reveal several tiles ahead
+    equal to the value listed on the tile.
+  resurrectionDescription: Resurrection will revive the you after death with half
+    of their max health.
+  lanternDescription: The lantern allows you to see one tile extra ahead.
+  healthNeedleDescription: The syringe adds one to your max health.
   lengthOfTimeTileNeedsToBeHeldDown: 1
   tileDescriptionMenu: {fileID: 516121090}
   tileNameText: {fileID: 1926729268}
@@ -12021,6 +12203,7 @@ MonoBehaviour:
     type: 3}
   regularTileBackgroundSprite: {fileID: 21300000, guid: bfbfd460418bb214ea1d7d9597e8653c,
     type: 3}
+  capOnLanterns: 3
 --- !u!114 &1661293671
 MonoBehaviour:
   m_ObjectHideFlags: 0

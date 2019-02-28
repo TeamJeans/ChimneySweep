@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Dynamite
   m_EditorClassIdentifier: 
   tileName: Dynamite
-  description: Tile Description
+  description: ' '
   artwork: {fileID: 21300000, guid: 7f47485a0157ce3468319380308e8f83, type: 3}
   minTileValue: 5
   maxTileValue: 8

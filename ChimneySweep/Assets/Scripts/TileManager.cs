@@ -21,7 +21,7 @@ public class TileManager : MonoBehaviour {
 	[SerializeField]
 	CameraControl cameraControl;
 
-	// Colours for tile values
+	// Tile descriptions
 	[SerializeField]
 	string armourDescription;
 	[SerializeField]
@@ -36,6 +36,24 @@ public class TileManager : MonoBehaviour {
 	string bombDescription;
 	[SerializeField]
 	string moneyDescription;
+	[SerializeField]
+	string bossDescription;
+
+	// Potion subcatagories
+	[SerializeField]
+	string healthPotionDescription;
+	[SerializeField]
+	string poisonPotionDescription;
+	[SerializeField]
+	string clairvoyancePotionDescription;
+
+	// Shop tile descriptions
+	[SerializeField]
+	string resurrectionDescription;
+	[SerializeField]
+	string lanternDescription;
+	[SerializeField]
+	string healthNeedleDescription;
 
 	// Variables for holding down tiles
 	bool showTileDescription = false;
@@ -128,6 +146,9 @@ public class TileManager : MonoBehaviour {
 	int noOfLanterns = 0;
 	public int NoOfLanterns { get { return noOfLanterns; } set { noOfLanterns = value; } }
 
+	[SerializeField]
+	int	capOnLanterns = 3;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -178,6 +199,8 @@ public class TileManager : MonoBehaviour {
 		tileBackground = new GameObject[tileObjects.Length];
 		tileUsedArray = new GameObject[tileObjects.Length];
 
+		int numOfLanternsInChimney = noOfLanterns;
+
 		for (int i = 0; i < tilePrefabs.Length; i++)
 		{
 			// Creates the array of blank tiles
@@ -209,11 +232,11 @@ public class TileManager : MonoBehaviour {
 				{
 					// Make the resurrection tile only spawn once in a chimney, also cap the number of lanterns that the player can have
 					int noOfResurrectionTiles = 1;
-					int numOfLanternsInChimney = noOfLanterns;
 					bool lanternSpawning = true;
 
-					if (numOfLanternsInChimney >= 3)
+					if (numOfLanternsInChimney >= capOnLanterns)
 					{
+						Debug.Log("Lantern spawning is now false");
 						lanternSpawning = false;
 					}
 
@@ -297,19 +320,15 @@ public class TileManager : MonoBehaviour {
 
 
 		// If a shop has already been generated then set the values for that shop
-		Debug.Log(ShopChimneyValues.NewShopGenerated);
 		if (ShopChimneyValues.NewShopGenerated && isShopChimney)
 		{
 			LoadShopChimney();
-			Debug.Log("START: " + currentlySelectedTile);
 		}
 		else
 		{
 			// Sets the selected tile to be the first tile generated
 			tileObjects[0].GetComponent<ChimneyTile>().Selected = true;
 			currentlySelectedTile = tileObjects[0];
-
-			Debug.Log("START: " + currentlySelectedTile);
 		}
 
 		// Show three tiles at a time if the chimney is a shop chimney
@@ -751,7 +770,6 @@ public class TileManager : MonoBehaviour {
 	public void SetUpCurrentTileDescription()
 	{
 		tileDescriptionMenu.SetActive(true);
-
 		switch (chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].catagory)
 		{
 			case ChimneyTileTemplate.Catagory.ARMOUR:
@@ -763,16 +781,40 @@ public class TileManager : MonoBehaviour {
 				tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryDescription = weaponDescription;
 				break;
 			case ChimneyTileTemplate.Catagory.POTION:
-				tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryName = "Potion";
-				tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryDescription = potionDescription;
+				switch (chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].potionSubCatagory)
+				{
+					case ChimneyTileTemplate.PotionsSubCatagory.HEALTH:
+						tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryName = "Health Potion";
+						tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryDescription = healthPotionDescription;
+						break;
+					case ChimneyTileTemplate.PotionsSubCatagory.POISON:
+						tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryName = "Poison Potion";
+						tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryDescription = poisonPotionDescription;
+						break;
+					case ChimneyTileTemplate.PotionsSubCatagory.CLAIRVOYANCE:
+						tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryName = "Clairvoyance Potion";
+						tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryDescription = clairvoyancePotionDescription;
+						break;
+					default: break;
+				}
 				break;
 			case ChimneyTileTemplate.Catagory.SKIPTOOL:
 				tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryName = "Skip Tool";
 				tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryDescription = skipToolDescription;
 				break;
 			case ChimneyTileTemplate.Catagory.ENEMY:
-				tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryName = "Enemy";
-				tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryDescription = enemyDescription;
+				switch (chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].enemySubCatagory)
+				{
+					case ChimneyTileTemplate.EnemySubCatagory.NORMAL:
+						tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryName = "Enemy";
+						tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryDescription = enemyDescription;
+						break;
+					case ChimneyTileTemplate.EnemySubCatagory.BOSS:
+						tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryName = "Boss";
+						tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryDescription = bossDescription;
+						break;
+					default: break;
+				}
 				break;
 			case ChimneyTileTemplate.Catagory.BOMB:
 				tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryName = "Bomb";
@@ -781,6 +823,23 @@ public class TileManager : MonoBehaviour {
 			case ChimneyTileTemplate.Catagory.MONEY:
 				tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryName = "Money";
 				tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryDescription = moneyDescription;
+				break;
+			case ChimneyTileTemplate.Catagory.SHOP_TILE:
+				if (chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].tileName == "Resurrection")
+				{
+					tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryName = "Resurrection";
+					tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryDescription = resurrectionDescription;
+				}
+				else if (chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].tileName == "Lantern")
+				{
+					tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryName = "Lantern";
+					tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryDescription = lanternDescription;
+				}
+				else if (chimneyTileTemplateArray[tileObjects[currentTileNumber].GetComponent<ChimneyTile>().RandomTileTypeNum].tileName == "Health Needle")
+				{
+					tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryName = "Health Needle";
+					tileObjects[currentTileNumber].GetComponent<ChimneyTile>().CatagoryDescription = healthNeedleDescription;
+				}
 				break;
 			default:
 				break;

@@ -4162,7 +4162,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 95db4d0a7a06e4146a3a85abeb4a5332, type: 3}
   - {fileID: 21300000, guid: b409946da09325c4cb8e83657620559e, type: 3}
   - {fileID: 21300000, guid: 6539caa6e96adaa4195bada79b69390e, type: 3}
-  - {fileID: 21300000, guid: 395698810119707498ae82c7db4c51d7, type: 3}
+  - {fileID: 21300000, guid: aaa5b24cf41eb8746b9180b152347256, type: 3}
   - {fileID: 21300000, guid: 0d14a43c153f2844386adb714a9f869e, type: 3}
   - {fileID: 21300000, guid: 1c5f87ca0b3c7b040956010e13d81019, type: 3}
   purpleChimney:
@@ -4182,7 +4182,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 0d14a43c153f2844386adb714a9f869e, type: 3}
   - {fileID: 21300000, guid: 2e50115f192a47749a4d725d1d903aa0, type: 3}
   randomChimney: 0
-  currentChimneyType: 5
+  currentChimneyType: 4
 --- !u!1 &920406518
 GameObject:
   m_ObjectHideFlags: 0
@@ -4952,6 +4952,7 @@ MonoBehaviour:
   storeTextBackground: {fileID: 1004154078}
   buyTextBackground: {fileID: 0}
   discardTextBackground: {fileID: 0}
+  discardRightTextBackground: {fileID: 0}
   maxHitPoints: 10
   currentHitPoints: 10
   maxArmourHitPoints: 0
@@ -11737,13 +11738,29 @@ MonoBehaviour:
   spaceBetweenTiles: 0.35
   swipeControls: {fileID: 1046055380}
   cameraControl: {fileID: 1700119698}
-  armourDescription: Gives you a shield that works as temporary hit points.
-  weaponDescription: Takes the tiles value away from the enemies tile value.
+  armourDescription: Armour will temporarily boost the players overall health, equal
+    to the value listed on the tile.
+  weaponDescription: Weapons can be used on monster tiles removing their health equal
+    to the value listed on the tile.
   potionDescription: Potion description.
-  skipToolDescription: Skip Tool description.
-  enemyDescription: Enemy Description.
-  bombDescription: Bomb Description.
+  skipToolDescription: Skip Tools will skip several tiles ahead equal to the value
+    listed on the tile.
+  enemyDescription: "Monster\u2019s tile values relate to their health and damage
+    they will do to the player. If the player defeats the monster, they will gain
+    money corresponding to the monster\u2019s initial health. If they flee from the
+    battle the day will immediately end."
+  bombDescription: Bombs can be used on monster tiles halving their health.
   moneyDescription: Money Description.
+  bossDescription: "Boss\u2019s are hard hitting monsters."
+  healthPotionDescription: Health Potions will heal equal to the value listed on the
+    tile.
+  poisonPotionDescription: "Poison Potions will reduce monster\u2019s health to 0."
+  clairvoyancePotionDescription: Clairvoyance Potions will reveal several tiles ahead
+    equal to the value listed on the tile.
+  resurrectionDescription: Resurrection will revive the you after death with half
+    of their max health.
+  lanternDescription: The lantern allows you to see one tile extra ahead.
+  healthNeedleDescription: The syringe adds one to your max health.
   lengthOfTimeTileNeedsToBeHeldDown: 1
   tileDescriptionMenu: {fileID: 516121090}
   tileNameText: {fileID: 1926729268}
@@ -11818,6 +11835,7 @@ MonoBehaviour:
     type: 3}
   regularTileBackgroundSprite: {fileID: 21300000, guid: bfbfd460418bb214ea1d7d9597e8653c,
     type: 3}
+  capOnLanterns: 3
 --- !u!114 &1661293671
 MonoBehaviour:
   m_ObjectHideFlags: 0

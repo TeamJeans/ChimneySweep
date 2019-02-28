@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Witch
   m_EditorClassIdentifier: 
   tileName: 
-  description: Tile Description
+  description: ' '
   artwork: {fileID: 21300000, guid: 78782bdbcd8938343851900924023dcc, type: 3}
   minTileValue: 5
   maxTileValue: 7

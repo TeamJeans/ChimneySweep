@@ -11,7 +11,6 @@ public class TileSwipeRight : MonoBehaviour {
 	{
 		if (col.gameObject.tag == "StorableTile" || col.gameObject.tag == "EnemyTile")
 		{
-			Debug.Log("Triggered");
 			collisionWithTile = true;
 		}
 	}

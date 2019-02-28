@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: BucketHelm
   m_EditorClassIdentifier: 
   tileName: Bucket Helm
-  description: Tile Description
+  description: ' '
   artwork: {fileID: 21300000, guid: 83edb1e3b6cc46e4aa962ff8ea7b8176, type: 3}
   minTileValue: 5
   maxTileValue: 8
