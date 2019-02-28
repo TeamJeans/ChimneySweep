@@ -24,14 +24,27 @@ public class ChimneyTextureChanger : MonoBehaviour {
 	[SerializeField]
 	GameObject chimneyBackgroundDetails;
 
+	const int noOfChimneyParts = 7;
+
 	// Sprite arrays
-	Sprite[] selectedChimney = new Sprite[7];
+	Sprite[] selectedChimney = new Sprite[noOfChimneyParts];
 	[SerializeField]
-	Sprite[] orangeChimney = new Sprite[7];
+
+	Sprite[] orangeChimney = new Sprite[noOfChimneyParts];
 	[SerializeField]
-	Sprite[] greyChimney = new Sprite[7];
+	Sprite[] whiteChimney = new Sprite[noOfChimneyParts];
 	[SerializeField]
-	Sprite[] blueChimney = new Sprite[7];
+	Sprite[] blueChimney = new Sprite[noOfChimneyParts];
+	[SerializeField]
+	Sprite[] pinkChimney = new Sprite[noOfChimneyParts];
+	[SerializeField]
+	Sprite[] redChimney = new Sprite[noOfChimneyParts];
+	[SerializeField]
+	Sprite[] purpleChimney = new Sprite[noOfChimneyParts];
+	[SerializeField]
+	Sprite[] greenChimney = new Sprite[noOfChimneyParts];
+
+
 
 	[SerializeField]
 	bool randomChimney;
@@ -40,8 +53,12 @@ public class ChimneyTextureChanger : MonoBehaviour {
 	public enum ChimneyType
 	{
 		ORANGE,
-		GREY,
+		WHITE,
 		BLUE,
+		PINK,
+		RED,
+		PURPLE,
+		GREEN,
 		NUM_OF_TYPES
 	}
 
@@ -79,11 +96,23 @@ public class ChimneyTextureChanger : MonoBehaviour {
 			case ChimneyType.ORANGE:
 				selectedChimney = orangeChimney;
 				break;
-			case ChimneyType.GREY:
-				selectedChimney = greyChimney;
+			case ChimneyType.WHITE:
+				selectedChimney = whiteChimney;
 				break;
 			case ChimneyType.BLUE:
 				selectedChimney = blueChimney;
+				break;
+			case ChimneyType.PINK:
+				selectedChimney = pinkChimney;
+				break;
+			case ChimneyType.RED:
+				selectedChimney = redChimney;
+				break;
+			case ChimneyType.PURPLE:
+				selectedChimney = purpleChimney;
+				break;
+			case ChimneyType.GREEN:
+				selectedChimney = greenChimney;
 				break;
 			default:
 				break;

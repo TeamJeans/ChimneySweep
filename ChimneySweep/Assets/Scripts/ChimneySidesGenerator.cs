@@ -43,7 +43,7 @@ public class ChimneySidesGenerator : MonoBehaviour {
 			chimneyBackgroundTiles[i].transform.localPosition = chimneyBackgroundTiles[0].transform.localPosition + new Vector3(0, -scale, 0);
 		}
 
-		chimneyTextureChanger.SetChimneyType(chimneyTextureChanger.CurrentChimneyType);
+		//chimneyTextureChanger.SetChimneyType(chimneyTextureChanger.CurrentChimneyType);
 	}
 
 	// Update is called once per frame

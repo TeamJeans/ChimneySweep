@@ -207,20 +207,46 @@ public class TileManager : MonoBehaviour {
 				// Generate a random tile and if it is a boss tile then keep generating them until it is not a boss tile
 				if (isShopChimney)
 				{
-					int noOfResurrectionTiles = 0;
-					do
+					// Make the resurrection tile only spawn once in a chimney, also cap the number of lanterns that the player can have
+					int noOfResurrectionTiles = 1;
+					int numOfLanternsInChimney = noOfLanterns;
+					bool lanternSpawning = true;
+
+					if (numOfLanternsInChimney >= 3)
 					{
-						if (noOfResurrectionTiles > 1)
-						{
-							noOfResurrectionTiles = 1;
-						}
-						tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = GetRandomTileBasedOnPercentage();
-						if (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].tileName == "Resurrection")
-						{
-							noOfResurrectionTiles++;
-						}
+						lanternSpawning = false;
 					}
-					while (noOfResurrectionTiles > 1);
+
+					if (gm.ResurrectionActive)
+					{
+						do
+						{
+							tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = GetRandomTileBasedOnPercentage();	
+						}
+						while (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].tileName == "Resurrection" || (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].tileName == "Lantern" && !lanternSpawning));
+					}
+					else
+					{
+						do
+						{
+							if (noOfResurrectionTiles > 1)
+							{
+								noOfResurrectionTiles = 1;
+							}
+							tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum = GetRandomTileBasedOnPercentage();
+							if (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].tileName == "Resurrection" )
+							{
+								noOfResurrectionTiles++;
+							}
+						}
+						while (noOfResurrectionTiles > 1 || (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].tileName == "Lantern" && !lanternSpawning));
+					}
+
+					if (chimneyTileTemplateArray[tileObjects[i].GetComponent<ChimneyTile>().RandomTileTypeNum].tileName == "Lantern")
+					{
+						Debug.Log("Lantern Created");
+						numOfLanternsInChimney++;
+					}
 				}
 				else
 				{
@@ -622,13 +648,15 @@ public class TileManager : MonoBehaviour {
 		// Change the selected tile to be the next in the queue
 		tileObjects[currentTileNumber].GetComponent<ChimneyTile>().Selected = false;
 		tileObjects[currentTileNumber].GetComponent<ChimneyTile>().TileUsed = true;
-		tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().Selected = true;
+		if (currentTileNumber + 1 < tileObjects.Length)
+		{
+			tileObjects[currentTileNumber + 1].GetComponent<ChimneyTile>().Selected = true;
 
-
-		// Put the tile used sprite under the current tile
-		tileUsed.transform.position = new Vector3(tileObjects[currentTileNumber + 1].transform.position.x, tileObjects[currentTileNumber + 1].transform.position.y, tileObjects[currentTileNumber + 1].transform.position.z);
-		CurrentlySelectedTile = tileObjects[currentTileNumber + 1];
-		currentTileNumber++;
+			// Put the tile used sprite under the current tile
+			tileUsed.transform.position = new Vector3(tileObjects[currentTileNumber + 1].transform.position.x, tileObjects[currentTileNumber + 1].transform.position.y, tileObjects[currentTileNumber + 1].transform.position.z);
+			CurrentlySelectedTile = tileObjects[currentTileNumber + 1];
+			currentTileNumber++;
+		}
 
 		// Make the next tile visable
 		if (currentTileNumber != tileObjects.Length - 1 && !isShopChimney)

@@ -95,6 +95,7 @@ public class GameMaster : MonoBehaviour {
 	Sprite heartBrokenSprite;
 
 	bool resurrectionActive = false;
+	public bool ResurrectionActive { get { return resurrectionActive; } set { resurrectionActive = value; } }
 
 	[SerializeField]
 	GameObject armourIconObject;
@@ -359,7 +360,7 @@ public class GameMaster : MonoBehaviour {
 			{
 				Debug.Log("Current TileNumber: " + tileManager.CurrentTileNumber);
 				Debug.Log("No of Tiles: " + tileManager.TileObjects.Length);
-				if (tileManager.CurrentTileNumber + 1 != tileManager.TileObjects.Length)
+				if (tileManager.CurrentTileNumber + 1 < tileManager.TileObjects.Length)
 				{
 					// If the inventory is not full and this item is storable, add it to the next empty slot in the inventory
 					if (inventory.IsThereSpace() && currentTileType.Storable)
@@ -409,7 +410,6 @@ public class GameMaster : MonoBehaviour {
 
 						currentMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
 						StaticValueHolder.DailyMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
-
 					}
 
 					// Move to the next tile in the queue
@@ -469,6 +469,14 @@ public class GameMaster : MonoBehaviour {
 						currentMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
 						StaticValueHolder.DailyMoney += tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
 
+						Debug.Log("IT WORKS");
+
+						if (currentTileType.catagory == ChimneyTileTemplate.Catagory.ENEMY && currentTileType.enemySubCatagory == ChimneyTileTemplate.EnemySubCatagory.BOSS)
+						{
+							// Move to the day stats scene
+							ChangeSceneToDayOverStats();
+						}
+
 					}
 
 					if (!tileManager.IsShopChimney)
@@ -512,21 +520,18 @@ public class GameMaster : MonoBehaviour {
 							{
 								if (currentTileType.tileName == "Resurrection")
 								{
-									Debug.Log("WORKS");
 									resurrectionActive = true;
 									currentMoney -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
 									StaticValueHolder.DailyMoney -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
 								}
 								else if (currentTileType.tileName == "Lantern")
 								{
-									Debug.Log("WORKS");
 									tileManager.NoOfLanterns++;
 									currentMoney -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
 									StaticValueHolder.DailyMoney -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
 								}
 								else if (currentTileType.tileName == "Health Needle")
 								{
-									Debug.Log("WORKS");
 									maxHitPoints++;
 									currentMoney -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;
 									StaticValueHolder.DailyMoney -= tileManager.CurrentlySelectedTile.GetComponent<ChimneyTile>().ConstTileValue;

@@ -561,7 +561,7 @@ Transform:
   m_LocalScale: {x: 0.44064817, y: 0.44064817, z: 0}
   m_Children: []
   m_Father: {fileID: 323830494}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &110710043
 SpriteRenderer:
@@ -1659,8 +1659,8 @@ Transform:
   m_Children:
   - {fileID: 1890720777}
   - {fileID: 2130386378}
-  - {fileID: 1963146127}
   - {fileID: 110710042}
+  - {fileID: 1963146127}
   m_Father: {fileID: 1966306232}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4126,21 +4126,21 @@ MonoBehaviour:
   chimneyHearthBackground: {fileID: 450049738}
   chimneyBackgroundDetails: {fileID: 1963146125}
   orangeChimney:
-  - {fileID: 21300000, guid: 3c8b6b113f92d434ab3b4740c6b53db8, type: 3}
-  - {fileID: 21300000, guid: 70688e71224ca0847aff1cd55dfdf433, type: 3}
-  - {fileID: 21300000, guid: cb7c04d05bbf91f4a8b9117548a084a2, type: 3}
-  - {fileID: 21300000, guid: 251a3a3e893952e4ebeda0e6e48303aa, type: 3}
-  - {fileID: 21300000, guid: afcac3926e0705841adb77417eac67b3, type: 3}
-  - {fileID: 21300000, guid: 152e0fa1ff25cca4299685074fed1a67, type: 3}
-  - {fileID: 21300000, guid: 152e0fa1ff25cca4299685074fed1a67, type: 3}
-  greyChimney:
-  - {fileID: 21300000, guid: 1c9f90db10f6a6b4da7a3bfdd0fd2bec, type: 3}
-  - {fileID: 21300000, guid: 62310b17e0b00934c8203e024b93c8b8, type: 3}
-  - {fileID: 21300000, guid: ec4b207d548d0034384b9e9241eb6213, type: 3}
-  - {fileID: 21300000, guid: 26905816de8166046b49447005ecf234, type: 3}
-  - {fileID: 21300000, guid: 84dc994e18d36de45ab64212d5d6ae26, type: 3}
-  - {fileID: 21300000, guid: 4e42dda804f49554992ac82d4a68cd8c, type: 3}
-  - {fileID: 21300000, guid: 4e42dda804f49554992ac82d4a68cd8c, type: 3}
+  - {fileID: 21300000, guid: 596076d74a473ca498e3c091e663a460, type: 3}
+  - {fileID: 21300000, guid: 95db4d0a7a06e4146a3a85abeb4a5332, type: 3}
+  - {fileID: 21300000, guid: e585acacc92f2d0498f722d601dbd9e4, type: 3}
+  - {fileID: 21300000, guid: 6539caa6e96adaa4195bada79b69390e, type: 3}
+  - {fileID: 21300000, guid: c66a8385f61966e4183276b67a394135, type: 3}
+  - {fileID: 21300000, guid: 0d14a43c153f2844386adb714a9f869e, type: 3}
+  - {fileID: 21300000, guid: c226a791345858b4bb09e5d621d9b1ac, type: 3}
+  whiteChimney:
+  - {fileID: 21300000, guid: 6c53f3180a1107d4b985f55b2835cbdd, type: 3}
+  - {fileID: 21300000, guid: 95db4d0a7a06e4146a3a85abeb4a5332, type: 3}
+  - {fileID: 21300000, guid: 89e2eb4e20e1844488cdbb28f81f898b, type: 3}
+  - {fileID: 21300000, guid: 6539caa6e96adaa4195bada79b69390e, type: 3}
+  - {fileID: 21300000, guid: 5623efea34ca15e469638a2a1c774af0, type: 3}
+  - {fileID: 21300000, guid: 0d14a43c153f2844386adb714a9f869e, type: 3}
+  - {fileID: 21300000, guid: 53db0d7e85073d74cb22cb9d14fd4bbd, type: 3}
   blueChimney:
   - {fileID: 21300000, guid: 7cbb7918ed16ca34e9fbd3cf4aed6a0b, type: 3}
   - {fileID: 21300000, guid: 95db4d0a7a06e4146a3a85abeb4a5332, type: 3}
@@ -4149,8 +4149,40 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fd2a67886f8b17c4387032c230c667dc, type: 3}
   - {fileID: 21300000, guid: 0d14a43c153f2844386adb714a9f869e, type: 3}
   - {fileID: 21300000, guid: f7bb65c63fd4c2d48a7df2c67b865c04, type: 3}
+  pinkChimney:
+  - {fileID: 21300000, guid: 3d7fe07eabb8adb4d9b3b60e2bb6da35, type: 3}
+  - {fileID: 21300000, guid: 95db4d0a7a06e4146a3a85abeb4a5332, type: 3}
+  - {fileID: 21300000, guid: 9a61fee8f4f81244bacaaa05752dfaa8, type: 3}
+  - {fileID: 21300000, guid: 6539caa6e96adaa4195bada79b69390e, type: 3}
+  - {fileID: 21300000, guid: f46ff52e84fae1f43b51a053c2629b1f, type: 3}
+  - {fileID: 21300000, guid: 0d14a43c153f2844386adb714a9f869e, type: 3}
+  - {fileID: 21300000, guid: 1e43ae7272d0b004dba38d5b562c10ea, type: 3}
+  redChimney:
+  - {fileID: 21300000, guid: 0a328d3ed12a01f4e91bcc0d4a1fc162, type: 3}
+  - {fileID: 21300000, guid: 95db4d0a7a06e4146a3a85abeb4a5332, type: 3}
+  - {fileID: 21300000, guid: b409946da09325c4cb8e83657620559e, type: 3}
+  - {fileID: 21300000, guid: 6539caa6e96adaa4195bada79b69390e, type: 3}
+  - {fileID: 21300000, guid: 395698810119707498ae82c7db4c51d7, type: 3}
+  - {fileID: 21300000, guid: 0d14a43c153f2844386adb714a9f869e, type: 3}
+  - {fileID: 21300000, guid: 1c5f87ca0b3c7b040956010e13d81019, type: 3}
+  purpleChimney:
+  - {fileID: 21300000, guid: 4574545086123194fbb8be8a746d6019, type: 3}
+  - {fileID: 21300000, guid: 95db4d0a7a06e4146a3a85abeb4a5332, type: 3}
+  - {fileID: 21300000, guid: b933a21b887512b48ac0d1bc0bd9a866, type: 3}
+  - {fileID: 21300000, guid: 6539caa6e96adaa4195bada79b69390e, type: 3}
+  - {fileID: 21300000, guid: 791ff17c54890704ab84a90f82995905, type: 3}
+  - {fileID: 21300000, guid: 0d14a43c153f2844386adb714a9f869e, type: 3}
+  - {fileID: 21300000, guid: 81592e63aff4e1848b154b0c68bd8e75, type: 3}
+  greenChimney:
+  - {fileID: 21300000, guid: 201fa640d846bca46b2bd65748dc7131, type: 3}
+  - {fileID: 21300000, guid: 95db4d0a7a06e4146a3a85abeb4a5332, type: 3}
+  - {fileID: 21300000, guid: b7b4369edffea204bb64d74a4be089f5, type: 3}
+  - {fileID: 21300000, guid: 6539caa6e96adaa4195bada79b69390e, type: 3}
+  - {fileID: 21300000, guid: 9b1cff472f760af4a861a8e74adde1fc, type: 3}
+  - {fileID: 21300000, guid: 0d14a43c153f2844386adb714a9f869e, type: 3}
+  - {fileID: 21300000, guid: 2e50115f192a47749a4d725d1d903aa0, type: 3}
   randomChimney: 0
-  currentChimneyType: 2
+  currentChimneyType: 5
 --- !u!1 &920406518
 GameObject:
   m_ObjectHideFlags: 0
@@ -17870,7 +17902,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: f7bb65c63fd4c2d48a7df2c67b865c04, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -17893,7 +17925,7 @@ Transform:
   m_LocalScale: {x: 0.45058656, y: 0.45058656, z: 0}
   m_Children: []
   m_Father: {fileID: 323830494}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1966306231
 GameObject:
