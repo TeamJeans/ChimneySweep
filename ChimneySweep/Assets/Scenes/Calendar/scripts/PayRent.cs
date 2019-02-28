@@ -40,21 +40,6 @@ public class PayRent : MonoBehaviour {
         {
             moveBackground.SetBool("payingRentTransition", true);
             moveCalendar.SetBool("payingRentTransition", true);
-
-            //if enough money to pay
-            if (StaticValueHolder.TotalMoney >= rent)
-            {
-                StaticValueHolder.TotalMoney -= rent;
-                //reset days at end of the week
-                StaticValueHolder.CurrentDay = 1;
-                StaticValueHolder.CurrentWeek += 1;
-                for (int i = 0; i < 8; i++) StaticValueHolder.DayValues[i] = 0;
-            }
-            //if not enough to pay rent
-            else
-            {
-                Debug.Log("GameOver");
-            }
         }
     }
 }
